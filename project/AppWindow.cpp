@@ -30,10 +30,29 @@ void AppWindow::onCreate()
 
 	vertex list[] =
 	{
+		//triangle
+		////X,     Y,    Z
+		//{-0.5f, -0.5f, 0.0f},	//pos1
+		//{0.0f, 0.5f, 0.0f},		//pos2
+		//{0.5f, -0.5f, 0.0f}		//pos3
+
+		//quad - triangle list
 		//X,     Y,    Z
-		{-0.5f, -0.5f, 0.0f},	//pos1
-		{0.0f, 0.5f, 0.0f},		//pos2
-		{0.5f, -0.5f, 0.0f}		//pos3
+		//{-0.5f, -0.5f, 0.0f},		//pos1
+		//{-0.5f, 0.5f, 0.0f},		//pos2
+		//{0.5f,  0.5f, 0.0f},		//pos3
+
+		//{0.5f, 0.5f, 0.0f},			//pos4
+		//{0.5f, -0.5f, 0.0f},		//pos5
+		//{-0.5f, -0.5f, 0.0f}		//pos6
+
+		//quad - triangle strip
+		//X,     Y,    Z
+		{-0.5f, -0.5f, 0.0f},		//pos1
+		{-0.5f, 0.5f, 0.0f},		//pos2
+		{0.5f, -0.5f, 0.0f},		//pos3
+		{0.5f, 0.5f, 0.0f},			//pos4
+
 	};
 
 	m_vb = GraphicsEngine::get()->createVertexBuffer();
@@ -61,7 +80,12 @@ void AppWindow::onUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
+	//list mode
+	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
+
+	//strip mode
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
+
 	m_swap_chain->present(false);
 }
 
