@@ -1,0 +1,12 @@
+gsheets reporting topics:
+https://docs.google.com/spreadsheets/d/1dPunMkbQ9HtbshfRp6mGDeCYd1LsYfDvDkpDQX4s5k4/edit?usp=sharing
+
+
+normal mapping:
+https://www.youtube.com/watch?v=LRbgii6mVU4&list=PLv8DnRaQOs5-ST_VDqgbbMRtzMtpK36Hy&index=34
+
+viewports
+https://takinginitiative.net/2010/07/30/directx-10-tutorial-7-viewports/
+https://forums.ogre3d.org/viewtopic.php?t=78970
+https://stackoverflow.com/questions/77591221/directx-11-drawing-multiple-viewports-rssetviewports-with-an-array-of-cd3d11-v
+https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-rssetviewports#remarks
