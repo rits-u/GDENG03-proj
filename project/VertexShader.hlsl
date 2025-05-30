@@ -22,10 +22,10 @@ cbuffer constant : register(b0)
 VS_OUTPUT vsmain(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
-   // output.pos = input.pos
+    output.pos = input.pos;
     output.color = input.color;
     
-    output.pos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
+   // output.pos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     output.color = input.color;
     output.color1 = input.color1;
    // output.color = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);

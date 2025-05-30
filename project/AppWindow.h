@@ -8,6 +8,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include <iostream>
+
 class AppWindow : public Window
 {
 public:
