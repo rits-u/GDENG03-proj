@@ -3,11 +3,6 @@
 
 DrawManager* DrawManager::instance = nullptr;
 
-int DrawManager::getX()
-{
-	int x = 100;
-	return x;
-}
 
 void DrawManager::drawAllQuads(VertexBuffer*& vb)
 {
@@ -96,10 +91,6 @@ void DrawManager::updateShadersAndBuffers(VertexBuffer*& vb, ConstantBuffer*& cb
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vb);
 }
 
-//void DrawManager::createQuad(std::vector<Vertex::vertex> vertices)
-//{
-//	this->quad_vertices.push_back(vertices);
-//}
 
 DrawManager::DrawManager()
 {

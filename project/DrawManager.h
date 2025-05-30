@@ -17,9 +17,6 @@ public:
 	static void initialize();
 	static DrawManager* getInstance();
 	static void destroy();
-	int getX();
-	//void createQuad(std::vector<Vertex::vertex> vertices);	//store the vertices for a quad, then add it to the list
-	//std::vector<Vertex::vertex> getAllQuadVertices();
 
 	void addQuad(const Quad& quad);
 	std::vector<Vertex::vertex> combineAllQuadVertices();
