@@ -1,38 +1,3 @@
-//struct GS_OUTPUT
-//{
-//	float4 pos : SV_POSITION;
-//    float3 color : COLOR;
-//    uint viewportIndex : SV_ViewportArrayIndex;
-//};
-
-////[maxvertexcount(3)]
-////void gsmain(
-////	triangle float4 input[3] : SV_POSITION, 
-////	inout TriangleStream<GS_OUTPUT> output
-////)
-////{
-////	for (uint i = 0; i < 3; i++)
-////	{
-////		GSOutput element;
-////		element.pos = input[i];
-////		output.Append(element);
-////	}
-////}
-
-//[instance(2)]
-//[maxvertexcount(3)]
-//void gsmain(triangle VS_OUTPUT input[3], inout TriangleStream<GS_OUTPUT> triStream, uint instanceID : SV_GSInstanceID)
-//{
-//    GS_OUTPUT output;
-    
-//    for (int i = 0; i < 3; ++i)
-//    {
-//        output.pos = input[i].pos;
-//        output.color = input[i].color;
-//        output.viewportIndex = instanceID; // or hardcoded 0, 1, etc.
-//        triStream.Append(output);
-//    }
-//}
 
 struct GS_INPUT
 {
