@@ -2,9 +2,11 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "GeometryShader.h"
 
 #include <d3dcompiler.h>
 
@@ -91,6 +93,13 @@ VertexBuffer* GraphicsEngine::createVertexBuffer()
 	return new VertexBuffer();
 }
 
+IndexBuffer* GraphicsEngine::createIndexBuffer()
+{
+	return new IndexBuffer();
+}
+
+
+
 ConstantBuffer* GraphicsEngine::createConstantBuffer()
 {
 	return new ConstantBuffer();
@@ -122,22 +131,70 @@ PixelShader* GraphicsEngine::createPixelShader(const void* shader_byte_code, siz
 	return ps;
 }
 
+GeometryShader* GraphicsEngine::createGeometryShader(const void* shader_byte_code, size_t byte_code_size)
+{
+	GeometryShader* gs = new GeometryShader();
+
+	if (!gs->init(shader_byte_code, byte_code_size))
+	{
+		gs->release();
+		return nullptr;
+	}
+
+	return gs;
+}
+
 bool GraphicsEngine::compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size)
 {
 	ID3DBlob* error_blob = nullptr;
 
-	if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "vs_5_0", 0, 0, &m_blob, &error_blob)))
+	//
+	//if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "vs_5_0", 0, 0, &m_blob, &error_blob)))
+	//{
+	//	if (error_blob)
+	//		error_blob->Release();
+	//	return false;
+	//}
+	//
+	//*shader_byte_code = m_blob->GetBufferPointer();
+	//*byte_code_size = m_blob->GetBufferSize();
+
+	//return true;
+
+	HRESULT hr = D3DCompileFromFile(
+		file_name,
+		nullptr,
+		nullptr,
+		entry_point_name,
+		"vs_5_0",
+		0,
+		0,
+		&m_blob,
+		&error_blob);
+
+	if (FAILED(hr))
 	{
 		if (error_blob)
-			error_blob->Release();
+		{
+			// Print the error message
+			char* errorMsg = (char*)error_blob->GetBufferPointer();
+			std::cerr << "Shader compilation error: " << errorMsg << std::endl;
 
+			error_blob->Release();
+		}
+		else
+		{
+			std::cerr << "Shader compilation failed but no error message available." << std::endl;
+		}
 		return false;
 	}
-	
+
 	*shader_byte_code = m_blob->GetBufferPointer();
 	*byte_code_size = m_blob->GetBufferSize();
 
-	return true;
+	if (error_blob)
+		error_blob->Release();
+
 }
 
 bool GraphicsEngine::compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size)
@@ -145,6 +202,24 @@ bool GraphicsEngine::compilePixelShader(const wchar_t* file_name, const char* en
 	ID3DBlob* error_blob = nullptr;
 
 	if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "ps_5_0", 0, 0, &m_blob, &error_blob)))
+	{
+		if (error_blob)
+			error_blob->Release();
+
+		return false;
+	}
+
+	*shader_byte_code = m_blob->GetBufferPointer();
+	*byte_code_size = m_blob->GetBufferSize();
+
+	return true;
+}
+
+bool GraphicsEngine::compileGeometryShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size)
+{
+	ID3DBlob* error_blob = nullptr;
+
+	if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "gs_5_0", 0, 0, &m_blob, &error_blob)))
 	{
 		if (error_blob)
 			error_blob->Release();
