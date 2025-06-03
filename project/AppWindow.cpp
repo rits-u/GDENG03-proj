@@ -17,8 +17,17 @@ struct vertex
 __declspec(align(16))
 struct constant
 {
-	unsigned int m_time;
+	unsigned int m_time;          
+	DirectX::XMMATRIX viewProj[4];   
 };
+
+//__declspec(align(16))
+//struct constant
+//{
+//	unsigned int m_time;    // 4 bytes
+//};
+
+
 
 
 AppWindow::AppWindow()
@@ -47,6 +56,12 @@ void AppWindow::onCreate()
 		//{0.0f, 0.5f, 0.0f,		0,1,0},		//pos2
 		//{0.5f, -0.5f, 0.0f,		0,0,1}		//pos3
 
+		//triangle w animation
+		{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},			//pos1
+		{0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
+
+
 		//quad - triangle list
 		//X,     Y,    Z
 		//{-0.5f, -0.5f, 0.0f},		//pos1
@@ -72,10 +87,10 @@ void AppWindow::onCreate()
 
 		//quad - green
 		//pos - pos1 - color - color1
-		{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		{-0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
-		{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
-		{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
+		//{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
+		//{-0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		//{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
+		//{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
 
 	};
 
@@ -87,6 +102,8 @@ void AppWindow::onCreate()
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
+//	std::cout << "hahahaha " << std::endl;
+
 
 	//VERTEX SHADER
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
@@ -94,6 +111,18 @@ void AppWindow::onCreate()
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 	//old:
 //	GraphicsEngine::get()->getShaderBufferAndSize(&shader_byte_code, &size_shader);
+
+	
+
+	//if (FAILED(m_vs))
+	//{
+	//	wchar_t msg[128];
+	//	swprintf(msg, 128, L"Failed to create vertex shader. HRESULT: 0x%08X\n");
+	//	OutputDebugString(msg);
+	//	//return false;
+	//}
+
+
 	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);			//vertex buffer
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -104,6 +133,17 @@ void AppWindow::onCreate()
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
+	//GEOMETRY SHADER
+	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "gsmain", &shader_byte_code, &size_shader);
+	m_gs = GraphicsEngine::get()->createGeometryShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	//INDEX BUFFER
+	DWORD indices[3] = { 0, 1, 2 };
+	m_ib = GraphicsEngine::get()->createIndexBuffer();
+	m_ib->load(&indices, sizeof(indices));
+
+
 	constant cc;
 	cc.m_time = 0;
 
@@ -111,6 +151,23 @@ void AppWindow::onCreate()
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
 
+
+	//camera
+	UINT width = rc.right - rc.left;
+	UINT height = rc.bottom - rc.top;
+
+	//Camera cameras[2];
+	cameras[0].SetPosition(0.0f, 2.0f, -1.0f);
+	cameras[0].SetTarget(0.0f, 0.0f, 0.0f);
+	cameras[0].SetUp(0.0f, 1.0f, 0.0f);
+	//cameras[0].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	cameras[0].SetOrtho(width, height, 0.1f, 100.0f);
+
+	cameras[1].SetPosition(10.0f, 2.0f, -1.0f);  // move a bit to the right
+	cameras[1].SetTarget(0.0f, 0.0f, 0.0f); 
+	cameras[1].SetUp(0.0f, 1.0f, 0.0f);
+	cameras[1].SetOrtho(width, height, 0.1f, 100.0f);
+	//cameras[1].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
 }
 
@@ -120,32 +177,60 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setTwoViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	
+
+
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setMultipleViewPortSizes(rc.right - rc.left, rc.bottom - rc.top);
 
 	constant cc;
 	cc.m_time = ::GetTickCount();
+	//hlsl file expects column-major matrices
+	cc.viewProj[0] = XMMatrixTranspose(cameras[0].GetViewProjMatrix());
+	cc.viewProj[1] = XMMatrixTranspose(cameras[1].GetViewProjMatrix());
+
+
+
+	//XMMATRIX vpMatrix = cameras[0].GetViewProjMatrix();
+
+//	if(vpMatrix == 0)
+
+
+	//vpMatrix = cameras[1].GetViewProjMatrix();
+
+
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
+	//set constant buffer for each shader
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
-
+	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_gs, m_cb);
 
 	//set the default shader in the graphics pipeline to be able to draw
-//	GraphicsEngine::get()->setShaders();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(m_gs);
 
 	//set the vertices to draw
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	
+	//draw
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawInMultipleViewports(m_ib);
+
 
 	//list mode
 	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
 
+
 	//draw
 	//strip mode
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
+	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
+
+	//multiple
 
 	m_swap_chain->present(false);
 }
@@ -158,5 +243,6 @@ void AppWindow::onDestroy()
 	m_swap_chain->release();
 	m_vs->release();
 	m_ps->release();
+	m_gs->release();
 	GraphicsEngine::get()->release();
 }
