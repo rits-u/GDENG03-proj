@@ -17,9 +17,8 @@ struct vertex
 __declspec(align(16))
 struct constant
 {
-	unsigned int m_time;    // 4 bytes
-	UINT padding[3];        // 12 bytes -> 16 bytes total
-	DirectX::XMMATRIX viewProj[2];   // 128 bytes
+	unsigned int m_time;          
+	DirectX::XMMATRIX viewProj[4];   
 };
 
 //__declspec(align(16))
@@ -128,22 +127,22 @@ void AppWindow::onCreate()
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	//INDEX BUFFER
-	DWORD indices[3] = { 0, 1, 2 };
-
-	m_ib = GraphicsEngine::get()->createIndexBuffer();
-	m_ib->load(&indices, sizeof(indices));
-
-
 
 	//PIXEL SHADER
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
+	//GEOMETRY SHADER
 	GraphicsEngine::get()->compileGeometryShader(L"GeometryShader.hlsl", "gsmain", &shader_byte_code, &size_shader);
 	m_gs = GraphicsEngine::get()->createGeometryShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
+
+	//INDEX BUFFER
+	DWORD indices[3] = { 0, 1, 2 };
+	m_ib = GraphicsEngine::get()->createIndexBuffer();
+	m_ib->load(&indices, sizeof(indices));
+
 
 	constant cc;
 	cc.m_time = 0;
@@ -162,12 +161,12 @@ void AppWindow::onCreate()
 	cameras[0].SetTarget(0.0f, 0.0f, 0.0f);
 	cameras[0].SetUp(0.0f, 1.0f, 0.0f);
 	//cameras[0].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	cameras[0].SetLensOrtho(width, height, 0.1f, 100.0f);
+	cameras[0].SetOrtho(width, height, 0.1f, 100.0f);
 
 	cameras[1].SetPosition(10.0f, 2.0f, -1.0f);  // move a bit to the right
 	cameras[1].SetTarget(0.0f, 0.0f, 0.0f); 
 	cameras[1].SetUp(0.0f, 1.0f, 0.0f);
-	cameras[1].SetLensOrtho(width, height, 0.1f, 100.0f);
+	cameras[1].SetOrtho(width, height, 0.1f, 100.0f);
 	//cameras[1].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
 }
@@ -178,32 +177,39 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setTwoViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	
+
+
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setTwoViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setMultipleViewPortSizes(rc.right - rc.left, rc.bottom - rc.top);
 
 	constant cc;
 	cc.m_time = ::GetTickCount();
+	//hlsl file expects column-major matrices
+	cc.viewProj[0] = XMMatrixTranspose(cameras[0].GetViewProjMatrix());
+	cc.viewProj[1] = XMMatrixTranspose(cameras[1].GetViewProjMatrix());
+
+
 
 	//XMMATRIX vpMatrix = cameras[0].GetViewProjMatrix();
 
 //	if(vpMatrix == 0)
 
-	cc.viewProj[0] = XMMatrixTranspose(cameras[0].GetViewProjMatrix());
 
 	//vpMatrix = cameras[1].GetViewProjMatrix();
-	cc.viewProj[1] = XMMatrixTranspose(cameras[1].GetViewProjMatrix());
+
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
+	//set constant buffer for each shader
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_gs, m_cb);
 
-
 	//set the default shader in the graphics pipeline to be able to draw
-//	GraphicsEngine::get()->setShaders();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setGeometryShader(m_gs);
@@ -212,15 +218,19 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 	
+	//draw
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawInMultipleViewports(m_ib);
+
+
 	//list mode
 	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
+
 
 	//draw
 	//strip mode
 	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 
 	//multiple
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawInMultipleViewports(m_ib);
 
 	m_swap_chain->present(false);
 }

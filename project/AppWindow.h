@@ -35,6 +35,6 @@ private:
 	PixelShader* m_ps;
 	GeometryShader* m_gs;
 
-	Camera* cameras = new Camera[2];
+	Camera* cameras = new Camera[4];
 };
 

@@ -53,8 +53,7 @@ struct GS_OUTPUT
 cbuffer constant : register(b0)
 {
     uint time;
-    uint padding[3]; 
-    float4x4 viewProj[2];
+    float4x4 viewProj[4];
 };
 
 
@@ -69,7 +68,14 @@ void gsmain(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> stream)
    
         output.color = input[i].color;
         output.color1 = input[i].color1;
-        output.vpIndex = input[i].instanceID;
+        output.vpIndex = input[i].instanceID; 
+        stream.Append(output);
+    }
+}
+
+
+
+
       //  output.vpIndex = 1;
         
      //  output.pos = mul(input[i].pos, viewProj[input[i].instanceID]);
@@ -78,7 +84,3 @@ void gsmain(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> stream)
         
       //  uint id = min(input[i].instanceID, 1); // assuming 2 viewports
        // output.pos = mul(input[i].pos, viewProj[id]);
-        
-        stream.Append(output);
-    }
-}

@@ -70,13 +70,11 @@ struct VS_OUTPUT
 cbuffer constant : register(b0)
 {
     unsigned int m_time;
-    uint padding[3];
-    matrix viewProj[2];
+    matrix viewProj[4];
 };
 
 
 VS_OUTPUT vsmain(VS_INPUT input, uint instanceID : SV_InstanceID)
-//VS_OUTPUT vsmain(VS_INPUT input)
 {
     VS_OUTPUT output;
     float4 worldPos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);

@@ -29,8 +29,7 @@ struct PS_INPUT
 cbuffer constant : register(b0)
 {
     unsigned int m_time;
-    uint padding[3];
-    matrix viewProj[2];
+    matrix viewProj[4];
 };
 
 float4 psmain(PS_INPUT input) : SV_TARGET

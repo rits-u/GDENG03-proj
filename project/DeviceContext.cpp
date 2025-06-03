@@ -54,10 +54,16 @@ void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index
     m_device_context->Draw(vertex_count, start_vertex_index);
 }
 
+//void DeviceContext::drawInMultipleViewports()
+//{
+//    m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//    m_device_context->DrawIndexedInstanced(3, 4, 0, 0, 0);
+//}
+
 void DeviceContext::drawInMultipleViewports(IndexBuffer* index_buffer)
 {
     m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    m_device_context->DrawIndexedInstanced(index_buffer->getSizeIndices(), 2, 0, 0, 0);
+    m_device_context->DrawIndexedInstanced(index_buffer->getSizeIndices(), 4, 0, 0, 0);
 }
 
 void DeviceContext::setViewPortSize(UINT width, UINT height)
@@ -96,31 +102,35 @@ void DeviceContext::setMultipleViewPortSizes(UINT width, UINT height)
     const int num = 4;
     D3D11_VIEWPORT viewports[num] = {};
 
+    float halfWidth = width / 2.0f;
+    float halfHeight = height / 2.0f;
+
+    viewports[0].TopLeftX = 0;
+    viewports[0].TopLeftY = 0;
+    viewports[0].Width = halfWidth;
+    viewports[0].Height = halfHeight;
+
+    viewports[1].TopLeftX = halfWidth;
+    viewports[1].TopLeftY = 0;
+    viewports[1].Width = halfWidth;
+    viewports[1].Height = halfHeight;
+
+    viewports[2].TopLeftX = 0;
+    viewports[2].TopLeftY = halfHeight;
+    viewports[2].Width = halfWidth;
+    viewports[2].Height = halfHeight;
+
+    viewports[3].TopLeftX = halfWidth;
+    viewports[3].TopLeftY = halfHeight;
+    viewports[3].Width = halfWidth;
+    viewports[3].Height = halfHeight;
+
     for (int i = 0; i < num; i++) {
-        viewports[i].TopLeftX = 0;
-        viewports[i].TopLeftY = 0;
-        viewports[i].Width = width / num;
-        viewports[i].Height = height;
         viewports[i].MinDepth = 0.0f;
         viewports[i].MaxDepth = 1.0f;
     }
-
-    //viewports[0].TopLeftX = 0;
-    //viewports[0].TopLeftY = 0;
-    //viewports[0].Width = width / 2.0f;
-    //viewports[0].Height = height;
-    //viewports[0].MinDepth = 0.0f;
-    //viewports[0].MaxDepth = 1.0f;
-
-    //viewports[1].TopLeftX = width / 2.0f;
-    //viewports[1].TopLeftY = 0;
-    //viewports[1].Width = width / 2.0f;
-    //viewports[1].Height = height;
-    //viewports[1].MinDepth = 0.0f;
-    //viewports[1].MaxDepth = 1.0f;
-
-    m_device_context->RSSetViewports(num, viewports);
     
+    m_device_context->RSSetViewports(num, viewports);
 }
 
 void DeviceContext::setVertexShader(VertexShader* vertex_shader)

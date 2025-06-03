@@ -28,7 +28,7 @@ void Camera::SetUp(float x, float y, float z)
 	//this->m_target = XMFLOAT3(x, y, z);
 }
 
-void Camera::SetLens(float fovY, float aspect, float zn, float zf)
+void Camera::SetPerspective(float fovY, float aspect, float zn, float zf)
 {
 	this->m_fovY = fovY;
 	this->m_aspectRatio = aspect;
@@ -38,17 +38,13 @@ void Camera::SetLens(float fovY, float aspect, float zn, float zf)
 	m_projMatrix = XMMatrixPerspectiveFovLH(fovY, aspect, zn, zf);
 }
 
-void Camera::SetLensOrtho(float width, float height, float zn, float zf)
+void Camera::SetOrtho(float width, float height, float zn, float zf)
 {
 	this->m_projMatrix = XMMatrixOrthographicLH(width, height, zn, zf);
 }
 
 void Camera::UpdateViewMatrix()
 {
-	//XMVECTOR pos = XMLoadFloat3(&m_pos);
-	//XMVECTOR target = XMLoadFloat3(&m_target);
-	//XMVECTOR up = XMLoadFloat3(&m_up);
-
 	m_viewMatrix = XMMatrixLookAtLH(m_pos, m_target, m_up);
 }
 
