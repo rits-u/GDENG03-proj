@@ -57,6 +57,9 @@ bool GraphicsEngine::init()
 	m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory);
 	//m_dxgi_factory->CreateSwapChain();
 
+	//GraphicsEngine::get()->m_imm_device_context->setUpDepthTesting()
+//	depthTesting();
+
 	return true;
 }
 
@@ -162,6 +165,21 @@ void GraphicsEngine::releaseCompiledShader()
 {
 	if (m_blob)
 		m_blob->Release();
+}
+
+void GraphicsEngine::depthTesting()
+{
+
+	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+	dsDesc.DepthEnable = true;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	ID3D11DepthStencilState* depthStencilState = nullptr;
+	GraphicsEngine::get()->m_d3d_device->CreateDepthStencilState(&dsDesc, &depthStencilState);
+
+	GraphicsEngine::get()->m_imm_device_context->setUpDepthTesting(depthStencilState);
+
 }
 
 //bool GraphicsEngine::createShaders()

@@ -65,10 +65,10 @@ void AppWindow::onCreate()
 
 	std::vector<Vertex::vertex> C_list =
 	{
-		{0.5f, -0.6f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	1,0,0},		//pos1
-		{0.5f, -0.1f, 0.0f,	-0.11f, 0.78f, 0.0f,	1,0.5f,1,	1,0.5f,1},		//pos2
-		{0.8f, -0.6f, 0.0f,		0.7f, -0.73f, 0.0f,		1.3f,0,0,	1.3f,0,0},		//pos3
-		{0.8f, -0.1f, 0.0f,		0.8f, 0.77f, 0.0f,		0,0,1,	1,0,1},		//pos4
+		{0.5f, -0.6f, -0.1f,		-0.32f, -0.11f, 0.0f,	0,0,0,	1,0,0},		//pos1
+		{0.5f, -0.1f, -0.1f,		-0.11f, 0.78f, 0.0f,	1,0.5f,1,	1,0.5f,1},		//pos2
+		{0.8f, -0.6f, 0.9f,		0.7f, -0.73f, 0.0f,		1.3f,0,0,	1.3f,0,0},		//pos3
+		{0.8f, -0.1f, 0.9f,		0.8f, 0.77f, 0.0f,		0,0,1,	1,0,1},		//pos4
 
 
 	};
@@ -92,6 +92,8 @@ void AppWindow::onUpdate()
 	//Window::onUpdate();
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
+	//GraphicsEngine::get()->getImmediateDeviceContext()->ClearDepthStencilView();
+
 
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
