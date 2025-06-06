@@ -72,10 +72,18 @@ void AppWindow::onCreate()
 
 		//quad - green
 		//pos - pos1 - color - color1
-		{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		{-0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
-		{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
-		{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
+		//{-0.7f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
+		//{-0.7f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		//{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
+		//{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
+
+		//quad - green
+		//pos - pos1 - color - color1
+		{-0.6f, -0.9f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
+		{-0.9f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	1,1,0},		//pos2
+		{1.0f, -0.5f, 0.0f,		0.0f, -0.73f, 0.0f,		0,0,1,	1,0,0},		//pos3
+		{-0.5f, -0.5f, 0.0f,	0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4/
+
 
 	};
 
@@ -111,6 +119,9 @@ void AppWindow::onCreate()
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
 
+	accumulatedTime = 0.0f;
+	speed = 0.1f;
+	increaseSpeed = true;
 
 }
 
@@ -124,8 +135,15 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	//EngineTime::
 	constant cc;
-	cc.m_time = ::GetTickCount();
+
+	//adjustSpeed();
+	accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 1.0f;
+	//accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * speed;
+	cc.m_time = accumulatedTime;
+
+
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
@@ -159,4 +177,27 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::adjustSpeed()
+{
+	float maxSpeed = 10.0f;
+	float minSpeed = 0.1f;
+
+	if (increaseSpeed) {
+		speed += 0.02f;
+	}
+	else {
+		speed -= 0.02f;
+	}
+
+	if (speed >= maxSpeed) {
+		increaseSpeed = false;
+	}
+	else if (speed <= minSpeed){
+		increaseSpeed = true;
+	}
+
+//	std::cout << "SPEED: " << speed << std::endl;
+		
 }

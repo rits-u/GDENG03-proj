@@ -8,6 +8,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include <iostream>
+
 class AppWindow : public Window
 {
 public:
@@ -25,5 +27,14 @@ private:
 	ConstantBuffer* m_cb;
 	VertexShader* m_vs;
 	PixelShader* m_ps;
+
+private:
+	double accumulatedTime;
+	float speed;
+	bool increaseSpeed;
+
+private:
+	void adjustSpeed();
+
 };
 
