@@ -30,6 +30,19 @@ bool VertexBuffer::load(void* list_vertices, UINT size_vertex, UINT size_list, v
         return false;
     }
 
+    //D3D11_INPUT_ELEMENT_DESC layout[] =
+    //{
+    //    {
+    //        "POSITION",                     //semantic name
+    //        0,                              //semantic index
+    //        DXGI_FORMAT_R32G32B32_FLOAT,    //format
+    //        0,                              //input slot
+    //        0,                              //aligned byte offset
+    //        D3D11_INPUT_PER_VERTEX_DATA,    //input slot class
+    //        0                               //instance data step rate
+    //    }
+    //};
+
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         //SEMANTIC NAME - SEMANTIC INDEX - FORMAT - INPUT SLOT - ALIGNED BYTE OFFSET - INPUT SLOT CLASS - INSTANCE DATA STEP RATE
