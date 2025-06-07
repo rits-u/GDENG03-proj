@@ -59,6 +59,21 @@ public:
 		m_mat[1][1] = cos(z);
 	}
 
+	void multiply(const Matrix4x4& A, const Matrix4x4& B)
+	{
+		Matrix4x4 result;
+
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				result.m_mat[i][j] = 0.0f;
+				for (int k = 0; k < 4; ++k) {
+					result.m_mat[i][j] += A.m_mat[i][k] * B.m_mat[k][j];
+				}
+			}
+		}
+
+		*this = result;
+	}
 
 	void operator *=(const Matrix4x4& matrix)
 	{

@@ -8,15 +8,20 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "Cube.h"
 
 #include <iostream>
+#include <random>
+#include <vector>
+
+using namespace std;
 
 class AppWindow : public Window
 {
 public:
 	AppWindow();
 
-	void updateQuadPosition();
+	//void updateQuadPosition();
 
 	~AppWindow();
 
@@ -27,9 +32,9 @@ public:
 
 private:
 	SwapChain* m_swap_chain;
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
+	//VertexBuffer* m_vb;
+	//IndexBuffer* m_ib;
+//	ConstantBuffer* m_cb;
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
@@ -39,6 +44,7 @@ private:
 	bool increaseSpeed;
 	float delta_pos;
 	float delta_scale;
+	std::vector<Cube*> cubeList;
 
 //private:
 //	float m_old_delta;
@@ -47,6 +53,7 @@ private:
 
 private:
 	void adjustSpeed();
+	float generateRandomFloat(float min, float max);
 
 };
 
