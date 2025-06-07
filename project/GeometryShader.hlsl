@@ -1,4 +1,3 @@
-
 struct GS_INPUT
 {
     float4 pos : POSITION;
@@ -30,23 +29,9 @@ void gsmain(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> stream)
     {
         GS_OUTPUT output;
         output.pos = input[i].pos;
-       // output.pos = mul(input[i].pos, viewProj[input[i].instanceID]);
-        
         output.color = input[i].color;
         output.color1 = input[i].color1;
         output.vpIndex = input[i].instanceID; 
         stream.Append(output);
     }
 }
-
-
-
-
-      //  output.vpIndex = 1;
-        
-     //  output.pos = mul(input[i].pos, viewProj[input[i].instanceID]);
-      //  output.pos = float4(input[i].pos.xyz, 1.0f); // No transform
-            
-        
-      //  uint id = min(input[i].instanceID, 1); // assuming 2 viewports
-       // output.pos = mul(input[i].pos, viewProj[id]);

@@ -19,8 +19,6 @@ bool IndexBuffer::load(void* buffer, UINT size_buffer)
 	D3D11_SUBRESOURCE_DATA indexData = {};
 	indexData.pSysMem = buffer;
 
-	//ID3D11Buffer* indexBuffer = nullptr;
-	//HRESULT hr = device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer);
 	HRESULT hr = GraphicsEngine::get()->m_d3d_device->CreateBuffer(&indexBufferDesc, &indexData, &m_buffer);
 	if (FAILED(hr)) {
 		return false;
@@ -33,7 +31,10 @@ bool IndexBuffer::load(void* buffer, UINT size_buffer)
 
 bool IndexBuffer::release()
 {
-	return false;
+	m_buffer->Release();
+	delete this;
+
+	return true;
 }
 
 UINT IndexBuffer::getSizeIndices()

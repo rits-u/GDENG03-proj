@@ -3,6 +3,7 @@
 Camera::Camera()
 {
 	this->m_up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	this->m_target = XMVectorSet(0.0f, 0.0f, 0.0, 0.0f);
 }
 Camera::~Camera()
 {
@@ -10,14 +11,12 @@ Camera::~Camera()
 
 void Camera::SetPosition(float x, float y, float z)
 {
-	//this->m_pos = XMFLOAT3(x, y, z);
 	this->m_pos = XMVectorSet(x, y, z, 0.0f);
 	UpdateViewMatrix();
 }
 
 void Camera::SetTarget(float x, float y, float z)
 {
-	//this->m_target = XMFLOAT3(x, y, z);
 	this->m_target = XMVectorSet(x, y, z, 0.0f);
 	UpdateViewMatrix();
 }
@@ -26,7 +25,6 @@ void Camera::SetUp(float x, float y, float z)
 {
 	this->m_up = XMVectorSet(x, y, z, 0.0f);
 	UpdateViewMatrix();
-	//this->m_target = XMFLOAT3(x, y, z);
 }
 
 void Camera::SetPerspective(float fovY, float aspect, float zn, float zf)

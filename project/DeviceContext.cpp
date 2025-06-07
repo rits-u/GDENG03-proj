@@ -16,10 +16,10 @@ void DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, float red, flo
 {
     FLOAT clear_color[] = { red, green, blue, alpha };
     m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
- //   m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
-    m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
+    m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
+  //  m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
 
-    m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+  //  m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 //    m_device_context->DrawIndexedInstanced
 }
@@ -42,23 +42,6 @@ void DeviceContext::setIndexBuffer(IndexBuffer* index_buffer)
     m_device_context->IASetIndexBuffer(index_buffer->m_buffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void DeviceContext::initializeRasterizer()
-{
-    //D3D11_RASTERIZER_DESC rasterDesc = {};
-    //rasterDesc.FillMode = D3D11_FILL_SOLID;
-    //rasterDesc.CullMode = D3D11_CULL_BACK;
-    //rasterDesc.FrontCounterClockwise = FALSE;
-    //rasterDesc.DepthClipEnable = TRUE;
-    //rasterDesc.MultisampleEnable = FALSE; //  Required for SV_ViewportArrayIndex
-
-    //HRESULT hr = m_device->CreateRasterizerState(&rasterDesc, &m_rasterizerState);
-    //if (FAILED(hr))
-    //{
-    //    // Handle error
-    //}
-
-    //m_device_context->RSSetState(m_rasterizerState);
-}
 
 void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)
 {
@@ -72,17 +55,17 @@ void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index
     m_device_context->Draw(vertex_count, start_vertex_index);
 }
 
-//void DeviceContext::drawInMultipleViewports()
-//{
-//    m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-//    m_device_context->DrawIndexedInstanced(3, 4, 0, 0, 0);
-//}
-
 void DeviceContext::drawInMultipleViewports(IndexBuffer* index_buffer)
 {
     m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    m_device_context->DrawIndexedInstanced(index_buffer->getSizeIndices(), 4, 0, 0, 0);
+    m_device_context->DrawIndexedInstanced(3, 4, 0, 0, 0);
 }
+
+//void DeviceContext::drawInMultipleViewports(IndexBuffer* index_buffer)
+//{
+//    m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//    m_device_context->DrawIndexedInstanced(index_buffer->getSizeIndices(), 4, 0, 0, 0);
+//}
 
 void DeviceContext::setViewPortSize(UINT width, UINT height)
 {

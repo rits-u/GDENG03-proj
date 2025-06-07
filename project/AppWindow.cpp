@@ -56,9 +56,9 @@ void AppWindow::onCreate()
 		//{0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
 		//{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
 
-		{-1.0f, -1.0f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		{1.0f, 1.0f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
-		{1.0f, -1.0f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
+		{-0.8f, -0.8f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
+		{0.8f, 0.8f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		{0.8f, -0.8f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
 
 	};
 
@@ -124,49 +124,29 @@ void AppWindow::onCreate()
 	UINT width = rc.right - rc.left;
 	UINT height = rc.bottom - rc.top;
 
-	//Camera cameras[2];
-	cameras[0].SetPosition(0.0f, 0.0f, -3.0f);
-	cameras[0].SetTarget(0.0f, 0.0f, 0.0f);
-	//cameras[0].SetUp(0.0f, 1.0f, 0.0f);
+	//camera 1 - TOP LEFT
+	cameras[0].SetPosition(0.0f, 0.0f, -1.5f);		//positioned at the center
 	cameras[0].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	//cameras[0].SetOrtho(width, height, 0.1f, 100.0f);
 
-	cameras[1].SetPosition(4.0f, 10.0f, -10.0f);  // move a bit to the right
-	cameras[1].SetTarget(0.0f, 0.0f, 0.0f); 
-	//cameras[1].SetUp(0.0f, 1.0f, 0.0f);
+	//camera 2 - TOP RIGHT
+	cameras[1].SetPosition(0.0f, 4.0f, -3.0f);  //positioned a bit upwards, a bit far from origin
 	cameras[1].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	//cameras[1].SetOrtho(width, height, 0.1f, 100.0f);
-	//cameras[1].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	// ;
 
-	cameras[2].SetPosition(-8.0f, 10.0f, -10.0f);  // move a bit to the right
-	cameras[2].SetTarget(0.0f, 0.0f, 0.0f);
-	//cameras[2].SetUp(0.0f, 1.0f, 0.0f);
+	//camera 3 - BOTTOM LEFT
+	cameras[2].SetPosition(-8.0f, 10.0f, -10.0f);  //adjusted x y z coordinates
 	cameras[2].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	//cameras[2].SetOrtho(width, height, 0.1f, 100.0f);
 
-	cameras[3].SetPosition(-5.0f, 2.0f, -2.0f);  // move a bit to the right
-	cameras[3].SetTarget(0.3f, 0.3f, 0.0f);
-	//cameras[3].SetUp(0.0f, 1.0f, 0.0f);
+	//camera 4 - BOTTOM RIGHT
+	cameras[3].SetPosition(-5.0f, 2.0f, -2.0f);  //adjusted x y z coordinates and modified camera eye/target
+	cameras[3].SetTarget(0.1f, 1.5f, 0.0f);
 	cameras[3].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-//	cameras[3].SetOrtho(width, height, 0.1f, 100.0f);
-
-
 
 }
 
 void AppWindow::onUpdate()
 {
-	//Window::onUpdate();
-//	GraphicsEngine::get()->setRasterizer();
-
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
-
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setTwoViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
-	
-
 
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
@@ -174,24 +154,20 @@ void AppWindow::onUpdate()
 
 	constant cc;
 	cc.m_time = ::GetTickCount();
+
 	//hlsl file expects column-major matrices
 	cc.viewProj[0] = XMMatrixTranspose(cameras[0].GetViewProjMatrix());
 	cc.viewProj[1] = XMMatrixTranspose(cameras[1].GetViewProjMatrix());
 	cc.viewProj[2] = XMMatrixTranspose(cameras[2].GetViewProjMatrix());
 	cc.viewProj[3] = XMMatrixTranspose(cameras[3].GetViewProjMatrix());
 
-
-	//XMMATRIX vpMatrix = cameras[0].GetViewProjMatrix();
-
-//	if(vpMatrix == 0)
-
-
-	//vpMatrix = cameras[1].GetViewProjMatrix();
-
-
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
 	//set constant buffer for each shader
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	//GraphicsEngine::get()->getImmediateDeviceContext()->setTwoViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
+	
+
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_gs, m_cb);
@@ -205,9 +181,10 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 	
-	//draw
+	//draw in multiple viewports
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawInMultipleViewports(m_ib);
 
+	m_swap_chain->present(false);
 
 	//list mode
 	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
@@ -217,9 +194,8 @@ void AppWindow::onUpdate()
 	//strip mode
 	//GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 
-	//multiple
 
-	m_swap_chain->present(false);
+
 }
 
 void AppWindow::onDestroy()

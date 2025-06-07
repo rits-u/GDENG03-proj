@@ -28,8 +28,7 @@ VS_OUTPUT vsmain(VS_INPUT input, uint instanceID : SV_InstanceID)
     float4 worldPos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     output.pos = mul(worldPos, viewProj[instanceID]);
   //  output.pos = worldPos;
-  //  output.pos = input.pos;
-    
+
     output.color = input.color;
     output.color1 = input.color1;
     output.instanceID = instanceID;
