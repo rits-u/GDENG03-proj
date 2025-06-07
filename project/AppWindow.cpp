@@ -1,5 +1,7 @@
 #include "AppWindow.h"
 #include <Windows.h>
+#include "Vector3D.h"
+#include "Matrix4x4.h"
 
 struct vec3
 {
@@ -8,21 +10,62 @@ struct vec3
 
 struct vertex
 {
-	vec3 position;
-	vec3 position1;
-	vec3 color;
-	vec3 color1;
+	Vector3D position;
+	Vector3D position1;
+	Vector3D color;
+	Vector3D color1;
 };
 
 __declspec(align(16))
 struct constant
 {
+	Matrix4x4 m_world;
+	Matrix4x4 m_view;
+	Matrix4x4 m_proj;
 	unsigned int m_time;
 };
 
 
 AppWindow::AppWindow()
 {
+}
+
+void AppWindow::updateQuadPosition()
+{
+	RECT rc = this->getClientWindowRect();
+	UINT width = rc.right - rc.left;
+	UINT height = rc.bottom - rc.top;
+
+	constant cc;
+	//adjustSpeed();
+	accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 5.0f;
+
+//	cc.m_world.setTranslation(Vector3D(0, 0, 0));
+
+	delta_pos += EngineTime::getDeltaTime() / 8.0f;
+	//delta_pos += m_delta_time * 1.0f;
+
+	if (delta_pos > 1.0f)
+		delta_pos = 0.0f;
+
+	Matrix4x4 temp;
+
+	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), delta_pos));
+
+	delta_scale += EngineTime::getDeltaTime() / 0.15f;
+	cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
+	temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
+
+	cc.m_world *= temp;
+
+
+	cc.m_view.setIdentity();
+	cc.m_proj.setOrthoLH(width/400.0f, height/400.0f, -4.0f, 4.0f);
+
+	cc.m_time = accumulatedTime;
+
+	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+
 }
 
 AppWindow::~AppWindow()
@@ -70,19 +113,19 @@ void AppWindow::onCreate()
 		//{0.5f, -0.5f, 0.0f,		0,1,0},		//pos3
 		//{0.5f, 0.5f, 0.0f,		0,1,0}		//
 
-		//quad - green
+		//quad - rainbow
 		//pos - pos1 - color - color1
-		//{-0.7f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		//{-0.7f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
-		//{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
-		//{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
+		{Vector3D(-0.5f, -0.5f, 0.0f),	Vector3D(-0.32f, -0.11f, 0.0f),	Vector3D(0,0,0),	Vector3D(0,1,0)},		//pos1
+		{Vector3D(-0.5f, 0.5f, 0.0f),	Vector3D(- 0.11f, 0.78f, 0.0f),	Vector3D(1,1,0),	Vector3D(0,1,1)},		//pos2
+		{Vector3D(0.5f, -0.5f, 0.0f),	Vector3D(0.75f, -0.73f, 0.0f),	Vector3D(0,0,1),	Vector3D(1,0,0)},		//pos3
+		{Vector3D(0.5f, 0.5f, 0.0f),	Vector3D(0.88f, 0.77f, 0.0f),	Vector3D(1,1,1),	Vector3D(0,0,1)}		//pos4
 
-		//quad - green
+		//quad w animation
 		//pos - pos1 - color - color1
-		{-0.6f, -0.9f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		{-0.9f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	1,1,0},		//pos2
-		{1.0f, -0.5f, 0.0f,		0.0f, -0.73f, 0.0f,		0,0,1,	1,0,0},		//pos3
-		{-0.5f, -0.5f, 0.0f,	0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4/
+		//{Vector3D(- 0.6f, -0.9f, 0.0f),	Vector3D(- 0.32f, -0.11f, 0.0f),	Vector3D(0,0,0),	Vector3D(0,1,0)},		//pos1
+		//{Vector3D(- 0.9f, 0.5f, 0.0f),	Vector3D(- 0.11f, 0.78f, 0.0f),		Vector3D(1,1,0),	Vector3D(1,1,0)},		//pos2
+		//{Vector3D(1.0f, -0.5f, 0.0f),	Vector3D(0.0f, -0.73f, 0.0f),		Vector3D(0,0,1),	Vector3D(1,0,0)},		//pos3
+		//{Vector3D(- 0.5f, -0.5f, 0.0f),	Vector3D(0.88f, 0.77f, 0.0f),		Vector3D(1,1,1),	Vector3D(0,0,1)}		//pos4/
 
 
 	};
@@ -90,7 +133,7 @@ void AppWindow::onCreate()
 	m_vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(list);
 
-	//GraphicsEngine::get()->createShaders();
+	//m_ib = GraphicsEngine::get()->createIndexBuffer();
 	
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
@@ -136,15 +179,17 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	//EngineTime::
-	constant cc;
+	//constant cc;
 
-	//adjustSpeed();
-	accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 1.0f;
-	//accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * speed;
-	cc.m_time = accumulatedTime;
+	////adjustSpeed();
+	//accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 1.0f;
+	////accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * speed;
+	//cc.m_time = accumulatedTime;
+
+	updateQuadPosition();
 
 
-	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+//	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
@@ -166,6 +211,14 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 
 	m_swap_chain->present(false);
+
+
+
+	//m_old_delta = m_new_delta;
+	//m_new_delta = ::GetTickCount();
+
+	//m_delta_time = (m_old_delta)?((m_new_delta - m_old_delta) / 1000.0f) :0;
+
 }
 
 void AppWindow::onDestroy()

@@ -15,6 +15,9 @@ struct VS_OUTPUT
 
 cbuffer constant : register(b0)
 {
+    row_major float4x4 m_world;
+    row_major float4x4 m_view;
+    row_major float4x4 m_proj;
     unsigned int m_time;
 }
 
@@ -23,29 +26,22 @@ VS_OUTPUT vsmain(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
    // output.pos = input.pos
-    output.color = input.color;
+   // output.pos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     
-    output.pos = lerp(input.pos, input.pos1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
+    
+    //WORLD SPACE
+    output.pos = mul(input.pos, m_world);
+    
+    //VIEW SPACE
+    output.pos = mul(output.pos, m_view);
+    
+    //PROJECTION SPACE
+    output.pos = mul(output.pos, m_proj);
+    
     output.color = input.color;
     output.color1 = input.color1;
    // output.color = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     
   
-    
-    //if (pos.y > 0 && pos.y < 1)
-    //{
-    //    pos.x += 0.25f;
-    //}
-    
-    //if (pos.y > -1 && pos.y < 0 && pos.x > 0 && pos.x < 1)
-    //{
-    //    pos.y += 0.25f;
-    //}
-    
-    //if (pos.y > 0 && pos.y < 1 && pos.x > -1 && pos.x < 0)
-    //{
-    //    pos.y -= 0.25f;
-    //}
-	
 	return output;
 }
