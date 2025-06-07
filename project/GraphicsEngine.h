@@ -36,6 +36,8 @@ public:
 	bool compileGeometryShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 	void releaseCompiledShader();
 
+	void setRasterizer();
+
 	//default simple shaders
 	//bool createShaders();
 	//bool setShaders();
@@ -64,8 +66,13 @@ private:
 
 	ID3DBlob* m_vsblob = nullptr;
 	ID3DBlob* m_psblob = nullptr;
+	ID3DBlob* m_gsblob = nullptr;
 	ID3D11VertexShader* m_vs = nullptr;
 	ID3D11PixelShader* m_ps = nullptr;
+	ID3D11GeometryShader* m_gs = nullptr;
+
+private:
+	ID3D11RasterizerState* m_rasterizerState;
 
 private:
 	friend class SwapChain;

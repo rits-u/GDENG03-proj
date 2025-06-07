@@ -71,6 +71,8 @@ bool GraphicsEngine::release()
 	m_imm_device_context->release();
 	m_d3d_device->Release();
 
+//	m_rasterizerState->Release();
+
 	return true;
 }
 
@@ -230,6 +232,7 @@ bool GraphicsEngine::compileGeometryShader(const wchar_t* file_name, const char*
 	*shader_byte_code = m_blob->GetBufferPointer();
 	*byte_code_size = m_blob->GetBufferSize();
 
+
 	return true;
 }
 
@@ -239,28 +242,28 @@ void GraphicsEngine::releaseCompiledShader()
 		m_blob->Release();
 }
 
-//bool GraphicsEngine::createShaders()
-//{
-//	ID3DBlob* errblob = nullptr;
-////	D3DCompileFromFile(L"shader.fx", nullptr, nullptr, "vsmain", "vs_5_0", NULL, NULL, &m_vsblob, &errblob);
-//	D3DCompileFromFile(L"shader.fx", nullptr, nullptr, "psmain", "ps_5_0", NULL, NULL, &m_psblob, &errblob);
-////	m_d3d_device->CreateVertexShader(m_vsblob->GetBufferPointer(), m_vsblob->GetBufferSize(), nullptr, &m_vs);
-//	m_d3d_device->CreatePixelShader(m_psblob->GetBufferPointer(), m_psblob->GetBufferSize(), nullptr, &m_ps);
-//	return true;
-//}
-//
-//bool GraphicsEngine::setShaders()
-//{
-////	m_imm_context->VSSetShader(m_vs, nullptr, 0);
-//	m_imm_context->PSSetShader(m_ps, nullptr, 0);
-//	return true;
-//}
+void GraphicsEngine::setRasterizer()
+{
 
-//void GraphicsEngine::getShaderBufferAndSize(void** bytecode, UINT* size)
-//{
-//	*bytecode = this->m_vsblob->GetBufferPointer();
-//	*size = (UINT)this->m_vsblob->GetBufferSize();
-//}
+
+	D3D11_RASTERIZER_DESC rasterDesc = {};
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.CullMode = D3D11_CULL_BACK;
+	rasterDesc.FrontCounterClockwise = FALSE;
+	rasterDesc.DepthClipEnable = TRUE;
+	rasterDesc.MultisampleEnable = FALSE; // required for SV_ViewportArrayIndex
+	rasterDesc.CullMode = D3D11_CULL_NONE;
+
+	HRESULT hr = m_d3d_device->CreateRasterizerState(&rasterDesc, &m_rasterizerState);
+	if (FAILED(hr))
+	{
+		// Handle error
+	}
+
+	getImmediateDeviceContext()->setRasterizerState(m_rasterizerState);
+
+}
+
 
 GraphicsEngine* GraphicsEngine::get()
 {

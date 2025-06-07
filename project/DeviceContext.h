@@ -16,6 +16,7 @@ public:
 	void clearRenderTargetColor(SwapChain* swap_chain, float red, float green, float blue, float alpha);
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
 	void setIndexBuffer(IndexBuffer* index_buffer);
+	void initializeRasterizer();
 
 	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
 	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
@@ -33,11 +34,15 @@ public:
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
 	void setConstantBuffer(GeometryShader* geometry_shader, ConstantBuffer* buffer);
 
+	void setRasterizerState(ID3D11RasterizerState* m_rasterizerState);
+
 	bool release();
 	~DeviceContext();
 
 private:
 	ID3D11DeviceContext* m_device_context;
+
+	//ID3D11RasterizerState* m_rasterizerState;
 
 private:
 	friend class ConstantBuffer;

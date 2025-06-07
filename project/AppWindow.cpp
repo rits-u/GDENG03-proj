@@ -50,47 +50,15 @@ void AppWindow::onCreate()
 
 	vertex list[] =
 	{
-		//triangle - rainbow
-		//X,     Y,    Z
-		//{-0.5f, -0.5f, 0.0f,	1,0,0},		//pos1
-		//{0.0f, 0.5f, 0.0f,		0,1,0},		//pos2
-		//{0.5f, -0.5f, 0.0f,		0,0,1}		//pos3
 
 		//triangle w animation
-		{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},			//pos1
-		{0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
-		{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
-
-
-		//quad - triangle list
-		//X,     Y,    Z
-		//{-0.5f, -0.5f, 0.0f},		//pos1
-		//{-0.5f, 0.5f, 0.0f},		//pos2
-		//{0.5f,  0.5f, 0.0f},		//pos3
-
-		//{0.5f, 0.5f, 0.0f},			//pos4
-		//{0.5f, -0.5f, 0.0f},		//pos5
-		//{-0.5f, -0.5f, 0.0f}		//pos6
-
-		//quad - triangle strip - rainbow
-		//X,     Y,    Z
-		//{-0.5f, -0.5f, 0.0f,	1,0,0},		//pos1
-		//{-0.5f, 0.5f, 0.0f,		0,1,0},		//pos2
-		//{0.5f, -0.5f, 0.0f,		0,0,1},		//pos3
-		//{0.5f, 0.5f, 0.0f,		1,1,0}		//pos4
-
-		//quad - green
-		//{-0.5f, -0.5f, 0.0f,	0,1,0},		//pos1
-		//{-0.5f, 0.5f, 0.0f,		0,1,0},		//pos2
-		//{0.5f, -0.5f, 0.0f,		0,1,0},		//pos3
-		//{0.5f, 0.5f, 0.0f,		0,1,0}		//
-
-		//quad - green
-		//pos - pos1 - color - color1
 		//{-0.5f, -0.5f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
-		//{-0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		//{0.5f, 0.5f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
 		//{0.5f, -0.5f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
-		//{0.5f, 0.5f, 0.0f,		0.88f, 0.77f, 0.0f,		1,1,1,	0,0,1}		//pos4
+
+		{-1.0f, -1.0f, 0.0f,	-0.32f, -0.11f, 0.0f,	0,0,0,	0,1,0},		//pos1
+		{1.0f, 1.0f, 0.0f,		-0.11f, 0.78f, 0.0f,	1,1,0,	0,1,1},		//pos2
+		{1.0f, -1.0f, 0.0f,		0.75f, -0.73f, 0.0f,	0,0,1,	1,0,0},		//pos3
 
 	};
 
@@ -157,23 +125,41 @@ void AppWindow::onCreate()
 	UINT height = rc.bottom - rc.top;
 
 	//Camera cameras[2];
-	cameras[0].SetPosition(0.0f, 2.0f, -1.0f);
+	cameras[0].SetPosition(0.0f, 0.0f, -3.0f);
 	cameras[0].SetTarget(0.0f, 0.0f, 0.0f);
-	cameras[0].SetUp(0.0f, 1.0f, 0.0f);
-	//cameras[0].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-	cameras[0].SetOrtho(width, height, 0.1f, 100.0f);
+	//cameras[0].SetUp(0.0f, 1.0f, 0.0f);
+	cameras[0].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	//cameras[0].SetOrtho(width, height, 0.1f, 100.0f);
 
-	cameras[1].SetPosition(10.0f, 2.0f, -1.0f);  // move a bit to the right
+	cameras[1].SetPosition(4.0f, 10.0f, -10.0f);  // move a bit to the right
 	cameras[1].SetTarget(0.0f, 0.0f, 0.0f); 
-	cameras[1].SetUp(0.0f, 1.0f, 0.0f);
-	cameras[1].SetOrtho(width, height, 0.1f, 100.0f);
-	//cameras[1].SetLens(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	//cameras[1].SetUp(0.0f, 1.0f, 0.0f);
+	cameras[1].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	//cameras[1].SetOrtho(width, height, 0.1f, 100.0f);
+	//cameras[1].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	// ;
+
+	cameras[2].SetPosition(-8.0f, 10.0f, -10.0f);  // move a bit to the right
+	cameras[2].SetTarget(0.0f, 0.0f, 0.0f);
+	//cameras[2].SetUp(0.0f, 1.0f, 0.0f);
+	cameras[2].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	//cameras[2].SetOrtho(width, height, 0.1f, 100.0f);
+
+	cameras[3].SetPosition(-5.0f, 2.0f, -2.0f);  // move a bit to the right
+	cameras[3].SetTarget(0.3f, 0.3f, 0.0f);
+	//cameras[3].SetUp(0.0f, 1.0f, 0.0f);
+	cameras[3].SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+//	cameras[3].SetOrtho(width, height, 0.1f, 100.0f);
+
+
 
 }
 
 void AppWindow::onUpdate()
 {
 	//Window::onUpdate();
+//	GraphicsEngine::get()->setRasterizer();
+
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
@@ -191,7 +177,8 @@ void AppWindow::onUpdate()
 	//hlsl file expects column-major matrices
 	cc.viewProj[0] = XMMatrixTranspose(cameras[0].GetViewProjMatrix());
 	cc.viewProj[1] = XMMatrixTranspose(cameras[1].GetViewProjMatrix());
-
+	cc.viewProj[2] = XMMatrixTranspose(cameras[2].GetViewProjMatrix());
+	cc.viewProj[3] = XMMatrixTranspose(cameras[3].GetViewProjMatrix());
 
 
 	//XMMATRIX vpMatrix = cameras[0].GetViewProjMatrix();

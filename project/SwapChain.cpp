@@ -64,7 +64,6 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 	hr = device->CreateTexture2D(&depthDesc, nullptr, &depthStencilBuffer);
 	if (FAILED(hr)) return false;
 
-	// === Create DSV ===
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = depthDesc.Format;
 	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;

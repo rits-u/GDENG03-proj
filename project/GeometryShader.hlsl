@@ -30,7 +30,8 @@ void gsmain(triangle GS_INPUT input[3], inout TriangleStream<GS_OUTPUT> stream)
     {
         GS_OUTPUT output;
         output.pos = input[i].pos;
-   
+       // output.pos = mul(input[i].pos, viewProj[input[i].instanceID]);
+        
         output.color = input[i].color;
         output.color1 = input[i].color1;
         output.vpIndex = input[i].instanceID; 

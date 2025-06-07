@@ -42,6 +42,24 @@ void DeviceContext::setIndexBuffer(IndexBuffer* index_buffer)
     m_device_context->IASetIndexBuffer(index_buffer->m_buffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
+void DeviceContext::initializeRasterizer()
+{
+    //D3D11_RASTERIZER_DESC rasterDesc = {};
+    //rasterDesc.FillMode = D3D11_FILL_SOLID;
+    //rasterDesc.CullMode = D3D11_CULL_BACK;
+    //rasterDesc.FrontCounterClockwise = FALSE;
+    //rasterDesc.DepthClipEnable = TRUE;
+    //rasterDesc.MultisampleEnable = FALSE; //  Required for SV_ViewportArrayIndex
+
+    //HRESULT hr = m_device->CreateRasterizerState(&rasterDesc, &m_rasterizerState);
+    //if (FAILED(hr))
+    //{
+    //    // Handle error
+    //}
+
+    //m_device_context->RSSetState(m_rasterizerState);
+}
+
 void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)
 {
     m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -164,9 +182,15 @@ void DeviceContext::setConstantBuffer(GeometryShader* geometry_shader, ConstantB
     m_device_context->GSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }
 
+void DeviceContext::setRasterizerState(ID3D11RasterizerState* m_rasterizerState)
+{
+    m_device_context->RSSetState(m_rasterizerState);
+}
+
 bool DeviceContext::release()
 {
     m_device_context->Release();
+   // m_rasterizerState->Release();
     delete this;
 
     return true;
