@@ -13,8 +13,8 @@ public:
 	~Cube();
 
 	void update(float deltaTime) override;
+	//void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
-	void draw_(int width, int height, VertexShader* vs, PixelShader* ps) override;
 
 	void setAnimSpeed(float speed);
 

@@ -5,75 +5,11 @@
 #include <vector>
 #include <iostream>
 
-struct vec3
-{
-	float x, y, z;
-};
-//
-//struct vertex
-//{
-//	Vector3D position;
-//	//Vector3D position1;
-//	Vector3D color;
-//	Vector3D color1;
-//};
-//
-//__declspec(align(16))
-//struct constant
-//{
-//	Matrix4x4 m_world;
-//	Matrix4x4 m_view;
-//	Matrix4x4 m_proj;
-//	unsigned int m_time;
-//};
-
 
 AppWindow::AppWindow()
 {
 }
 
-void AppWindow::updateQuadPosition()
-{
-	//RECT rc = this->getClientWindowRect();
-	//UINT width = rc.right - rc.left;
-	//UINT height = rc.bottom - rc.top;
-
-	//constant cc;
-	//accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 5.0f;
-
-
-	//delta_pos += EngineTime::getDeltaTime() / 8.0f;
-
-	//if (delta_pos > 1.0f)
-	//	delta_pos = 0.0f;
-
-	//Matrix4x4 temp;
-	//delta_scale += EngineTime::getDeltaTime() / 0.85f;
-
-
-	//cc.m_world.setScale(Vector3D(1, 1, 1));
-
-	//temp.setIdentity();
-	//temp.setRotationZ(delta_scale);
-	//cc.m_world *= temp;
-
-	//temp.setIdentity();
-	//temp.setRotationY(delta_scale);
-	//cc.m_world *= temp;
-
-	//temp.setIdentity();
-	//temp.setRotationX(delta_scale);
-	//cc.m_world *= temp;
-
-
-	//cc.m_view.setIdentity();
-	//cc.m_proj.setOrthoLH(width/300.0f, height/300.0f, -4.0f, 4.0f);
-
-	//cc.m_time = accumulatedTime;
-
-	//m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-
-}
 
 AppWindow::~AppWindow()
 {
@@ -83,7 +19,6 @@ void AppWindow::onCreate()
 {
 	Window::onCreate();
 	GraphicsEngine::get()->init();
-//	std::cout << "Debug message" << std::endl;
 
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
 	RECT rc = this->getClientWindowRect();
@@ -115,10 +50,8 @@ void AppWindow::onCreate()
 
 	}
 
-
 	//RELEASE VERTEX SHADER
 	GraphicsEngine::get()->releaseCompiledShader();
-
 
 
 	//PIXEL SHADER
@@ -126,9 +59,9 @@ void AppWindow::onCreate()
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	accumulatedTime = 0.0f;
-	speed = 0.1f;
-	increaseSpeed = true;
+	//accumulatedTime = 0.0f;
+	//speed = 0.1f;
+	//increaseSpeed = true;
 
 	std::cout << "cube list size: " << this->cubeList.size() << std::endl;
 
@@ -152,25 +85,18 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-//	cubeObject->update(EngineTime::getDeltaTime());
-//	cubeObject->draw_(width, height, m_vs, m_ps);
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw_(width, height, m_vs, m_ps);
+		this->cubeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
-	
-
 	m_swap_chain->present(false);
-
-
 }
 
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-
 	//m_vb->release();
 	//m_ib->release();
 	//m_cb->release();
@@ -180,28 +106,28 @@ void AppWindow::onDestroy()
 	GraphicsEngine::get()->release();
 }
 
-void AppWindow::adjustSpeed()
-{
-	float maxSpeed = 10.0f;
-	float minSpeed = 0.1f;
-
-	if (increaseSpeed) {
-		speed += 0.02f;
-	}
-	else {
-		speed -= 0.02f;
-	}
-
-	if (speed >= maxSpeed) {
-		increaseSpeed = false;
-	}
-	else if (speed <= minSpeed){
-		increaseSpeed = true;
-	}
-
-//	std::cout << "SPEED: " << speed << std::endl;
-		
-}
+//void AppWindow::adjustSpeed()
+//{
+//	float maxSpeed = 10.0f;
+//	float minSpeed = 0.1f;
+//
+//	if (increaseSpeed) {
+//		speed += 0.02f;
+//	}
+//	else {
+//		speed -= 0.02f;
+//	}
+//
+//	if (speed >= maxSpeed) {
+//		increaseSpeed = false;
+//	}
+//	else if (speed <= minSpeed){
+//		increaseSpeed = true;
+//	}
+//
+////	std::cout << "SPEED: " << speed << std::endl;
+//		
+//}
 
 float AppWindow::generateRandomFloat(float min, float max)
 {

@@ -20,7 +20,7 @@ class AppWindow : public Window
 public:
 	AppWindow();
 
-	void updateQuadPosition();
+//	void updateQuadPosition();
 
 	~AppWindow();
 
@@ -41,11 +41,11 @@ private:
 	PixelShader* m_ps;
 
 private:
-	double accumulatedTime;
+	/*double accumulatedTime;
 	float speed;
 	bool increaseSpeed;
 	float delta_pos;
-	float delta_scale;
+	float delta_scale;*/
 	std::vector<Cube*> cubeList;
 
 
