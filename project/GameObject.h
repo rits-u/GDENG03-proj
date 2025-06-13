@@ -17,6 +17,7 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShader* vs, PixelShader* ps) = 0;
+	virtual void draw_(int width, int height, VertexShader* vs, PixelShader* ps) = 0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);

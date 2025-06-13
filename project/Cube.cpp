@@ -70,6 +70,7 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 Cube::~Cube()
 {
 	this->vb->release();
+	this->cb->release();
 	this->ib->release();
 	GameObject::~GameObject();
 }
@@ -134,6 +135,8 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	//temp = xRot; allMatrix *= temp;
 	//cc.worldMatrix = allMatrix;
 
+	deltaScale += this->deltaTime / 0.85f;
+
 	Matrix4x4 temp;
 	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
 	//temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
@@ -142,15 +145,15 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	cc.worldMatrix.setScale(Vector3D(1, 1, 1));
 
 	temp.setIdentity();
-	temp.setRotationZ(delta_scale);
+	temp.setRotationZ(deltaScale);
 	cc.worldMatrix *= temp;
 
 	temp.setIdentity();
-	temp.setRotationY(delta_scale);
+	temp.setRotationY(deltaScale);
 	cc.worldMatrix *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(delta_scale);
+	temp.setRotationX(deltaScale);
 	cc.worldMatrix *= temp;
 
 
@@ -175,6 +178,57 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	//Matrix4x4 temp.setIdentity();
 	//rotMatrix = rotMatrix.
+}
+
+void Cube::draw_(int width, int height, VertexShader* vs, PixelShader* ps)
+{
+	//RECT rc = this->getClientWindowRect();
+	//UINT width = rc.right - rc.left;
+	//UINT height = rc.bottom - rc.top;
+
+	constant cc;
+	//adjustSpeed();
+	ticks += EngineTime::getDeltaTime() * 1000.0f * 5.0f;
+
+	//	cc.m_world.setTranslation(Vector3D(0, 0, 0));
+
+	deltaPos += EngineTime::getDeltaTime() / 8.0f;
+	//delta_pos += m_delta_time * 1.0f;
+
+	if (deltaPos > 1.0f)
+		deltaPos = 0.0f;
+
+	Matrix4x4 temp;
+
+	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), delta_pos));
+
+	deltaScale += EngineTime::getDeltaTime() / 0.85f;
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
+	//cc.m_world *= temp;
+
+	cc.worldMatrix.setScale(Vector3D(1, 1, 1));
+
+	temp.setIdentity();
+	temp.setRotationZ(deltaScale);
+	cc.worldMatrix *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(deltaScale);
+	cc.worldMatrix *= temp;
+
+	temp.setIdentity();
+	temp.setRotationX(deltaScale);
+	cc.worldMatrix *= temp;
+
+
+	cc.viewMatrix.setIdentity();
+	cc.projMatrix.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+
+	cc.time = this->ticks;
+
+	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+
 }
 
 void Cube::setAnimSpeed(float speed)

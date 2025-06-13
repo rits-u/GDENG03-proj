@@ -4,6 +4,7 @@
 #include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "DeviceContext.h"
+#include "EngineTime.h"
 
 class Cube : public GameObject
 {
@@ -13,6 +14,7 @@ public:
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
+	void draw_(int width, int height, VertexShader* vs, PixelShader* ps) override;
 
 	void setAnimSpeed(float speed);
 
@@ -23,6 +25,7 @@ private:
 	float ticks = 0.0f;
 	float deltaPos = 0.0f;
 	float deltaTime = 0.0f;
+	float deltaScale = 0.0f;
 	float speed = 10.0f;
 };
 

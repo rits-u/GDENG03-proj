@@ -7,9 +7,9 @@ struct PS_INPUT
 
 cbuffer constant : register(b0)
 {
-    row_major float4x4 m_world;
-    row_major float4x4 m_view;
-    row_major float4x4 m_proj;
+    row_major float4x4 worldMatrix;
+    row_major float4x4 viewMatrix;
+    row_major float4x4 projMatrix;
     unsigned int m_time;
 }
 
@@ -20,5 +20,6 @@ float4 psmain(PS_INPUT input) : SV_TARGET
     
  //   return float4(lerp(input.color, input.color1, (sin(m_time / 500.0f) + 1.0f) / 2.0f), 1.0f);
     //return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
+   // return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
     return float4(1, 0, 0, 1); // red   
 }

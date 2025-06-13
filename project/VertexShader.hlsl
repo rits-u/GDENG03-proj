@@ -15,10 +15,10 @@ struct VS_OUTPUT
 
 cbuffer constant : register(b0)
 {
-    row_major float4x4 m_world;
-    row_major float4x4 m_view;
-    row_major float4x4 m_proj;
-    unsigned int m_time;
+    row_major float4x4 worldMatrix;
+    row_major float4x4 viewMatrix;
+    row_major float4x4 projMatrix;
+    unsigned int time;
 }
 
 
@@ -30,13 +30,13 @@ VS_OUTPUT vsmain(VS_INPUT input)
     
     
     //WORLD SPACE
-    output.pos = mul(input.pos, m_world);
+    output.pos = mul(input.pos, worldMatrix);
     
     //VIEW SPACE
-    output.pos = mul(output.pos, m_view);
+    output.pos = mul(output.pos, viewMatrix);
     
     //PROJECTION SPACE
-    output.pos = mul(output.pos, m_proj);
+    output.pos = mul(output.pos, projMatrix);
     
     output.color = input.color;
     output.color1 = input.color1;
