@@ -12,6 +12,8 @@
 #include "Cube.h"
 
 #include <iostream>
+#include <vector>
+#include <random>
 
 class AppWindow : public Window
 {
@@ -44,6 +46,8 @@ private:
 	bool increaseSpeed;
 	float delta_pos;
 	float delta_scale;
+	std::vector<Cube*> cubeList;
+
 
 //private:
 //	float m_old_delta;
@@ -52,6 +56,7 @@ private:
 
 private:
 	void adjustSpeed();
+	float generateRandomFloat(float min, float max);
 
 };
 

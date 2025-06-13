@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
+#include <vector>
+#include <iostream>
 
 struct vec3
 {
@@ -94,77 +96,24 @@ void AppWindow::onCreate()
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 
-	cubeObject = new Cube("TestCube", shader_byte_code, size_shader);
-	//cubeObject->setAnimSpeed(1);
-	cubeObject->setPosition(Vector3D(0, 0, 0));
-	cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
+	//cubeObject = new Cube("TestCube", shader_byte_code, size_shader);
+	////cubeObject->setAnimSpeed(1);
+	//cubeObject->setPosition(Vector3D(0, 0, 0));
+	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
 
+	for (int i = 0; i < 100; i++) {
+		float x = generateRandomFloat(-0.75f, 0.75f);
+		float y = generateRandomFloat(-0.75f, 0.75f);
 
-	//vertex vertex_list[] =
-	//{
-	//	//CUBE
-	//	//front face
-	//	{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1,0,0),	Vector3D(0.2f, 0, 0)},		//pos1
-	//	{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1,1,0),	Vector3D(0.2f, 0.2f,1)},		//pos2
-	//	{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1,1,0),	Vector3D(0.2f, 0.2f,0)},		//pos3
-	//	{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1,0,0),	Vector3D(0.2f, 0,1)},		//pos4
+		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
+		cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
+		cubeObject->setPosition(Vector3D(x, y, 0.0f));
+		cubeObject->setScale(Vector3D(0.25, 0.25, 0.25));
+		this->cubeList.push_back(cubeObject);
 
-	//	//back face
-	//	{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(0,0.2f, 0)},		//pos5
-	//	{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.2f, 0.2f)},		//pos6
-	//	{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.2f, 0.2f)},		//pos7
-	//	{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(0,0.2f, 0)},		//pos8
-
-
-	//};
-
-	//m_vb = GraphicsEngine::get()->createVertexBuffer();
-	//UINT size_list = ARRAYSIZE(vertex_list);
-
-	//m_vb->load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader);			//vertex buffer
-
-	//unsigned int index_list[] =
-	//{
-	//	//front side
-	//	0, 1, 2,	//first triangle
-	//	2, 3, 0,	//2nd
-
-	//	//back side
-	//	4, 5, 6,	//3rd
-	//	6, 7, 4,	//4th
-
-	//	//top side
-	//	1, 6, 5,
-	//	5, 2, 1,
-
-	//	//bottom side
-	//	7, 0, 3,
-	//	3, 4, 7,
-
-	//	//right side
-	//	3, 2, 5,
-	//	5, 4, 3,
-
-	//	//left side
-	//	7, 6, 1,
-	//	1, 0, 7
-	//};
-
-
-
-	//m_ib = GraphicsEngine::get()->createIndexBuffer();
-	//UINT size_index_list = ARRAYSIZE(index_list);
-	//m_ib->load(index_list, size_index_list);
-
-
-	//constant cc;
-	//cc.m_time = 0;
-
-	////CONSTANT BUFFER
-	//m_cb = GraphicsEngine::get()->createConstantBuffer();
-	//m_cb->load(&cc, sizeof(constant));
+	}
 
 
 	//RELEASE VERTEX SHADER
@@ -181,6 +130,8 @@ void AppWindow::onCreate()
 	speed = 0.1f;
 	increaseSpeed = true;
 
+	std::cout << "cube list size: " << this->cubeList.size() << std::endl;
+
 }
 
 void AppWindow::onUpdate()
@@ -196,30 +147,20 @@ void AppWindow::onUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(width, height);
 
-	//updateQuadPosition();
-
-
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
-
 
 	//set the default shader in the graphics pipeline to be able 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	cubeObject->update(EngineTime::getDeltaTime());
-	cubeObject->draw_(width, height, m_vs, m_ps);
+//	cubeObject->update(EngineTime::getDeltaTime());
+//	cubeObject->draw_(width, height, m_vs, m_ps);
 
-	//set the vertices to draw
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(cubeObject->vb);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
+	for (int i = 0; i < this->cubeList.size(); i++) {
+		this->cubeList[i]->update(EngineTime::getDeltaTime());
+		this->cubeList[i]->draw_(width, height, m_vs, m_ps);
+	}
 
-	//set the indeces to draw
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(cubeObject->ib);
-	//GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
-
-	//GraphicsEngine::get()->getImmediateDeviceContext()->drawIndewxedTriangleList(cubeObject->ib->getSizeIndexList(), 0, 0);
-//	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndewxedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	
 
 	m_swap_chain->present(false);
 
@@ -260,4 +201,12 @@ void AppWindow::adjustSpeed()
 
 //	std::cout << "SPEED: " << speed << std::endl;
 		
+}
+
+float AppWindow::generateRandomFloat(float min, float max)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(gen);
 }

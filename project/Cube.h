@@ -16,7 +16,7 @@ public:
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
 	void draw_(int width, int height, VertexShader* vs, PixelShader* ps) override;
 
-	//void setAnimSpeed(float speed);
+	void setAnimSpeed(float speed);
 
 public:
 	VertexBuffer* vb;
