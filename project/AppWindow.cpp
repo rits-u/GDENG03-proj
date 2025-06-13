@@ -2,9 +2,6 @@
 #include <Windows.h>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
-#include <vector>
-#include <iostream>
-
 
 AppWindow::AppWindow()
 {
@@ -22,7 +19,10 @@ void AppWindow::onCreate()
 
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
 	RECT rc = this->getClientWindowRect();
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+
+	m_swap_chain->init(this->m_hwnd, width, height);
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
@@ -43,10 +43,10 @@ void AppWindow::onCreate()
 		float y = generateRandomFloat(-0.75f, 0.75f);
 
 		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
-	//	cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
+		cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
 	//	cubeObject->setPosition(Vector3D(x, y, 0.0f));
 		cubeObject->setPosition(Vector3D::zeros());
-		cubeObject->setScale(Vector3D(0.25, 0.25, 0.25));
+		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
 		this->cubeList.push_back(cubeObject);
 
 	}
@@ -55,8 +55,9 @@ void AppWindow::onCreate()
 	for (int i = 0; i < numPlanes; i++) {
 		Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
 		planeObject->setPosition(Vector3D::zeros());
-		planeObject->setScale(Vector3D(1.0f, 1.0f, 1.0f));
-		planeObject->setRotation(Vector3D(0.9f, 0.0f, 0.0f));
+		planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
+		planeObject->setRotation(Vector3D(-0.2f, 0.0f, 0.0f));
+		//planeObject->setRotation(Vector3D(XM_PIDIV2-0.05f, 0.0f, 0.0f));
 		this->planeList.push_back(planeObject);
 	}
 
@@ -74,6 +75,16 @@ void AppWindow::onCreate()
 	//increaseSpeed = true;
 
 	std::cout << "cube list size: " << this->cubeList.size() << std::endl;
+
+	//camera = new Camera();
+	//camera->SetPosition(0.0f, 0.0f, -5.0f);
+	//camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+
+	camera = new Camera();
+	camera->SetPosition(0.0f, 0.0f, -5.0f);
+	camera->SetTarget(0.0f, 0.0f, 0.0f); 
+	camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+
 
 }
 
@@ -98,12 +109,12 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw(width, height, m_vs, m_ps);
+		this->cubeList[i]->draw(width, height, m_vs, m_ps, this->camera);
 	}
 
 	for (int i = 0; i < this->planeList.size(); i++) {
 		this->planeList [i] ->update(EngineTime::getDeltaTime());
-	//	this->planeList[i]->draw(width, height, m_vs, m_ps);
+		this->planeList[i]->draw(width, height, m_vs, m_ps, this->camera);
 	}
 
 	m_swap_chain->present(false);

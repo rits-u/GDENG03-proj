@@ -11,6 +11,7 @@ cbuffer constant : register(b0)
     row_major float4x4 m_view;
     row_major float4x4 m_proj;
     float m_time;
+    float3 padding; // for 16-byte alignment
 }
 
 float4 psmain(PS_INPUT input) : SV_TARGET

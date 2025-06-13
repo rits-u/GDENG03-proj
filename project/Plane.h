@@ -6,6 +6,10 @@
 #include "DeviceContext.h"
 #include "EngineTime.h"
 
+#include "Camera.h"
+#include <DirectXMath.h>
+using namespace DirectX;
+
 class Plane : public GameObject
 {
 public:
@@ -13,7 +17,7 @@ public:
 	~Plane();
 
 	void update(float deltaTime) override;
-	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
+	void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) override;
 
 	void setAnimSpeed(float speed);
 

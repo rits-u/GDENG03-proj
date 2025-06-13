@@ -2,6 +2,8 @@
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
 
+#include <DirectXMath.h>
+
 
 
 Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
@@ -86,7 +88,7 @@ void Cube::update(float deltaTime)
 	this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
-void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
 	constant cc;
 
@@ -111,13 +113,13 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	Vector3D rotation = this->getLocalRotation();
 
 	rotX.setIdentity();
-//	rotX.setRotationX(rotation.m_x);
+	rotX.setRotationX(rotation.m_x);
 
 	rotY.setIdentity();
-	//rotY.setRotationY(rotation.m_y);
+	rotY.setRotationY(rotation.m_y);
 
 	rotZ.setIdentity();
-	//rotZ.setRotationZ(rotation.m_z);
+	rotZ.setRotationZ(rotation.m_z);
 
 	translation.setIdentity();
 	translation.setTranslation(this->getLocalPosition());
@@ -132,12 +134,34 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	cc.m_world = world;
 
+
+	//Matrix4x4 view, projection;
+	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_view, XMMatrixTranspose(camera->GetViewMatrix()));
+	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_proj, XMMatrixTranspose(camera->GetProjMatrix()));
+
+	//XMMATRIX xmView = camera->GetViewMatrix();
+	//XMMATRIX xmProj = camera->GetProjMatrix();
+
+	//XMMATRIX transposedView = XMMatrixTranspose(xmView);
+	//XMMATRIX transposedProj = XMMatrixTranspose(xmProj);
+
+	//// Copy manually from transposedView to cc.m_view (assuming row-major layout)
+	//memcpy(&cc.m_view, &transposedView, sizeof(Matrix4x4));
+	//memcpy(&cc.m_proj, &transposedProj, sizeof(Matrix4x4));
+
+
+	//Matrix4x4 view, projection;
+	//XMMATRIX view = XMMatrixTranspose(camera->GetViewMatrix());
+	//XMMATRIX proj = XMMatrixTranspose(camera->GetProjMatrix());
+	//Matrix4x4::XMMatrixToMatrix4x4(view, cc.m_view);
+	//Matrix4x4::XMMatrixToMatrix4x4(proj, cc.m_proj);
+
+
+
+
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
-	//cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
-
-
-
+	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
 
 
 	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);

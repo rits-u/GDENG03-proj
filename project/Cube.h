@@ -6,6 +6,12 @@
 #include "DeviceContext.h"
 #include "EngineTime.h"
 
+#include <DirectXMath.h>
+using namespace DirectX;
+
+#include "Camera.h"
+
+
 class Cube : public GameObject
 {
 public:
@@ -14,7 +20,7 @@ public:
 
 	void update(float deltaTime) override;
 	//void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
-	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
+	void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) override;
 
 	void setAnimSpeed(float speed);
 

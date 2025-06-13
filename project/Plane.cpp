@@ -19,11 +19,15 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 		//{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos7
 		//{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(0,0.5f, 0)},		//pos8
 
-		{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 0, 0), Vector3D(0.0f, 0.0f, 0.0f) },
-		{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(0, 1, 0), Vector3D(0.0f, 1.0f, 0.0f) },
-		{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(0, 0, 1), Vector3D(1.0f, 1.0f, 0.0f) },
-		{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 0), Vector3D(1.0f, 0.0f, 0.0f) }
+	/*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
 
+		{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+		{ Vector3D(0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }
 
 	};
 
@@ -32,11 +36,19 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 
 	this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
-	unsigned int index_list[] =
-	{
-		//front side
-		0, 1, 2,	//first triangle
-		2, 3, 0,	//2nd
+	//unsigned int index_list[] =
+	//{
+	//	////front side
+	//	//0, 1, 2,	//first triangle
+	//	//2, 3, 0,	//2nd
+
+	//	0, 1, 2,
+	//	0, 2, 3
+	//};
+
+	unsigned int index_list[] = {
+		0, 2, 1,
+		0, 3, 2
 	};
 
 
@@ -68,7 +80,7 @@ void Plane::update(float deltaTime)
 
 }
 
-void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
 	constant cc;
 
@@ -114,10 +126,34 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	cc.m_world = world;
 
+
+	//Matrix4x4 view, projection;
+	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_view, XMMatrixTranspose(camera->GetViewMatrix()));
+	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_proj, XMMatrixTranspose(camera->GetProjMatrix()));
+
+
+
+
+	//XMMATRIX xmView = camera->GetViewMatrix();
+	//XMMATRIX xmProj = camera->GetProjMatrix();
+
+	//XMMATRIX transposedView = XMMatrixTranspose(xmView);
+	//XMMATRIX transposedProj = XMMatrixTranspose(xmProj);
+
+	//// Copy manually from transposedView to cc.m_view (assuming row-major layout)
+	//memcpy(&cc.m_view, &transposedView, sizeof(Matrix4x4));
+	//memcpy(&cc.m_proj, &transposedProj, sizeof(Matrix4x4));
+
+
+//	Matrix4x4 view, projection;
+	//XMMATRIX view = XMMatrixTranspose(camera->GetViewMatrix());
+	//XMMATRIX proj = XMMatrixTranspose(camera->GetProjMatrix());
+	//Matrix4x4::XMMatrixToMatrix4x4(view, cc.m_view);
+	//Matrix4x4::XMMatrixToMatrix4x4(proj, cc.m_proj);
+
+
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
-
-
 
 	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 

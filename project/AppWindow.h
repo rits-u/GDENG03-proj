@@ -11,6 +11,7 @@
 
 #include "Cube.h"
 #include "Plane.h"
+#include "Camera.h"
 
 #include <iostream>
 #include <vector>
@@ -30,8 +31,9 @@ public:
 	void onUpdate() override;
 	void onDestroy() override;
 
-private:
-	Cube* cubeObject;
+public:
+	Camera* camera;
+	//Cube* cubeObject;
 
 private:
 	SwapChain* m_swap_chain;

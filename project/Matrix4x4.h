@@ -2,6 +2,9 @@
 #include <memory>
 #include "Vector3D.h"
 
+#include <DirectXMath.h>
+using namespace DirectX;
+
 class Matrix4x4
 {
 public:
@@ -99,6 +102,19 @@ public:
 		m_mat[2][3] = 1.0f;
 		m_mat[3][2] = (-zn * zf) / (zf - zn);
 		m_mat[3][3] = 0.0f;
+	}
+
+	static void XMMatrixToMatrix4x4(const DirectX::XMMATRIX& xm, Matrix4x4& out)
+	{
+		DirectX::XMFLOAT4X4 temp;
+		DirectX::XMStoreFloat4x4(&temp, xm);
+		for (int row = 0; row < 4; ++row)
+		{
+			for (int col = 0; col < 4; ++col)
+			{
+				out.m_mat[row][col] = ((float*)&temp)[row * 4 + col];
+			}
+		}
 	}
 
 	~Matrix4x4()
