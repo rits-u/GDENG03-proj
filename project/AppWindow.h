@@ -9,6 +9,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "Cube.h"
+
 #include <iostream>
 
 class AppWindow : public Window
@@ -26,10 +28,13 @@ public:
 	void onDestroy() override;
 
 private:
+	Cube* cubeObject;
+
+private:
 	SwapChain* m_swap_chain;
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
+	//VertexBuffer* m_vb;
+	//IndexBuffer* m_ib;
+	//ConstantBuffer* m_cb;
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
