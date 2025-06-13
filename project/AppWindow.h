@@ -10,6 +10,7 @@
 #include "PixelShader.h"
 
 #include "Cube.h"
+#include "Plane.h"
 
 #include <iostream>
 #include <vector>
@@ -47,6 +48,7 @@ private:
 	float delta_pos;
 	float delta_scale;*/
 	std::vector<Cube*> cubeList;
+	std::vector<Plane*> planeList;
 
 
 //private:

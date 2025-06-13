@@ -38,16 +38,26 @@ void AppWindow::onCreate()
 	//this->cubeList.push_back(cubeObject);
 
 
-	for (int i = 0; i < 100; i++) {
-		float x = generateRandomFloat(-0.75f, 0.75f);
-		float y = generateRandomFloat(-0.75f, 0.75f);
+	//for (int i = 0; i < 100; i++) {
+	//	float x = generateRandomFloat(-0.75f, 0.75f);
+	//	float y = generateRandomFloat(-0.75f, 0.75f);
 
-		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
-		cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
-		cubeObject->setPosition(Vector3D(x, y, 0.0f));
-		cubeObject->setScale(Vector3D(0.25, 0.25, 0.25));
-		this->cubeList.push_back(cubeObject);
+	//	Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
+	//	cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
+	//	cubeObject->setPosition(Vector3D(x, y, 0.0f));
+	//	cubeObject->setScale(Vector3D(0.25, 0.25, 0.25));
+	//	this->cubeList.push_back(cubeObject);
 
+	//}
+
+	int numPlane = 1;
+
+	for (int i = 0; i < numPlane; i++) {
+		Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
+		planeObject->setPosition(Vector3D::zeros());
+		planeObject->setScale(Vector3D(1.0f, 1.0f, 1.0f));
+		planeObject->setRotation(Vector3D(1.0f, 0.0f, 0.0f));
+		this->planeList.push_back(planeObject);
 	}
 
 	//RELEASE VERTEX SHADER
@@ -89,6 +99,11 @@ void AppWindow::onUpdate()
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
 		this->cubeList[i]->draw(width, height, m_vs, m_ps);
+	}
+
+	for (int i = 0; i < this->planeList.size(); i++) {
+		this->planeList [i] ->update(EngineTime::getDeltaTime());
+		this->planeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	m_swap_chain->present(false);
