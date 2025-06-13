@@ -30,56 +30,57 @@ AppWindow::AppWindow()
 {
 }
 
-//void AppWindow::updateQuadPosition()
-//{
-//	RECT rc = this->getClientWindowRect();
-//	UINT width = rc.right - rc.left;
-//	UINT height = rc.bottom - rc.top;
-//
-//	constant cc;
-//	//adjustSpeed();
-//	accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 5.0f;
-//
-////	cc.m_world.setTranslation(Vector3D(0, 0, 0));
-//
-//	delta_pos += EngineTime::getDeltaTime() / 8.0f;
-//	//delta_pos += m_delta_time * 1.0f;
-//
-//	if (delta_pos > 1.0f)
-//		delta_pos = 0.0f;
-//
-//	Matrix4x4 temp;
-//
-//	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), delta_pos));
-//
-//	delta_scale += EngineTime::getDeltaTime() / 0.85f;
-//	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
-//	//temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
-//	//cc.m_world *= temp;
-//
-//	cc.m_world.setScale(Vector3D(1, 1, 1));
-//
-//	temp.setIdentity();
-//	temp.setRotationZ(delta_scale);
-//	cc.m_world *= temp;
-//
-//	temp.setIdentity();
-//	temp.setRotationY(delta_scale);
-//	cc.m_world *= temp;
-//
-//	temp.setIdentity();
-//	temp.setRotationX(delta_scale);
-//	cc.m_world *= temp;
-//
-//
-//	cc.m_view.setIdentity();
-//	cc.m_proj.setOrthoLH(width/300.0f, height/300.0f, -4.0f, 4.0f);
-//
-//	cc.m_time = accumulatedTime;
-//
-//	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-//
-//}
+void AppWindow::updateQuadPosition()
+{
+	RECT rc = this->getClientWindowRect();
+	UINT width = rc.right - rc.left;
+	UINT height = rc.bottom - rc.top;
+
+	constant cc;
+	//adjustSpeed();
+	accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 5.0f;
+
+//	cc.m_world.setTranslation(Vector3D(0, 0, 0));
+
+	delta_pos += EngineTime::getDeltaTime() / 8.0f;
+	//delta_pos += m_delta_time * 1.0f;
+
+	if (delta_pos > 1.0f)
+		delta_pos = 0.0f;
+
+
+	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), delta_pos));
+
+	delta_scale += EngineTime::getDeltaTime() / 0.85f;
+
+	Matrix4x4 temp;
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
+	//cc.m_world *= temp;
+
+	cc.m_world.setScale(Vector3D(1, 1, 1));
+
+	temp.setIdentity();
+	temp.setRotationZ(delta_scale);
+	cc.m_world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(delta_scale);
+	cc.m_world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationX(delta_scale);
+	cc.m_world *= temp;
+
+
+	cc.m_view.setIdentity();
+	cc.m_proj.setOrthoLH(width/300.0f, height/300.0f, -4.0f, 4.0f);
+
+	cc.m_time = accumulatedTime;
+
+	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+
+}
 
 AppWindow::~AppWindow()
 {

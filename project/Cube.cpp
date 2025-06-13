@@ -98,27 +98,33 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 		this->deltaPos += this->deltaTime * 0.1f;
 	}
 
-	Matrix4x4 allMatrix; allMatrix.setIdentity();
-	Matrix4x4 translationMatrix; translationMatrix.setTranslation(this->getLocalPosition());
-	Matrix4x4 scaleMatrix; scaleMatrix.setScale(this->getLocalScale());
-	Vector3D rotation = this->getLocalRotation();
-	Matrix4x4 zRot; zRot.setRotationZ(rotation.m_z);
-	Matrix4x4 xRot; xRot.setRotationX(rotation.m_x);
-	Matrix4x4 yRot; yRot.setRotationY(rotation.m_y);
+	//float accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * 1.0f;
+	//accumulatedTime += EngineTime::getDeltaTime() * 1000.0f * speed;
+	cc.time = this->ticks;
 
-	Matrix4x4 temp;
-	temp.setIdentity();
 
-	//scale -> rotate -> transform
-	Matrix4x4 rotMatrix;
-	rotMatrix.setIdentity();
-	rotMatrix *= zRot;
-	rotMatrix *= yRot;
-	rotMatrix *= xRot;
 
-	//allMatrix = scaleMatrix * rotMatrix;
-	allMatrix.multiply(scaleMatrix, rotMatrix);
-	allMatrix *= translationMatrix;
+	//Matrix4x4 allMatrix; allMatrix.setIdentity();
+	//Matrix4x4 translationMatrix; translationMatrix.setTranslation(this->getLocalPosition());
+	//Matrix4x4 scaleMatrix; scaleMatrix.setScale(this->getLocalScale());
+	//Vector3D rotation = this->getLocalRotation();
+	//Matrix4x4 zRot; zRot.setRotationZ(rotation.m_z);
+	//Matrix4x4 xRot; xRot.setRotationX(rotation.m_x);
+	//Matrix4x4 yRot; yRot.setRotationY(rotation.m_y);
+
+	//Matrix4x4 temp;
+	//temp.setIdentity();
+
+	////scale -> rotate -> transform
+	//Matrix4x4 rotMatrix;
+	//rotMatrix.setIdentity();
+	//rotMatrix *= zRot;
+	//rotMatrix *= yRot;
+	//rotMatrix *= xRot;
+
+	////allMatrix = scaleMatrix * rotMatrix;
+	//allMatrix.multiply(scaleMatrix, rotMatrix);
+	//allMatrix *= translationMatrix;
 
 	//Matrix4x4 rotMatrix; rotMatrix.setIdentity();
 	//temp = zRot; allMatrix *= temp;
@@ -126,7 +132,33 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	//temp = yRot; allMatrix *= temp;
 	//temp.setIdentity();
 	//temp = xRot; allMatrix *= temp;
-	cc.worldMatrix = allMatrix;
+	//cc.worldMatrix = allMatrix;
+
+	Matrix4x4 temp;
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5, 0.5, 0), Vector3D(1, 1, 0), (sin(delta_scale)+1.0f)/2.0f));
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-1.5, -1.5, 0), Vector3D(1.5, 1.5, 0), delta_pos));
+	//cc.m_world *= temp;
+
+	cc.worldMatrix.setScale(Vector3D(1, 1, 1));
+
+	temp.setIdentity();
+	temp.setRotationZ(delta_scale);
+	cc.worldMatrix *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(delta_scale);
+	cc.worldMatrix *= temp;
+
+	temp.setIdentity();
+	temp.setRotationX(delta_scale);
+	cc.worldMatrix *= temp;
+
+
+//	cc.m_view.setIdentity();
+	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+
+
+
 
 	cc.viewMatrix.setIdentity();
 	cc.projMatrix.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
