@@ -86,6 +86,21 @@ public:
 		m_mat[3][2] = -(near_plane / (far_plane - near_plane));
 	}
 
+	void setPerspectiveFovLH(float fov, float aspect, float zn, float zf)
+	{
+		setIdentity();
+
+		float yScale = 1.0f / tan(fov / 2.0f);  // Cotangent of half the vertical FOV
+		float xScale = yScale / aspect;
+
+		m_mat[0][0] = xScale;
+		m_mat[1][1] = yScale;
+		m_mat[2][2] = zf / (zf - zn);
+		m_mat[2][3] = 1.0f;
+		m_mat[3][2] = (-zn * zf) / (zf - zn);
+		m_mat[3][3] = 0.0f;
+	}
+
 	~Matrix4x4()
 	{
 

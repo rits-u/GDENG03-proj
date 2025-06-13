@@ -111,16 +111,13 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	Vector3D rotation = this->getLocalRotation();
 
 	rotX.setIdentity();
-	//rotX.setRotationX(deltaScale);
-	rotX.setRotationX(rotation.m_x);
+//	rotX.setRotationX(rotation.m_x);
 
 	rotY.setIdentity();
-	//rotY.setRotationY(deltaScale);
-	rotY.setRotationY(rotation.m_y);
+	//rotY.setRotationY(rotation.m_y);
 
 	rotZ.setIdentity();
-	//rotZ.setRotationZ(deltaScale);
-	rotZ.setRotationZ(rotation.m_z);
+	//rotZ.setRotationZ(rotation.m_z);
 
 	translation.setIdentity();
 	translation.setTranslation(this->getLocalPosition());
@@ -137,6 +134,9 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+	//cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
+
+
 
 
 
