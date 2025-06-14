@@ -6,19 +6,6 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 {
 	vertex vertex_list[] =
 	{
-		////CUBE
-		////front face
-		//{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1,0,0),	Vector3D(0.5f, 0, 0)},		//pos1
-		//{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1,1,0),	Vector3D(0.5f, 0.5f,1)},		//pos2
-		//{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1,1,0),	Vector3D(0.5f, 0.5f,0)},		//pos3
-		//{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1,0,0),	Vector3D(0.5f, 0,1)},		//pos4
-
-		////back face
-		//{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(0,0.5f, 0)},		//pos5
-		//{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos6
-		//{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos7
-		//{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(0,0.5f, 0)},		//pos8
-
 	/*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
 		{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
 		{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
@@ -59,7 +46,7 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 
 	//constant buffer
 	constant cc;
-	cc.time = 0;
+	cc.m_time = 0;
 	cb = GraphicsEngine::get()->createConstantBuffer();
 	cb->load(&cc, sizeof(constant));
 }
@@ -82,6 +69,8 @@ void Plane::update(float deltaTime)
 
 void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
+	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+
 	constant cc;
 
 	deltaPos += EngineTime::getDeltaTime() / 8.0f;
@@ -94,16 +83,16 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camer
 		this->deltaPos += this->deltaTime * 0.1f;
 	}
 
-	cc.time = this->ticks / 1000;
-
 
 	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
 
 	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+
+	//scale
 	scale.setScale(this->getLocalScale());
 
+	//rotation
 	Vector3D rotation = this->getLocalRotation();
-
 	rotX.setIdentity();
 	rotX.setRotationX(rotation.m_x);
 
@@ -113,10 +102,11 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camer
 	rotZ.setIdentity();
 	rotZ.setRotationZ(rotation.m_z);
 
+	//translation
 	translation.setIdentity();
 	translation.setTranslation(this->getLocalPosition());
 
-
+	//matrix transformation
 	world.setIdentity();
 	world *= scale;
 	world *= rotX;
@@ -124,49 +114,26 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camer
 	world *= rotZ;
 	world *= translation;
 
+	//update constant buffer
 	cc.m_world = world;
-
-
-	//Matrix4x4 view, projection;
-	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_view, XMMatrixTranspose(camera->GetViewMatrix()));
-	//XMStoreFloat4x4((XMFLOAT4X4*)&cc.m_proj, XMMatrixTranspose(camera->GetProjMatrix()));
-
-
-
-
-	//XMMATRIX xmView = camera->GetViewMatrix();
-	//XMMATRIX xmProj = camera->GetProjMatrix();
-
-	//XMMATRIX transposedView = XMMatrixTranspose(xmView);
-	//XMMATRIX transposedProj = XMMatrixTranspose(xmProj);
-
-	//// Copy manually from transposedView to cc.m_view (assuming row-major layout)
-	//memcpy(&cc.m_view, &transposedView, sizeof(Matrix4x4));
-	//memcpy(&cc.m_proj, &transposedProj, sizeof(Matrix4x4));
-
-
-//	Matrix4x4 view, projection;
-	//XMMATRIX view = XMMatrixTranspose(camera->GetViewMatrix());
-	//XMMATRIX proj = XMMatrixTranspose(camera->GetProjMatrix());
-	//Matrix4x4::XMMatrixToMatrix4x4(view, cc.m_view);
-	//Matrix4x4::XMMatrixToMatrix4x4(proj, cc.m_proj);
-
-
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+	cc.m_time = this->ticks / 1000;
+	cb->update(deviceContext, &cc);
 
-	cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+	//set constant buffer
+	deviceContext->setConstantBuffer(vs, this->cb);
+	deviceContext->setConstantBuffer(ps, this->cb);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vs, this->cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(ps, this->cb);
+	//set index and vexter buffer
+	deviceContext->setIndexBuffer(this->ib);
+	deviceContext->setVertexBuffer(this->vb);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(this->ib);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	//draw
+	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 
 }
 
-void Plane::setAnimSpeed(float speed)
+void Plane::setAnimationSpeed(float speed)
 {
 }

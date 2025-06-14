@@ -19,7 +19,7 @@ public:
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) override;
 
-	void setAnimSpeed(float speed);
+	void setAnimationSpeed(float speed);
 
 //public:
 	//VertexBuffer* vb;

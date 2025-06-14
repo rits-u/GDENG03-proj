@@ -19,20 +19,19 @@ public:
 	~Cube();
 
 	void update(float deltaTime) override;
-	//void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) override;
 
-	void setAnimSpeed(float speed);
+	void setAnimationSpeed(float speed);
 
-public:
+//public:
+//	VertexBuffer* vb;
+//	IndexBuffer* ib;
+//	ConstantBuffer* cb;
+
+private:
 	VertexBuffer* vb;
 	IndexBuffer* ib;
 	ConstantBuffer* cb;
-
-private:
-	//VertexBuffer* vb;
-	//IndexBuffer* ib;
-	//ConstantBuffer* cb;
 	float ticks = 0.0f;
 	float deltaPos = 0.0f;
 	float deltaTime = 0.0f;

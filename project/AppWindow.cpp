@@ -30,7 +30,6 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-
 	//cubeObject = new Cube("TestCube", shader_byte_code, size_shader);
 	////cubeObject->setAnimSpeed(1);
 	//cubeObject->setPosition(Vector3D(0, 0, 0));
@@ -43,7 +42,7 @@ void AppWindow::onCreate()
 		float y = generateRandomFloat(-0.75f, 0.75f);
 
 		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
-		cubeObject->setAnimSpeed(generateRandomFloat(-3.75f, 3.75f));
+		cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
 	//	cubeObject->setPosition(Vector3D(x, y, 0.0f));
 		cubeObject->setPosition(Vector3D::zeros());
 		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
@@ -56,8 +55,7 @@ void AppWindow::onCreate()
 		Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
 		planeObject->setPosition(Vector3D::zeros());
 		planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
-		planeObject->setRotation(Vector3D(-0.2f, 0.0f, 0.0f));
-		//planeObject->setRotation(Vector3D(XM_PIDIV2-0.05f, 0.0f, 0.0f));
+		planeObject->setRotation(Vector3D(0.05f, 0.0f, 0.0f));
 		this->planeList.push_back(planeObject);
 	}
 

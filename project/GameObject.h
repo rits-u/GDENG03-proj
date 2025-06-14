@@ -18,7 +18,6 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* canmera) = 0;
-	//virtual void draw_(int width, int height, VertexShader* vs, PixelShader* ps) = 0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
@@ -47,7 +46,7 @@ public:
 		Matrix4x4 m_world;
 		Matrix4x4 m_view;
 		Matrix4x4 m_proj;
-		float time;
+		float m_time;
 		float padding[3]; // for 16-byte alignment
 	};
 
