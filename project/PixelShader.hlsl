@@ -19,8 +19,8 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
     //return float4(input.color, 1.0f);
     
-    return float4(lerp(input.color, input.color1, (float) ((sin(m_time) / 1000.0f) + 1.0f) / 2.0f), 1.0f);
-
+      return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
+    //return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
     //float t = (sin(m_time / 3000.0f) + 1.0f) * 0.5f;
     //return float4(lerp(input.color, input.color1, t), 1.0f);
    

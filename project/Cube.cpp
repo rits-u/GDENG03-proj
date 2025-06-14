@@ -19,12 +19,13 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 		//back face
 		{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(1,1.0f, 0)},		//pos5
-		{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos6
+		{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, -0.5f)},		//pos6
 		{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos7
-		{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(-1,-0.5f, 0)},		//pos8
+		{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(-1,-0.5f, 1)},		//pos8
 
 
 	};
+
 
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertex_list);
@@ -141,7 +142,7 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
 	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
-	cc.m_time = this->ticks / 1000.0f;
+	cc.m_time = this->ticks * 2000.0f;
 	cb->update(deviceContext, &cc);
 
 	std::cout << "time: " << cc.m_time << std::endl;
