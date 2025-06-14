@@ -139,34 +139,86 @@ void AppWindow::onKeyDown(int key)
 	float rotX = cubeList[0]->getLocalRotation().m_x;
 	float rotY = cubeList[0]->getLocalRotation().m_y;
 	float rotZ = cubeList[0]->getLocalPosition().m_z;
+
+	float transX = cubeList[0]->getLocalPosition().m_x;
+	float transY = cubeList[0]->getLocalPosition().m_y;
+	float transZ = cubeList[0]->getLocalPosition().m_z;
+
+	float scale = cubeList[0]->getLocalScale().m_x;
+
 	float offset = 3.0f;
 
+
+	//---------------------TRANSLATION----------------
 	if (key == 'W')
 	{
-		rotX += offset * EngineTime::getDeltaTime();
-		std::cout << "Pressed W" << std::endl;
+		transY += offset * EngineTime::getDeltaTime();
+		std::cout << "translate W" << std::endl;
 	}
 
 	else if (key == 'S')
 	{
-		rotX -= offset * EngineTime::getDeltaTime();
-		std::cout << "Pressed S" << std::endl;
+		transY -= offset * EngineTime::getDeltaTime();
+		std::cout << "translate S" << std::endl;
 	}
 
 	else if (key == 'A')
 	{
-		rotY += offset * EngineTime::getDeltaTime();
-		std::cout << "Pressed A" << std::endl;
+		transX += offset * EngineTime::getDeltaTime();
+		std::cout << "translate A" << std::endl;
 	}
 
 	else if (key == 'D')
 	{
-		rotY -= offset * EngineTime::getDeltaTime();
-		std::cout << "Pressed D" << std::endl;
+		transX -= offset * EngineTime::getDeltaTime();
+		std::cout << "translate D" << std::endl;
 	}
+
+
+	//---------------------ROTATION----------------
+	else if (key == 'I')
+	{
+		rotX += offset * EngineTime::getDeltaTime();
+		std::cout << "rotate I" << std::endl;
+	}
+
+	else if (key == 'K')
+	{
+		rotX -= offset * EngineTime::getDeltaTime();
+		std::cout << "rotate K" << std::endl;
+	}
+
+	else if (key == 'J')
+	{
+		rotY += offset * EngineTime::getDeltaTime();
+		std::cout << "rotate J" << std::endl;
+	}
+
+	else if (key == 'L')
+	{
+		rotY -= offset * EngineTime::getDeltaTime();
+		std::cout << "rotate L" << std::endl;
+	}
+
+	//---------------------SCALE----------------
+	else if (key == 'Q')
+	{
+		scale -= offset * EngineTime::getDeltaTime();
+		std::cout << "scale Q" << std::endl;
+	}
+
+	else if (key == 'E')
+	{
+		scale += offset * EngineTime::getDeltaTime();
+		std::cout << "scale E" << std::endl;
+	}
+
+
 	// cubeList[0]->setPosition(rotX, rotY, rotZ);
 
 	cubeList[0]->setRotation(rotX, rotY, rotZ);
+	cubeList[0]->setPosition(transX, transY, transZ);
+	cubeList[0]->setScale(scale, scale, scale);
 }
 
 void AppWindow::onKeyUp(int key)
