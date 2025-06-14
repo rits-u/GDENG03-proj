@@ -9,6 +9,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "InputListener.h"
+
 #include "Cube.h"
 #include "Plane.h"
 #include "Camera.h"
@@ -17,7 +19,7 @@
 #include <vector>
 #include <random>
 
-class AppWindow : public Window
+class AppWindow : public Window, public InputListener
 {
 public:
 	AppWindow();
@@ -27,6 +29,9 @@ public:
 	void onCreate() override;
 	void onUpdate() override;
 	void onDestroy() override;
+
+	virtual void onKeyDown(int key) override;
+	virtual void onKeyUp(int key) override;
 
 public:
 	Camera* camera;

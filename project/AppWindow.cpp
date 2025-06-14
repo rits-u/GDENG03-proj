@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
+#include "InputSystem.h"
 
 AppWindow::AppWindow()
 {
@@ -15,6 +16,7 @@ AppWindow::~AppWindow()
 void AppWindow::onCreate()
 {
 	Window::onCreate();
+	InputSystem::get()->addListener(this);
 	GraphicsEngine::get()->init();
 
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
@@ -89,6 +91,8 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	//Window::onUpdate();
+
+	InputSystem::get()->update();
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
@@ -128,6 +132,14 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::onKeyDown(int key)
+{
+}
+
+void AppWindow::onKeyUp(int key)
+{
 }
 
 //void AppWindow::adjustSpeed()
