@@ -136,6 +136,37 @@ void AppWindow::onDestroy()
 
 void AppWindow::onKeyDown(int key)
 {
+	float rotX = cubeList[0]->getLocalRotation().m_x;
+	float rotY = cubeList[0]->getLocalRotation().m_y;
+	float rotZ = cubeList[0]->getLocalPosition().m_z;
+	float offset = 3.0f;
+
+	if (key == 'W')
+	{
+		rotX += offset * EngineTime::getDeltaTime();
+		std::cout << "Pressed W" << std::endl;
+	}
+
+	else if (key == 'S')
+	{
+		rotX -= offset * EngineTime::getDeltaTime();
+		std::cout << "Pressed S" << std::endl;
+	}
+
+	else if (key == 'A')
+	{
+		rotY += offset * EngineTime::getDeltaTime();
+		std::cout << "Pressed A" << std::endl;
+	}
+
+	else if (key == 'D')
+	{
+		rotY -= offset * EngineTime::getDeltaTime();
+		std::cout << "Pressed D" << std::endl;
+	}
+	// cubeList[0]->setPosition(rotX, rotY, rotZ);
+
+	cubeList[0]->setRotation(rotX, rotY, rotZ);
 }
 
 void AppWindow::onKeyUp(int key)

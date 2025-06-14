@@ -1,6 +1,7 @@
 #pragma once
 #include "InputListener.h"
 #include <map>
+#include <iostream>
 
 class InputSystem
 {

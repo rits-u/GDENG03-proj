@@ -16,14 +16,16 @@ void InputSystem::update()
 		for (unsigned int i = 0; i < 256; i++) {
 
 			// KEY IS DOWN - if value is 1 or 2, key is down
-			if (keys_state[i] & 0x00)
+			if (keys_state[i] & 0x80)
 			{
+				//std::cout << "hi" << std::endl;
 				std::map<InputListener*, InputListener*>::iterator it = mapListeners.begin();
 				while (it != mapListeners.end())
 				{
 					it->second->onKeyDown(i);
 					++it;
 				}
+				
 			}
 			else  //key is up
 			{

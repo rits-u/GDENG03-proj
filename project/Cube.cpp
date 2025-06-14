@@ -86,7 +86,7 @@ void Cube::update(float deltaTime)
 	this->ticks += deltaTime;
 
 	float rotSpeed = this->ticks * this->speed;
-	this->setRotation(rotSpeed, rotSpeed, rotSpeed);
+	//this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
 void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
@@ -145,7 +145,7 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera
 	cc.m_time = this->ticks * 2000.0f;
 	cb->update(deviceContext, &cc);
 
-	std::cout << "time: " << cc.m_time << std::endl;
+//	std::cout << "time: " << cc.m_time << std::endl;
 
 	//set constant buffer
 	deviceContext->setConstantBuffer(vs, this->cb);

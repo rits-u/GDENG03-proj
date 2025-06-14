@@ -56,6 +56,9 @@ protected:
 	Vector3D localScale;
 	Vector3D localRotation;
 	Matrix4x4 localMatrix;
+	//float rotX;
+	//float rotY;
+	//float royZ;
 
 };
 
