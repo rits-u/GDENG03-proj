@@ -6,6 +6,8 @@
 #include "DeviceContext.h"
 #include "EngineTime.h"
 
+#include "Matrix4x4.h"
+
 #include <DirectXMath.h>
 using namespace DirectX;
 
@@ -26,6 +28,10 @@ public:
 //	IndexBuffer* ib;
 //	ConstantBuffer* cb;
 
+public:
+	float forward = 0.0f;
+	float rightward = 0.0f;
+
 private:
 	VertexBuffer* vb;
 	IndexBuffer* ib;
@@ -36,5 +42,8 @@ private:
 	float deltaScale = 0.0f;
 	float speed = 10.0f;
 	float accumulatedTime = 0.0f;
+
+	Matrix4x4 m_worldCamera;
+
 };
 
