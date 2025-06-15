@@ -10,10 +10,10 @@
 #include "PixelShader.h"
 
 #include "InputListener.h"
+#include "Point.h"
 
 #include "Cube.h"
 #include "Plane.h"
-#include "Camera.h"
 
 #include <iostream>
 #include <vector>
@@ -29,12 +29,17 @@ public:
 	void onCreate() override;
 	void onUpdate() override;
 	void onDestroy() override;
-
-	virtual void onKeyDown(int key) override;
-	virtual void onKeyUp(int key) override;
+	void onFocus() override;
+	void onKillFocus() override;
+	void onKeyDown(int key) override;
+	void onKeyUp(int key) override;
+	void onMouseMove(const Point& deltaMousePos) override;
+	void onLeftMouseDown(const Point& mousePos) override;
+	void onLeftMouseUp(const Point& mousePos) override;
+	void onRightMouseDown(const Point& mousePos) override;
+	void onRightMouseUp(const Point& mousePos) override;
 
 public:
-	Camera* camera;
 	//Cube* cubeObject;
 
 private:

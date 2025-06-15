@@ -80,10 +80,10 @@ void AppWindow::onCreate()
 	//camera->SetPosition(0.0f, 0.0f, -5.0f);
 	//camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
-	camera = new Camera();
-	camera->SetPosition(0.0f, 0.0f, -5.0f);
-	camera->SetTarget(0.0f, 0.0f, 0.0f); 
-	camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
+	//camera = new Camera();
+	//camera->SetPosition(0.0f, 0.0f, -5.0f);
+	//camera->SetTarget(0.0f, 0.0f, 0.0f); 
+	//camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
 
 }
@@ -111,12 +111,12 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw(width, height, m_vs, m_ps, this->camera);
+		this->cubeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	for (int i = 0; i < this->planeList.size(); i++) {
 		this->planeList [i] ->update(EngineTime::getDeltaTime());
-		this->planeList[i]->draw(width, height, m_vs, m_ps, this->camera);
+		this->planeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	m_swap_chain->present(false);
@@ -132,6 +132,16 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::onFocus()
+{
+	InputSystem::get()->addListener(this);
+}
+
+void AppWindow::onKillFocus()
+{
+	InputSystem::get()->removeListener(this);
 }
 
 void AppWindow::onKeyDown(int key)
@@ -223,6 +233,47 @@ void AppWindow::onKeyDown(int key)
 
 void AppWindow::onKeyUp(int key)
 {
+}
+
+void AppWindow::onMouseMove(const Point& deltaMousePos)
+{
+	float rotX = cubeList[0]->getLocalRotation().m_x;
+	float rotY = cubeList[0]->getLocalRotation().m_y;
+	float rotZ = cubeList[0]->getLocalPosition().m_z;
+
+	rotX -= deltaMousePos.m_y * EngineTime::getDeltaTime();
+	rotY -= deltaMousePos.m_x * EngineTime::getDeltaTime();
+
+	cubeList[0]->setRotation(rotX, rotY, rotZ);
+}
+
+void AppWindow::onLeftMouseDown(const Point& mousePos)
+{
+	float temp = cubeList[0]->getLocalScale().m_x;
+	float scale = temp / 2.0f;
+	cubeList[0]->setScale(scale, scale, scale);
+	std::cout << "scale: " << scale << std::endl;
+
+}
+
+void AppWindow::onLeftMouseUp(const Point& mousePos)
+{
+	float scale = cubeList[0]->getLocalScale().m_x;
+	cubeList[0]->setScale(scale, scale, scale);
+}
+
+void AppWindow::onRightMouseDown(const Point& mousePos)
+{
+	float temp = cubeList[0]->getLocalScale().m_x;
+	float scale = temp * 2.0f;
+	cubeList[0]->setScale(scale, scale, scale);
+	std::cout << "scale: " << scale << std::endl;
+}
+
+void AppWindow::onRightMouseUp(const Point& mousePos)
+{
+	float scale = cubeList[0]->getLocalScale().m_x;
+	cubeList[0]->setScale(scale, scale, scale);
 }
 
 //void AppWindow::adjustSpeed()

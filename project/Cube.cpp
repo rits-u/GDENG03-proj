@@ -89,7 +89,7 @@ void Cube::update(float deltaTime)
 	//this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
-void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
+void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 

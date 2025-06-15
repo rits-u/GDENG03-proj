@@ -67,7 +67,7 @@ void Plane::update(float deltaTime)
 
 }
 
-void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
+void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 

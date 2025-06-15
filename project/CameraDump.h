@@ -3,7 +3,7 @@
 
 using namespace DirectX;
 
-class Camera
+class CameraDump
 {
 private:
 	XMVECTOR m_pos;
@@ -19,8 +19,8 @@ private:
 	float m_farZ = 100.0f;
 
 public:
-	Camera();
-	~Camera();
+	CameraDump();
+	~CameraDump();
 	void SetPosition(float x, float y, float z);
 	void SetTarget(float x, float y, float z);
 	void SetUp(float x, float y, float z);

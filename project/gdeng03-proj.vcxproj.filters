@@ -46,7 +46,6 @@
     <Filter Include="GameEngine\GameObject">
       <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345679}</UniqueIdentifier>
     </Filter>
-    
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,7 +79,7 @@
       <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
-      <Filter>GameEngine\WindowingSystem</Filter>
+      <Filter>GameEngine\GraphicsEngine</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
@@ -97,6 +96,7 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="CameraDump.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -127,7 +127,7 @@
       <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="EngineTime.h">
-      <Filter>GameEngine\WindowingSystem</Filter>
+      <Filter>GameEngine\GraphicsEngine</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
@@ -156,7 +156,7 @@
     <ClInclude Include="InputSystem.h">
       <Filter>GameEngine\InputSystem</Filter>
     </ClInclude>
-    
+    <ClInclude Include="CameraDump.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
