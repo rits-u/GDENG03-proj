@@ -89,6 +89,7 @@ void AppWindow::onCreate()
 
 	camera = new Camera();
 	camera->worldCamera.setTranslation(Vector3D(0, 0, -2));
+	camera->updateViewMatrix();
 
 }
 
@@ -172,7 +173,7 @@ void AppWindow::onKeyDown(int key)
 		//transY += offset * EngineTime::getDeltaTime();
 		//forward = 1.0f;
 		this->camera->forward = 1.0f;
-		std::cout << "translate W" << std::endl;
+		std::cout << "move W" << std::endl;
 	}
 
 	else if (key == 'S')
@@ -180,7 +181,7 @@ void AppWindow::onKeyDown(int key)
 		//transY -= offset * EngineTime::getDeltaTime();
 		//forward = -1.0f;
 		this->camera->forward = -1.0f;
-		std::cout << "translate S" << std::endl;
+		std::cout << "move S" << std::endl;
 	}
 
 	else if (key == 'A')
@@ -188,7 +189,7 @@ void AppWindow::onKeyDown(int key)
 		//transX += offset * EngineTime::getDeltaTime();
 		this->camera->rightward = -1.0f;
 		//rightward = -1.0f;
-		std::cout << "translate A" << std::endl;
+		std::cout << "move A" << std::endl;
 	}
 
 	else if (key == 'D')
@@ -196,7 +197,7 @@ void AppWindow::onKeyDown(int key)
 	//	transX -= offset * EngineTime::getDeltaTime();
 		//rightward = 1.0f;
 		this->camera->rightward = 1.0f;
-		std::cout << "translate D" << std::endl;
+		std::cout << "move D" << std::endl;
 	}
 
 
@@ -238,18 +239,40 @@ void AppWindow::onKeyDown(int key)
 		std::cout << "scale E" << std::endl;
 	}
 
+	else if (key == 38)
+	{
+		transY += offset * EngineTime::getDeltaTime();
+		std::cout << "translate UP" << std::endl;
+	}
+
+	else if (key == 40)
+	{
+		transY -= offset * EngineTime::getDeltaTime();
+		std::cout << "translate DOWN" << std::endl;
+	}
+	
+	else if (key == 39)
+	{
+		transX += offset * EngineTime::getDeltaTime();
+		std::cout << "translate RIGHT" << std::endl;
+	}
+
+	else if (key == 37)
+	{
+		transX -= offset * EngineTime::getDeltaTime();
+		std::cout << "translate LEFT" << std::endl;
+	}
+
 
 	// cubeList[0]->setPosition(rotX, rotY, rotZ);
 	//Vector3D rotation = Vector3D(rotX, rotY, rotZ);
 	//camera->setCamRotation(rotation);
 
-
-
 	cubeList[0]->setRotation(rotX, rotY, rotZ);
 	cubeList[0]->setPosition(transX, transY, transZ);
 	cubeList[0]->setScale(scale, scale, scale);
-	cubeList[0]->forward = forward;
-	cubeList[0]->rightward = rightward;
+	//cubeList[0]->forward = forward;
+	//cubeList[0]->rightward = rightward;
 }
 
 void AppWindow::onKeyUp(int key)

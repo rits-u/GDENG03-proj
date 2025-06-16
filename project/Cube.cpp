@@ -176,8 +176,8 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera
 	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
 	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
 
-	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-
+	//cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	cc.m_proj = camera->getPerspective(width, height);
 
 	cc.m_time = this->ticks * 2000.0f;
 	cb->update(deviceContext, &cc);

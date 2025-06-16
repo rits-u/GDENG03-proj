@@ -17,6 +17,7 @@ public:
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
 
+	Matrix4x4 getPerspective(int width, int height);
 	//float getForward();
 	//void setForward(float forward);
 	//float getRightward();
@@ -35,6 +36,7 @@ private:
 
 	//Matrix4x4 m_worldCamera;
 	Matrix4x4 m_viewMatrix;
+	Matrix4x4 m_projMatrix;
 	bool m_viewDirty = true;
 
 

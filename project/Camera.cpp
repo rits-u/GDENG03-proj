@@ -71,6 +71,11 @@ void Camera::updateViewMatrix()
 	this->m_viewMatrix = world_cam;
 //	m_viewDirty = false;
 }
+Matrix4x4 Camera::getPerspective(int width, int height)
+{
+	m_projMatrix.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	return m_projMatrix;
+}
 //
 //float Camera::getForward()
 //{
