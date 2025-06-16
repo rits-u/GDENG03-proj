@@ -13,26 +13,30 @@ Camera::~Camera()
 
 void Camera::setCamPosition(const Vector3D& pos)
 {
+	m_position = pos;
+//	m_viewDirty = true;
 }
 
 void Camera::setCamRotation(const Vector3D& rot)
 {
-    
+	m_rotation = rot;
+	//m_viewDirty = true;
 }
 
 Vector3D Camera::getCamPosition()
 {
-    return Vector3D();
+    return this->m_position;
 }
 
 Vector3D Camera::getCamRotation()
 {
-    return Vector3D();
+	return this->m_rotation;
 }
 
 Matrix4x4 Camera::getViewMatrix()
 {
-    if (m_viewDirty) updateViewMatrix();
+   // if (m_viewDirty) 
+	updateViewMatrix();
     return m_viewMatrix;
 }
 
@@ -49,8 +53,8 @@ void Camera::updateViewMatrix()
 	rotY.setRotationY(m_rotation.m_y);
 	world_cam *= rotY;
 
-	m_position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.3f);
-	m_position = m_position + this->worldCamera.getXDirection() * (this->rightward * 0.3f);
+	m_position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.05f);
+	m_position = m_position + this->worldCamera.getXDirection() * (this->rightward * 0.05f);
 
 	world_cam.setTranslation(m_position);
 
@@ -65,6 +69,7 @@ void Camera::updateViewMatrix()
 	world_cam.inverse();
 
 	this->m_viewMatrix = world_cam;
+//	m_viewDirty = false;
 }
 //
 //float Camera::getForward()

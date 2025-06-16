@@ -92,7 +92,7 @@ void Cube::update(float deltaTime)
 	//this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
-void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 
@@ -113,63 +113,65 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 	
-	//scale
-	//scale.setScale(this->getLocalScale());
+	scale.setIdentity();
+	scale.setScale(this->getLocalScale());
 
-	////rotation
+	//rotation
 	Vector3D rotation = this->getLocalRotation();
-	//rotX.setIdentity();
-	//rotX.setRotationX(rotation.m_x);
-
-	//rotY.setIdentity();
-	//rotY.setRotationY(rotation.m_y);
-
-	//rotZ.setIdentity();
-	//rotZ.setRotationZ(rotation.m_z);
-
-	////translation
-	//translation.setIdentity();
-	//translation.setTranslation(this->getLocalPosition());
-
-	////matrix transformation
-	//world.setIdentity();
-	//world *= scale;
-	//world *= rotX;
-	//world *= rotY;
-	//world *= rotZ;
-	//world *= translation;
-
-
-	//WORLD CAMERA
-	Matrix4x4 world_cam;
-	world_cam.setIdentity();
-
 	rotX.setIdentity();
 	rotX.setRotationX(rotation.m_x);
-	world_cam *= rotX;
 
 	rotY.setIdentity();
 	rotY.setRotationY(rotation.m_y);
-	world_cam *= rotY;
+
+	rotZ.setIdentity();
+	rotZ.setRotationZ(rotation.m_z);
+
+	//translation
+	translation.setIdentity();
+	translation.setTranslation(this->getLocalPosition());
+
+	//matrix transformation
+	world.setIdentity();
+	world *= scale;
+	world *= rotX;
+	world *= rotY;
+	world *= rotZ;
+	world *= translation;
 
 
-	Vector3D newPos = m_worldCamera.getTranslation() + m_worldCamera.getZDirection() * (forward * 0.3f);
-	newPos = newPos + m_worldCamera.getXDirection() * (rightward * 0.3f);
+	////WORLD CAMERA
+	//Matrix4x4 world_cam;
+	//world_cam.setIdentity();
 
-	//world_cam.setTranslation(Vector3D(0, 0, -2));
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
+	//world_cam *= rotX;
 
-	world_cam.setTranslation(newPos);
-	m_worldCamera = world_cam;
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
+	//world_cam *= rotY;
 
-	world_cam.inverse();
+
+	//Vector3D newPos = m_worldCamera.getTranslation() + m_worldCamera.getZDirection() * (forward * 0.3f);
+	//newPos = newPos + m_worldCamera.getXDirection() * (rightward * 0.3f);
+
+	////world_cam.setTranslation(Vector3D(0, 0, -2));
+
+	//world_cam.setTranslation(newPos);
+	//m_worldCamera = world_cam;
+
+	//world_cam.inverse();
 
 
 
 	//update constant buffer
-	//cc.m_world = world;
-	cc.m_world.setIdentity();
+	cc.m_world = world;
+	//cc.m_world.setIdentity();
 	//cc.m_view.setIdentity();
-	cc.m_view = world_cam;
+	//cc.m_view = world_cam;
+	//camera->updateViewMatrix();
+	cc.m_view = camera->getViewMatrix();
 
 	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
 	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);

@@ -3,6 +3,7 @@
 #include "Vector3D.h"
 #include "Matrix4x4.h"
 #include "CameraDump.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ public:
 	~GameObject();
 
 	virtual void update(float deltaTime) = 0;
-	virtual void draw(int width, int height, VertexShader* vs, PixelShader* ps) = 0;
+	virtual void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) = 0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);

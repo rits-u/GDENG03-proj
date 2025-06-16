@@ -33,9 +33,14 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 	//	0, 2, 3
 	//};
 
+	//unsigned int index_list[] = {
+	//	0, 2, 1,
+	//	0, 3, 2
+	//};
+
 	unsigned int index_list[] = {
-		0, 2, 1,
-		0, 3, 2
+	0, 1, 2,
+	0, 2, 3
 	};
 
 
@@ -67,7 +72,7 @@ void Plane::update(float deltaTime)
 
 }
 
-void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 
@@ -89,6 +94,7 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
 	//scale
+	scale.setIdentity();
 	scale.setScale(this->getLocalScale());
 
 	//rotation
@@ -116,8 +122,11 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	//update constant buffer
 	cc.m_world = world;
-	cc.m_view.setIdentity();
-	cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+	//cc.m_view.setIdentity();
+	//camera->updateViewMatrix();
+	cc.m_view = camera->getViewMatrix();
+	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	cc.m_time = this->ticks / 1000;
 	cb->update(deviceContext, &cc);
 

@@ -59,7 +59,7 @@ void AppWindow::onCreate()
 		Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
 		planeObject->setPosition(Vector3D::zeros());
 		planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
-		planeObject->setRotation(Vector3D(0.05f, 0.0f, 0.0f));
+		planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
 		this->planeList.push_back(planeObject);
 	}
 
@@ -115,12 +115,12 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw(width, height, m_vs, m_ps);
+		this->cubeList[i]->draw(width, height, m_vs, m_ps, this->camera);
 	}
 
 	for (int i = 0; i < this->planeList.size(); i++) {
 		this->planeList [i] ->update(EngineTime::getDeltaTime());
-		this->planeList[i]->draw(width, height, m_vs, m_ps);
+		this->planeList[i]->draw(width, height, m_vs, m_ps, this->camera);
 	}
 
 	m_swap_chain->present(false);
@@ -170,28 +170,32 @@ void AppWindow::onKeyDown(int key)
 	if (key == 'W')
 	{
 		//transY += offset * EngineTime::getDeltaTime();
-		forward = 1.0f;
+		//forward = 1.0f;
+		this->camera->forward = 1.0f;
 		std::cout << "translate W" << std::endl;
 	}
 
 	else if (key == 'S')
 	{
 		//transY -= offset * EngineTime::getDeltaTime();
-		forward = -1.0f;
+		//forward = -1.0f;
+		this->camera->forward = -1.0f;
 		std::cout << "translate S" << std::endl;
 	}
 
 	else if (key == 'A')
 	{
 		//transX += offset * EngineTime::getDeltaTime();
-		rightward = -1.0f;
+		this->camera->rightward = -1.0f;
+		//rightward = -1.0f;
 		std::cout << "translate A" << std::endl;
 	}
 
 	else if (key == 'D')
 	{
 	//	transX -= offset * EngineTime::getDeltaTime();
-		rightward = 1.0f;
+		//rightward = 1.0f;
+		this->camera->rightward = 1.0f;
 		std::cout << "translate D" << std::endl;
 	}
 
@@ -236,6 +240,10 @@ void AppWindow::onKeyDown(int key)
 
 
 	// cubeList[0]->setPosition(rotX, rotY, rotZ);
+	//Vector3D rotation = Vector3D(rotX, rotY, rotZ);
+	//camera->setCamRotation(rotation);
+
+
 
 	cubeList[0]->setRotation(rotX, rotY, rotZ);
 	cubeList[0]->setPosition(transX, transY, transZ);
@@ -248,6 +256,9 @@ void AppWindow::onKeyUp(int key)
 {
 	cubeList[0]->forward = 0.0f;
 	cubeList[0]->rightward = 0.0f;
+
+	this->camera->rightward = 0.0f;
+	this->camera->forward = 0.0f;
 }
 
 void AppWindow::onMouseMove(const Point& mousePos)
@@ -256,9 +267,13 @@ void AppWindow::onMouseMove(const Point& mousePos)
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 
-	float rotX = cubeList[0]->getLocalRotation().m_x;
-	float rotY = cubeList[0]->getLocalRotation().m_y;
-	float rotZ = cubeList[0]->getLocalPosition().m_z;
+	//float rotX = cubeList[0]->getLocalRotation().m_x;
+	//float rotY = cubeList[0]->getLocalRotation().m_y;
+	//float rotZ = cubeList[0]->getLocalPosition().m_z;
+
+	float rotX = camera->getCamRotation().m_x;
+	float rotY = camera->getCamRotation().m_y;
+	float rotZ = camera->getCamRotation().m_z;
 	float offset = 0.1f;
 
 	//rotX -= deltaMousePos.m_y * EngineTime::getDeltaTime() * offset;
@@ -267,8 +282,10 @@ void AppWindow::onMouseMove(const Point& mousePos)
 	rotX += (mousePos.m_y - (height/2.0f)) * EngineTime::getDeltaTime() * offset;
 	rotY += (mousePos.m_x - (width/2.0f)) * EngineTime::getDeltaTime() * offset;
 
-	cubeList[0]->setRotation(rotX, rotY, rotZ);
+	//cubeList[0]->setRotation(rotX, rotY, rotZ);
 
+	Vector3D rotation = Vector3D(rotX, rotY, rotZ);
+	camera->setCamRotation(rotation);
 
 	InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 }

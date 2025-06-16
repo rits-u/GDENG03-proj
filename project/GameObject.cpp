@@ -17,7 +17,7 @@ void GameObject::update(float deltaTime)
 {
 }
 
-void GameObject::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void GameObject::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
 {
 }
 
