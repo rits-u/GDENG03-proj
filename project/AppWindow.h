@@ -14,6 +14,7 @@
 
 #include "Cube.h"
 #include "Plane.h"
+#include "Camera.h"
 
 #include <iostream>
 #include <vector>
@@ -41,6 +42,7 @@ public:
 
 public:
 	//Cube* cubeObject;
+	Camera* camera;
 
 private:
 	SwapChain* m_swap_chain;

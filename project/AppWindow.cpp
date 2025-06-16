@@ -87,6 +87,8 @@ void AppWindow::onCreate()
 	//camera->SetTarget(0.0f, 0.0f, 0.0f); 
 	//camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
+	camera = new Camera();
+	camera->worldCamera.setTranslation(Vector3D(0, 0, -2));
 
 }
 

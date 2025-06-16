@@ -8,6 +8,7 @@
 
 Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
+	m_worldCamera.setIdentity();
 	m_worldCamera.setTranslation(Vector3D(0, 0, -2));
 
 	vertex vertex_list[] =
