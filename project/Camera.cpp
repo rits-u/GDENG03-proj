@@ -9,7 +9,8 @@
 
 Camera::Camera(string name) : GameObject(name)
 {
-	this->setPosition(0.0f, 0.0f, -4.0f);
+	//this->setPosition(0.0f, 0.0f, -4.0f);
+	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	InputSystem::get()->addListener(this);
 	this->updateViewMatrix();
 	//this->m_position.setTranslation
@@ -196,7 +197,7 @@ void Camera::onMouseMove(const Point& mousePos)
 //	Vector3D rotation = Vector3D(rotX, rotY, rotZ);
 	//camera->setCamRotation(rotation);
 
-	//InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+	InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 }
 void Camera::onLeftMouseDown(const Point& mousePos)
 {

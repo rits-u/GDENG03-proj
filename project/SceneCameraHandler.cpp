@@ -37,6 +37,11 @@ void SceneCameraHandler::setScreenSize(int width, int height)
     this->sceneCamera->setWidthAndHeight(width, height);
 }
 
+Camera* SceneCameraHandler::getCamera()
+{
+    return this->sceneCamera;
+}
+
 SceneCameraHandler::SceneCameraHandler()
 {
     this->sceneCamera = new Camera("SceneCamera");

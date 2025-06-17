@@ -148,12 +148,13 @@ void AppWindow::onDestroy()
 
 void AppWindow::onFocus()
 {
-	InputSystem::get()->addListener(this);
+	//InputSystem::get()->addListener(this);
+	InputSystem::get()->addListener(SceneCameraHandler::getInstance()->getCamera());
 }
 
 void AppWindow::onKillFocus()
 {
-	InputSystem::get()->removeListener(this);
+	InputSystem::get()->removeListener(SceneCameraHandler::getInstance()->getCamera());
 }
 
 void AppWindow::onKeyDown(int key)
