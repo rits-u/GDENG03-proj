@@ -103,12 +103,14 @@ void Camera::updateViewMatrix()
 	rotY.setRotationY(rotation.m_y);
 	world_cam *= rotY;
 
-//	position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.05f);
-//	position = position + this->worldCamera.getXDirection() * (this->rightward * 0.05f);
+	position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.05f);
+	position = position + this->worldCamera.getXDirection() * (this->rightward * 0.05f);
+	world_cam.setTranslation(position);
 
-	pos.setIdentity();
-	pos.setTranslation(position);
-	world_cam *= pos;
+
+	//pos.setIdentity();
+	//pos.setTranslation(position);
+	//world_cam *= pos;
 
 	//Vector3D newPos = m_worldCamera.getTranslation() + m_worldCamera.getZDirection() * (forward * 0.3f);
 	//newPos = newPos + m_worldCamera.getXDirection() * (rightward * 0.3f);
