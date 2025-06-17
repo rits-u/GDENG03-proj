@@ -48,9 +48,9 @@ public:
 
 
 public:
-	//float forward = 0.0f;
-	//float rightward = 0.0f;
-	//Matrix4x4 worldCamera;
+	float forward = 0.0f;
+	float rightward = 0.0f;
+	Matrix4x4 worldCamera;
 
 
 private:
