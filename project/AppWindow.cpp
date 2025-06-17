@@ -3,6 +3,7 @@
 #include "Vector3D.h"
 #include "Matrix4x4.h"
 #include "InputSystem.h"
+#include "SceneCameraHandler.h"
 
 AppWindow::AppWindow()
 {
@@ -16,8 +17,10 @@ AppWindow::~AppWindow()
 void AppWindow::onCreate()
 {
 	Window::onCreate();
+	//InputSystem::get()->initialize();
 	InputSystem::get()->addListener(this);
 	InputSystem::get()->showCursor(false);
+	SceneCameraHandler::getInstance()->initialize();
 
 	GraphicsEngine::get()->init();
 
@@ -25,6 +28,8 @@ void AppWindow::onCreate()
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
+
+	SceneCameraHandler::getInstance()->setScreenSize(width, height);
 
 	m_swap_chain->init(this->m_hwnd, width, height);
 
@@ -87,9 +92,9 @@ void AppWindow::onCreate()
 	//camera->SetTarget(0.0f, 0.0f, 0.0f); 
 	//camera->SetPerspective(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
 
-	camera = new Camera();
+	/*camera = new Camera();
 	camera->worldCamera.setTranslation(Vector3D(0, 0, -2));
-	camera->updateViewMatrix();
+	camera->updateViewMatrix();*/
 
 }
 
@@ -98,6 +103,8 @@ void AppWindow::onUpdate()
 	//Window::onUpdate();
 
 	InputSystem::get()->update();
+	SceneCameraHandler::getInstance()->update();
+
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
@@ -116,12 +123,12 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw(width, height, m_vs, m_ps, this->camera);
+		this->cubeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	for (int i = 0; i < this->planeList.size(); i++) {
 		this->planeList [i] ->update(EngineTime::getDeltaTime());
-		this->planeList[i]->draw(width, height, m_vs, m_ps, this->camera);
+		this->planeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	m_swap_chain->present(false);
@@ -172,7 +179,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		//transY += offset * EngineTime::getDeltaTime();
 		//forward = 1.0f;
-		this->camera->forward = 1.0f;
+	//	this->camera->forward = 1.0f;
 		std::cout << "move W" << std::endl;
 	}
 
@@ -180,14 +187,14 @@ void AppWindow::onKeyDown(int key)
 	{
 		//transY -= offset * EngineTime::getDeltaTime();
 		//forward = -1.0f;
-		this->camera->forward = -1.0f;
+	//	this->camera->forward = -1.0f;
 		std::cout << "move S" << std::endl;
 	}
 
 	else if (key == 'A')
 	{
 		//transX += offset * EngineTime::getDeltaTime();
-		this->camera->rightward = -1.0f;
+	//	this->camera->rightward = -1.0f;
 		//rightward = -1.0f;
 		std::cout << "move A" << std::endl;
 	}
@@ -196,7 +203,7 @@ void AppWindow::onKeyDown(int key)
 	{
 	//	transX -= offset * EngineTime::getDeltaTime();
 		//rightward = 1.0f;
-		this->camera->rightward = 1.0f;
+		//this->camera->rightward = 1.0f;
 		std::cout << "move D" << std::endl;
 	}
 
@@ -277,40 +284,41 @@ void AppWindow::onKeyDown(int key)
 
 void AppWindow::onKeyUp(int key)
 {
-	cubeList[0]->forward = 0.0f;
-	cubeList[0]->rightward = 0.0f;
+	//cubeList[0]->forward = 0.0f;
+	//cubeList[0]->rightward = 0.0f;
 
-	this->camera->rightward = 0.0f;
-	this->camera->forward = 0.0f;
+//	this->camera->rightward = 0.0f;
+	//this->camera->forward = 0.0f;
 }
 
 void AppWindow::onMouseMove(const Point& mousePos)
 {
-	RECT rc = this->getClientWindowRect();
-	int width = rc.right - rc.left;
-	int height = rc.bottom - rc.top;
-
-	//float rotX = cubeList[0]->getLocalRotation().m_x;
-	//float rotY = cubeList[0]->getLocalRotation().m_y;
-	//float rotZ = cubeList[0]->getLocalPosition().m_z;
-
-	float rotX = camera->getCamRotation().m_x;
-	float rotY = camera->getCamRotation().m_y;
-	float rotZ = camera->getCamRotation().m_z;
-	float offset = 0.1f;
-
-	//rotX -= deltaMousePos.m_y * EngineTime::getDeltaTime() * offset;
-	//rotY -= deltaMousePos.m_x * EngineTime::getDeltaTime() * offset;
-
-	rotX += (mousePos.m_y - (height/2.0f)) * EngineTime::getDeltaTime() * offset;
-	rotY += (mousePos.m_x - (width/2.0f)) * EngineTime::getDeltaTime() * offset;
-
-	//cubeList[0]->setRotation(rotX, rotY, rotZ);
-
-	Vector3D rotation = Vector3D(rotX, rotY, rotZ);
-	camera->setCamRotation(rotation);
-
-	InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+//	RECT rc = this->getClientWindowRect();
+//	int width = rc.right - rc.left;
+//	int height = rc.bottom - rc.top;
+//
+//	//float rotX = cubeList[0]->getLocalRotation().m_x;
+//	//float rotY = cubeList[0]->getLocalRotation().m_y;
+//	//float rotZ = cubeList[0]->getLocalPosition().m_z;
+//
+//	float rotX = camera->getCamRotation().m_x;
+//	float rotY = camera->getCamRotation().m_y;
+//	float rotZ = camera->getCamRotation().m_z;
+//	float offset = 0.1f;
+//
+//	//rotX -= deltaMousePos.m_y * EngineTime::getDeltaTime() * offset;
+//	//rotY -= deltaMousePos.m_x * EngineTime::getDeltaTime() * offset;
+//
+//	rotX += (mousePos.m_y - (height/2.0f)) * EngineTime::getDeltaTime() * offset;
+//	rotY += (mousePos.m_x - (width/2.0f)) * EngineTime::getDeltaTime() * offset;
+//
+//	//cubeList[0]->setRotation(rotX, rotY, rotZ);
+//
+//	Vector3D rotation = Vector3D(rotX, rotY, rotZ);
+//	camera->setCamRotation(rotation);
+//
+//	InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+//
 }
 
 void AppWindow::onLeftMouseDown(const Point& mousePos)

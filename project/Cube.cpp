@@ -3,6 +3,7 @@
 #include "DeviceContext.h"
 
 #include <DirectXMath.h>
+#include "SceneCameraHandler.h"
 
 
 
@@ -92,7 +93,7 @@ void Cube::update(float deltaTime)
 	//this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
-void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
+void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 
@@ -171,13 +172,14 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera
 	//cc.m_view.setIdentity();
 	//cc.m_view = world_cam;
 	//camera->updateViewMatrix();
-	cc.m_view = camera->getViewMatrix();
+	//cc.m_view = camera->getViewMatrix();
+	cc.m_view = SceneCameraHandler::getInstance()->getSceneCameraViewMatrix();
 
 	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
 	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
 
-	//cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	cc.m_proj = camera->getPerspective(width, height);
+	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//cc.m_proj = camera->getPerspective(width, height);
 
 	cc.m_time = this->ticks * 2000.0f;
 	cb->update(deviceContext, &cc);

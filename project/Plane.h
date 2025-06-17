@@ -16,7 +16,7 @@ public:
 	~Plane();
 
 	void update(float deltaTime) override;
-	void draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera) override;
+	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
 
 	void setAnimationSpeed(float speed);
 

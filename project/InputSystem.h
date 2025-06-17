@@ -4,18 +4,24 @@
 
 #include <map>
 #include <iostream>
+#include <vector>
 
 
 
 class InputSystem
 {
 public:
+	typedef std::vector<InputListener*> List;
+
 	InputSystem();
 	~InputSystem();
 
 	void update();
 	void addListener(InputListener* listener);
 	void removeListener(InputListener* listener);
+
+	bool isKeyDown(int key);
+	bool isKeyUp(int key);
 
 	void setCursorPosition(const Point& pos);
 	void showCursor(bool show);

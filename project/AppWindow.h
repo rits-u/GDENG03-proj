@@ -27,22 +27,25 @@ public:
 	~AppWindow();
 
 	// Inherited via Window
-	void onCreate() override;
-	void onUpdate() override;
-	void onDestroy() override;
-	void onFocus() override;
-	void onKillFocus() override;
-	void onKeyDown(int key) override;
-	void onKeyUp(int key) override;
-	void onMouseMove(const Point& mousePos) override;
-	void onLeftMouseDown(const Point& mousePos) override;
-	void onLeftMouseUp(const Point& mousePos) override;
-	void onRightMouseDown(const Point& mousePos) override;
-	void onRightMouseUp(const Point& mousePos) override;
+	virtual void onCreate() override;
+	virtual void onUpdate() override;
+	virtual void onDestroy() override;
+
+	virtual void onFocus() override;
+	virtual void onKillFocus() override;
+
+	virtual void onKeyDown(int key) override;
+	virtual void onKeyUp(int key) override;
+
+	virtual void onMouseMove(const Point& mousePos) override;
+	virtual void onLeftMouseDown(const Point& mousePos) override;
+	virtual void onLeftMouseUp(const Point& mousePos) override;
+	virtual void onRightMouseDown(const Point& mousePos) override;
+	virtual void onRightMouseUp(const Point& mousePos) override;
 
 public:
 	//Cube* cubeObject;
-	Camera* camera;
+	//Camera* camera;
 
 private:
 	SwapChain* m_swap_chain;

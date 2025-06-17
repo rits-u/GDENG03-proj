@@ -101,6 +101,8 @@ void InputSystem::addListener(InputListener* listener)
 {
 	mapListeners.insert(std::make_pair<InputListener*, InputListener*>
 		(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener)));
+
+
 }
 
 void InputSystem::removeListener(InputListener* listener)
@@ -110,6 +112,16 @@ void InputSystem::removeListener(InputListener* listener)
 	{
 		mapListeners.erase(it);
 	}
+}
+
+bool InputSystem::isKeyDown(int key)
+{
+	return (keys_state[key] & 0x80) != 0;
+}
+
+bool InputSystem::isKeyUp(int key)
+{
+	return (keys_state[key] & 0x80) == 0;
 }
 
 void InputSystem::setCursorPosition(const Point& pos)

@@ -1,6 +1,7 @@
 #include "Plane.h"
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
+#include "SceneCameraHandler.h"
 
 Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
@@ -72,7 +73,7 @@ void Plane::update(float deltaTime)
 
 }
 
-void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camera* camera)
+void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
 
@@ -124,10 +125,12 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps, Camer
 	cc.m_world = world;
 	//cc.m_view.setIdentity();
 	//camera->updateViewMatrix();
-	cc.m_view = camera->getViewMatrix();
+	//cc.m_view = camera->getViewMatrix();
+	cc.m_view = SceneCameraHandler::getInstance()->getSceneCameraViewMatrix();
+	 
 	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
-	//cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	cc.m_proj = camera->getPerspective(width, height);
+	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//cc.m_proj = camera->getPerspective(width, height);
 	cc.m_time = this->ticks / 1000;
 	cb->update(deviceContext, &cc);
 
