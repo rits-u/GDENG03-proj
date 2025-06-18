@@ -19,16 +19,14 @@ void AppWindow::onCreate()
 	Window::onCreate();
 	//InputSystem::get()->initialize();
 	InputSystem::get()->addListener(this);
-	InputSystem::get()->showCursor(false);
-	SceneCameraHandler::getInstance()->initialize();
-
+	//InputSystem::get()->showCursor(false);
 	GraphicsEngine::get()->init();
-
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 
+	SceneCameraHandler::getInstance()->initialize();
 	SceneCameraHandler::getInstance()->setScreenSize(width, height);
 
 	m_swap_chain->init(this->m_hwnd, width, height);
@@ -45,15 +43,15 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	int numCubes = 1;
+	int numCubes = 10;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-0.75f, 0.75f);
 		float y = generateRandomFloat(-0.75f, 0.75f);
 
 		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
 		cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
-	//	cubeObject->setPosition(Vector3D(x, y, 0.0f));
-		cubeObject->setPosition(Vector3D::zeros());
+		cubeObject->setPosition(Vector3D(x, y, 0.0f));
+	//	cubeObject->setPosition(Vector3D::zeros());
 		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
 		this->cubeList.push_back(cubeObject);
 
@@ -127,8 +125,8 @@ void AppWindow::onUpdate()
 	}
 
 	for (int i = 0; i < this->planeList.size(); i++) {
-		this->planeList [i] ->update(EngineTime::getDeltaTime());
-		this->planeList[i]->draw(width, height, m_vs, m_ps);
+		//this->planeList [i] ->update(EngineTime::getDeltaTime());
+		//this->planeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
 	m_swap_chain->present(false);
@@ -159,6 +157,8 @@ void AppWindow::onKillFocus()
 
 void AppWindow::onKeyDown(int key)
 {
+
+
 	float rotX = cubeList[0]->getLocalRotation().m_x;
 	float rotY = cubeList[0]->getLocalRotation().m_y;
 	float rotZ = cubeList[0]->getLocalPosition().m_z;
@@ -181,7 +181,10 @@ void AppWindow::onKeyDown(int key)
 		//transY += offset * EngineTime::getDeltaTime();
 		//forward = 1.0f;
 	//	this->camera->forward = 1.0f;
-		std::cout << "move W" << std::endl;
+		//rot
+		//std::cout << "move W" << std::endl;
+		rotX += offset * EngineTime::getDeltaTime();
+		rotY += offset * EngineTime::getDeltaTime();
 	}
 
 	else if (key == 'S')
@@ -189,7 +192,9 @@ void AppWindow::onKeyDown(int key)
 		//transY -= offset * EngineTime::getDeltaTime();
 		//forward = -1.0f;
 	//	this->camera->forward = -1.0f;
-		std::cout << "move S" << std::endl;
+		//std::cout << "move S" << std::endl;
+		rotX -= offset * EngineTime::getDeltaTime();
+		rotY -= offset * EngineTime::getDeltaTime();
 	}
 
 	else if (key == 'A')
@@ -276,9 +281,17 @@ void AppWindow::onKeyDown(int key)
 	//Vector3D rotation = Vector3D(rotX, rotY, rotZ);
 	//camera->setCamRotation(rotation);
 
-	cubeList[0]->setRotation(rotX, rotY, rotZ);
-	cubeList[0]->setPosition(transX, transY, transZ);
-	cubeList[0]->setScale(scale, scale, scale);
+	//cubeList[0]->setRotation(rotX, rotY, rotZ);
+	//cubeList[0]->setPosition(transX, transY, transZ);
+	//cubeList[0]->setScale(scale, scale, scale);
+
+	//for (int i = 0; i < cubeList.size(); i++) {
+	//	cubeList[i]->setRotation(rotX, rotY, rotZ);
+	//	cubeList[i]->setPosition(transX, transY, transZ);
+	//	cubeList[i]->setScale(scale, scale, scale);
+	//}
+ 
+
 	//cubeList[0]->forward = forward;
 	//cubeList[0]->rightward = rightward;
 }
@@ -324,31 +337,31 @@ void AppWindow::onMouseMove(const Point& mousePos)
 
 void AppWindow::onLeftMouseDown(const Point& mousePos)
 {
-	float temp = cubeList[0]->getLocalScale().m_x;
-	float scale = temp / 2.0f;
-	cubeList[0]->setScale(scale, scale, scale);
-	std::cout << "scale: " << scale << std::endl;
+	//float temp = cubeList[0]->getLocalScale().m_x;
+	//float scale = temp / 2.0f;
+	//cubeList[0]->setScale(scale, scale, scale);
+	//std::cout << "scale: " << scale << std::endl;
 
 }
 
 void AppWindow::onLeftMouseUp(const Point& mousePos)
 {
-	float scale = cubeList[0]->getLocalScale().m_x;
-	cubeList[0]->setScale(scale, scale, scale);
+	//float scale = cubeList[0]->getLocalScale().m_x;
+	//cubeList[0]->setScale(scale, scale, scale);
 }
 
 void AppWindow::onRightMouseDown(const Point& mousePos)
 {
-	float temp = cubeList[0]->getLocalScale().m_x;
+	/*float temp = cubeList[0]->getLocalScale().m_x;
 	float scale = temp * 2.0f;
 	cubeList[0]->setScale(scale, scale, scale);
-	std::cout << "scale: " << scale << std::endl;
+	std::cout << "scale: " << scale << std::endl;*/
 }
 
 void AppWindow::onRightMouseUp(const Point& mousePos)
 {
-	float scale = cubeList[0]->getLocalScale().m_x;
-	cubeList[0]->setScale(scale, scale, scale);
+	//float scale = cubeList[0]->getLocalScale().m_x;
+	//cubeList[0]->setScale(scale, scale, scale);
 }
 
 //void AppWindow::adjustSpeed()

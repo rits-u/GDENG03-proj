@@ -4,11 +4,14 @@
 
 #include <DirectXMath.h>
 #include "SceneCameraHandler.h"
+#include "InputSystem.h"
 
 
 
 Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
+	InputSystem::get()->addListener(this);
+
 	m_worldCamera.setIdentity();
 	m_worldCamera.setTranslation(Vector3D(0, 0, -2));
 
@@ -78,6 +81,7 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 Cube::~Cube()
 {
+	InputSystem::get()->removeListener(this);
 	this->vb->release();
 	this->cb->release();
 	this->ib->release();
@@ -203,4 +207,48 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 void Cube::setAnimationSpeed(float speed)
 {
 	this->speed = speed;
+}
+
+void Cube::onKeyDown(int key)
+{
+	float rotX, rotY, rotZ;
+	rotX = this->getLocalRotation().m_x;
+	rotY = this->getLocalRotation().m_y;
+	rotZ = this->getLocalRotation().m_z;
+	float offset = 3.0f;
+
+	if (key == 'W') {
+		rotX += EngineTime::getDeltaTime() * this->speed * offset;
+		rotY += EngineTime::getDeltaTime() * this->speed * offset;
+	}
+	else if (key == 'S') {
+		rotX -= EngineTime::getDeltaTime() * this->speed * offset;
+		rotY -= EngineTime::getDeltaTime() * this->speed * offset;
+	}
+
+	this->setRotation(rotX, rotY, rotZ);
+}
+
+void Cube::onKeyUp(int key)
+{
+}
+
+void Cube::onMouseMove(const Point& mousePos)
+{
+}
+
+void Cube::onLeftMouseDown(const Point& mousePos)
+{
+}
+
+void Cube::onLeftMouseUp(const Point& mousePos)
+{
+}
+
+void Cube::onRightMouseDown(const Point& mousePos)
+{
+}
+
+void Cube::onRightMouseUp(const Point& mousePos)
+{
 }

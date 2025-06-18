@@ -7,12 +7,13 @@
 #include "EngineTime.h"
 
 #include "Matrix4x4.h"
+#include "InputListener.h"
 
 #include <DirectXMath.h>
 using namespace DirectX;
 
 
-class Cube : public GameObject
+class Cube : public GameObject, public InputListener
 {
 public:
 	Cube(string name, void* shaderByteCode, size_t sizeShader);
@@ -22,6 +23,16 @@ public:
 	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
 
 	void setAnimationSpeed(float speed);
+
+	virtual void onKeyDown(int key);
+	virtual void onKeyUp(int key);
+
+	//MOUSE pure virtual callback functions
+	virtual void onMouseMove(const Point& mousePos);
+	virtual void onLeftMouseDown(const Point& mousePos);
+	virtual void onLeftMouseUp(const Point& mousePos);
+	virtual void onRightMouseDown(const Point& mousePos);
+	virtual void onRightMouseUp(const Point& mousePos);
 
 //public:
 //	VertexBuffer* vb;
