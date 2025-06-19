@@ -10,11 +10,12 @@
 
 class InputSystem
 {
-public:
-	typedef std::vector<InputListener*> List;
-
+private:
 	InputSystem();
 	~InputSystem();
+
+public:
+	typedef std::vector<InputListener*> List;
 
 	void update();
 	void addListener(InputListener* listener);
@@ -28,8 +29,11 @@ public:
 
 public:
 	static InputSystem* get();
+	static void create();
+	static void release();
 
 private:
+	static InputSystem* m_system;
 	std::map<InputListener*, InputListener*> mapListeners;
 	unsigned char keys_state[256] = {};
 	unsigned char old_keys_state[256] = {};

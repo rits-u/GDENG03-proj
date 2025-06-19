@@ -5,27 +5,26 @@
 
 class Window
 {
-	public:
-		Window();
-		bool init();
-		bool broadcast();
-		bool release();
-		bool isRun();
+public:
+	Window();
+	~Window();
+	bool isRun();
 
-		RECT getClientWindowRect();
-		void setHWND(HWND hwnd);
+	RECT getClientWindowRect();
 
-		//EVENTS
-		virtual void onCreate();			//prev was 
-		virtual void onUpdate() = 0;
-		virtual void onDestroy();
-		virtual void onFocus();
-		virtual void onKillFocus();
+	//EVENTS
+	virtual void onCreate();			//prev was 
+	virtual void onUpdate() = 0;
+	virtual void onDestroy();
+	virtual void onFocus();
+	virtual void onKillFocus();
 
-		~Window();
+private:
+	bool broadcast();
 
-	protected:
-		HWND m_hwnd;
-		bool m_is_run;
+protected:
+	HWND m_hwnd;
+	bool isRunning;
+	bool isInitialized = false;
 };
 

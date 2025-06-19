@@ -75,9 +75,9 @@ void Plane::update(float deltaTime)
 
 }
 
-void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
+void Plane::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	constant cc;
 

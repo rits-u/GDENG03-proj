@@ -21,7 +21,8 @@ void AppWindow::onCreate()
 	//InputSystem::get()->initialize();
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
-	GraphicsEngine::get()->init();
+	//GraphicsEngine::get()->init();
+
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	RECT rc = this->getClientWindowRect();
@@ -123,7 +124,7 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	GraphicsEngine::get()->release();
+	//GraphicsEngine::get()->release();
 }
 
 void AppWindow::onFocus()

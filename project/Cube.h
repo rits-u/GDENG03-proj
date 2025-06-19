@@ -20,7 +20,7 @@ public:
 	~Cube();
 
 	void update(float deltaTime) override;
-	void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
+	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
 
 	void setAnimationSpeed(float speed);
 
@@ -44,9 +44,9 @@ public:
 	float rightward = 0.0f;
 
 private:
-	VertexBuffer* vb;
-	IndexBuffer* ib;
-	ConstantBuffer* cb;
+	VertexBufferPtr vb;
+	IndexBufferPtr ib;
+	ConstantBufferPtr cb;
 	float ticks = 0.0f;
 	float deltaPos = 0.0f;
 	float deltaTime = 0.0f;

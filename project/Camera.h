@@ -17,7 +17,7 @@ public:
 	~Camera();
 	
 	virtual void update(float deltaTime) override;
-	virtual void draw(int width, int height, VertexShader* vs, PixelShader* ps) override;
+	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
 
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
