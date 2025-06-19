@@ -19,6 +19,8 @@ class Window
 		virtual void onCreate();			//prev was 
 		virtual void onUpdate() = 0;
 		virtual void onDestroy();
+		virtual void onFocus();
+		virtual void onKillFocus();
 
 		~Window();
 

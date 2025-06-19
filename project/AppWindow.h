@@ -9,44 +9,57 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-#include <iostream>
+#include "InputListener.h"
+#include "Point.h"
 
-class AppWindow : public Window
+#include "Cube.h"
+#include "Plane.h"
+#include "Camera.h"
+
+#include <iostream>
+#include <vector>
+#include <random>
+
+class AppWindow : public Window, public InputListener
 {
 public:
 	AppWindow();
-
-	void updateQuadPosition();
-
 	~AppWindow();
 
 	// Inherited via Window
-	void onCreate() override;
-	void onUpdate() override;
-	void onDestroy() override;
+	virtual void onCreate() override;
+	virtual void onUpdate() override;
+	virtual void onDestroy() override;
+
+	virtual void onFocus() override;
+	virtual void onKillFocus() override;
+
+	virtual void onKeyDown(int key) override;
+	virtual void onKeyUp(int key) override;
+
+	virtual void onMouseMove(const Point& mousePos) override;
+	virtual void onLeftMouseDown(const Point& mousePos) override;
+	virtual void onLeftMouseUp(const Point& mousePos) override;
+	virtual void onRightMouseDown(const Point& mousePos) override;
+	virtual void onRightMouseUp(const Point& mousePos) override;
+
+public:
+	//Cube* cubeObject;
+	//Camera* camera;
 
 private:
 	SwapChain* m_swap_chain;
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
 private:
-	double accumulatedTime;
-	float speed;
-	bool increaseSpeed;
-	float delta_pos;
-	float delta_scale;
+	std::vector<Cube*> cubeList;
+	std::vector<Plane*> planeList;
 
-//private:
-//	float m_old_delta;
-//	float m_new_delta;
-//	float m_delta_time;
 
 private:
 	void adjustSpeed();
+	float generateRandomFloat(float min, float max);
 
 };
 
