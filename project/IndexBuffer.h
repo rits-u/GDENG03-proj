@@ -9,9 +9,7 @@ class IndexBuffer
 
 public:
 	IndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system);
-	//bool load(void* list_indices, UINT size_list);
 	UINT getSizeIndexList();
-	//bool release();
 	~IndexBuffer();
 
 private:

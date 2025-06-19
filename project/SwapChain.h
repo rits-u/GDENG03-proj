@@ -8,11 +8,7 @@ class SwapChain
 {
 public:
 	SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* m_system);
-	//bool init(HWND hwnd, UINT width, UINT height);
-
 	bool present(bool vsync);
-
-	//bool release();
 	~SwapChain();
 
 private:

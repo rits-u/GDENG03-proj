@@ -9,9 +9,7 @@ class ConstantBuffer
 
 public:
 	ConstantBuffer(void* buffer, UINT size_buffer, RenderSystem* m_system);
-//	bool load(void* buffer, UINT size_buffer);
 	void update(DeviceContext* context, void* buffer);
-	//bool release();
 	~ConstantBuffer();
 
 private:

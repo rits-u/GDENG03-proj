@@ -6,11 +6,7 @@ class PixelShader
 {
 public:
 	PixelShader(const void* shader_byte_code, size_t byte_code_size, RenderSystem* m_system);
-	//void release();
 	~PixelShader();
-
-private:
-	//bool init(const void* shader_byte_code, size_t byte_code_size);
 
 private:
 	ID3D11PixelShader* m_ps;
@@ -19,6 +15,5 @@ private:
 private:
 	friend class RenderSystem;
 	friend class DeviceContext;
-//	friend class RenderSystem;
 };
 

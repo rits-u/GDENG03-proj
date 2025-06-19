@@ -22,7 +22,6 @@ public:
 	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* buffer);
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
 
-	//bool release();
 	~DeviceContext();
 
 private:

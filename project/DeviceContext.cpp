@@ -90,12 +90,3 @@ DeviceContext::~DeviceContext()
     m_device_context->Release();
 }
 
-
-//bool DeviceContext::release()
-//{
-//    m_device_context->Release();
-//    delete this;
-//
-//    return true;
-//}
-

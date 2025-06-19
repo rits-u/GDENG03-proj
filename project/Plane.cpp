@@ -22,7 +22,7 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 	};
 
 	UINT size_list = ARRAYSIZE(vertex_list);
-	this->vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
 	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
@@ -55,7 +55,7 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 	//constant buffer
 	constant cc;
 	cc.m_time = 0;
-	cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
+	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 	//cb->load(&cc, sizeof(constant));
 }
 

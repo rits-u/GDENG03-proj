@@ -7,9 +7,7 @@ class VertexBuffer
 
 public: 
 	VertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
-//bool load(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
 	UINT getSizeVertexList();
-	//bool release();
 	~VertexBuffer();
 
 private:
