@@ -92,8 +92,8 @@ void Camera::updateViewMatrix()
 		rotY.setRotationY(rotation.m_y);
 		world_cam *= rotY;
 
-		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.05f);
-		position = position + this->worldCamera.getXDirection() * (this->rightward * 0.05f);
+		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.005f);
+		position = position + this->worldCamera.getXDirection() * (this->rightward * 0.005f);
 		world_cam.setTranslation(position);
 		this->setPosition(position.m_x, position.m_y, position.m_z);
 
@@ -162,24 +162,17 @@ void Camera::onMouseMove(const Point& mousePos)
 {
 	if (!isNavigating) return;
 
-	// Skip first movement completely and re-center
-	if (firstMouseMove)
-	{
-		firstMouseMove = false;
-		skipNextMouseMove = true;
-		last_mouse_pos = Point(width / 2, height / 2);
-		InputSystem::get()->setCursorPosition(last_mouse_pos); // force center
-		return;
-	}
-
-	//if (skipNextMouseMove)
+	//if (firstMouseMove)
 	//{
-	//	skipNextMouseMove = false;
+	//	firstMouseMove = false;
+	//	skipNextMouseMove = true;
+	//	last_mouse_pos = Point(width / 2, height / 2);
+	//	InputSystem::get()->setCursorPosition(last_mouse_pos); // force center
 	//	return;
 	//}
 
-	float deltaX = static_cast<float>(mousePos.m_x - width / 2);
-	float deltaY = static_cast<float>(mousePos.m_y - height / 2);
+	float deltaX = (float)(mousePos.m_x - width / 2);
+	float deltaY = (float)(mousePos.m_y - height / 2);
 
 	Vector3D rotation = this->getLocalRotation();
 	float offset = 0.05f;

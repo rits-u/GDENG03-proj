@@ -3,7 +3,7 @@
 
 SceneCameraHandler* SceneCameraHandler::sharedInstance = nullptr;
 
-SceneCameraHandler* SceneCameraHandler::getInstance()
+SceneCameraHandler* SceneCameraHandler::get()
 {
   /*  if (sharedInstance == nullptr)
     {

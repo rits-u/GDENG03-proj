@@ -123,14 +123,8 @@ void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 
 	//update constant buffer
 	cc.m_world = world;
-	//cc.m_view.setIdentity();
-	//camera->updateViewMatrix();
-	//cc.m_view = camera->getViewMatrix();
-	cc.m_view = SceneCameraHandler::getInstance()->getSceneCameraViewMatrix();
-	 
-	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
+	cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
 	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	//cc.m_proj = camera->getPerspective(width, height);
 	cc.m_time = this->ticks / 1000;
 	cb->update(deviceContext, &cc);
 

@@ -4,7 +4,7 @@
 class SceneCameraHandler
 {
 public:
-	static SceneCameraHandler* getInstance();
+	static SceneCameraHandler* get();
 	static void initialize();
 	static void destroy();
 

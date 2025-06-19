@@ -144,51 +144,14 @@ void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 	world *= rotZ;
 	world *= translation;
 
-
-	////WORLD CAMERA
-	//Matrix4x4 world_cam;
-	//world_cam.setIdentity();
-
-	//rotX.setIdentity();
-	//rotX.setRotationX(rotation.m_x);
-	//world_cam *= rotX;
-
-	//rotY.setIdentity();
-	//rotY.setRotationY(rotation.m_y);
-	//world_cam *= rotY;
-
-
-	//Vector3D newPos = m_worldCamera.getTranslation() + m_worldCamera.getZDirection() * (forward * 0.3f);
-	//newPos = newPos + m_worldCamera.getXDirection() * (rightward * 0.3f);
-
-	////world_cam.setTranslation(Vector3D(0, 0, -2));
-
-	//world_cam.setTranslation(newPos);
-	//m_worldCamera = world_cam;
-
-	//world_cam.inverse();
-
-
-
 	//update constant buffer
 	cc.m_world = world;
-	//cc.m_world.setIdentity();
-	//cc.m_view.setIdentity();
-	//cc.m_view = world_cam;
-	//camera->updateViewMatrix();
-	//cc.m_view = camera->getViewMatrix();
-	cc.m_view = SceneCameraHandler::getInstance()->getSceneCameraViewMatrix();
-
-	//cc.m_proj.setOrthoLH(width / 300.0f, height / 300.0f, -4.0f, 4.0f);
-	///////cc.m_proj.setPerspectiveFovLH(1.5708f, (float)width / (float)height, 0.1f, 100.0f);
-
+	cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
 	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	//cc.m_proj = camera->getPerspective(width, height);
-
 	cc.m_time = this->ticks * 2000.0f;
 	cb->update(deviceContext, &cc);
+	//cc.m_proj = camera->getPerspective(width, height);
 
-//	std::cout << "time: " << cc.m_time << std::endl;
 
 	//set constant buffer
 	deviceContext->setConstantBuffer(vs, this->cb);

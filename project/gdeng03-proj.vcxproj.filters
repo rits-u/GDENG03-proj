@@ -46,6 +46,9 @@
     <Filter Include="GameEngine\GameObject">
       <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345679}</UniqueIdentifier>
     </Filter>
+        <Filter Include="GameEngine\Camera">
+      <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345680}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,9 +99,15 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="CameraDump.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="SceneCameraHandler.cpp" />
+    <ClCompile Include="CameraDump.cpp">
+      <Filter>GameEngine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCameraHandler.cpp">
+      <Filter>GameEngine\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -141,7 +150,7 @@
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>GameEngine</Filter>
+      <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>GameEngine\GameObject\Primitives</Filter>
@@ -158,12 +167,18 @@
     <ClInclude Include="InputSystem.h">
       <Filter>GameEngine\InputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="CameraDump.h" />
     <ClInclude Include="Vector4D.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="SceneCameraHandler.h" />
+    <ClInclude Include="CameraDump.h">
+      <Filter>GameEngine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCameraHandler.h">
+      <Filter>GameEngine\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

@@ -20,11 +20,6 @@ public:
 
 	void setAnimationSpeed(float speed);
 
-//public:
-	//VertexBuffer* vb;
-	//IndexBuffer* ib;
-	//ConstantBuffer* cb;
-
 private:
 	VertexBuffer* vb;
 	IndexBuffer* ib;
