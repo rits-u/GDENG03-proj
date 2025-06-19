@@ -5,6 +5,8 @@
 
 Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
 	vertex vertex_list[] =
 	{
 	/*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
@@ -19,10 +21,10 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 
 	};
 
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertex_list);
+	this->vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
-	this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
 	//unsigned int index_list[] =
 	//{
@@ -46,23 +48,23 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 
 
 	//index buffer
-	this->ib = GraphicsEngine::get()->createIndexBuffer();
 	UINT size_index_list = ARRAYSIZE(index_list);
-	this->ib->load(index_list, size_index_list);
+	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	//this->ib->load(index_list, size_index_list);
 
 	//constant buffer
 	constant cc;
 	cc.m_time = 0;
-	cb = GraphicsEngine::get()->createConstantBuffer();
-	cb->load(&cc, sizeof(constant));
+	cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
+	//cb->load(&cc, sizeof(constant));
 }
 
 
 Plane::~Plane()
 {
-	this->vb->release();
-	this->cb->release();
-	this->ib->release();
+	//this->vb->release();
+	//this->cb->release();
+	//this->ib->release();
 	GameObject::~GameObject();
 }
 
@@ -75,7 +77,7 @@ void Plane::update(float deltaTime)
 
 void Plane::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	constant cc;
 

@@ -21,21 +21,23 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
 	GraphicsEngine::get()->init();
-	m_swap_chain = GraphicsEngine::get()->createSwapChain();
+
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 
+	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, width, height);
+
 	SceneCameraHandler::get()->initialize();
 	SceneCameraHandler::get()->setScreenSize(width, height);
 
-	m_swap_chain->init(this->m_hwnd, width, height);
+	//m_swap_chain->init(this->m_hwnd, width, height);
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
 
 	//cubeObject = new Cube("TestCube", shader_byte_code, size_shader);
 	////cubeObject->setAnimSpeed(1);
@@ -67,13 +69,13 @@ void AppWindow::onCreate()
 	}
 
 	//RELEASE VERTEX SHADER
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 
 	//PIXEL SHADER
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 
 	std::cout << "cube list size: " << this->cubeList.size() << std::endl;
@@ -86,7 +88,7 @@ void AppWindow::onUpdate()
 	InputSystem::get()->update();
 	SceneCameraHandler::get()->update();
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1); // 1 0 0 1
 
 	//set viewport of render target in which we have to draw
@@ -94,12 +96,12 @@ void AppWindow::onUpdate()
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewPortSize(width, height);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewPortSize(width, height);
 
 
 	//set the default shader in the graphics pipeline to be able 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
@@ -118,9 +120,9 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	m_swap_chain->release();
-	m_vs->release();
-	m_ps->release();
+	//m_swap_chain->release();
+	//m_vs->release();
+	//m_ps->release();
 	GraphicsEngine::get()->release();
 }
 

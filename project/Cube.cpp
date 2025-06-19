@@ -10,6 +10,7 @@
 
 Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	InputSystem::get()->addListener(this);
 
 	m_worldCamera.setIdentity();
@@ -34,10 +35,10 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 	};
 
 
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertex_list);
+	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
-	this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
 	unsigned int index_list[] =
 	{
@@ -68,23 +69,25 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 
 	//index buffer
-	this->ib = GraphicsEngine::get()->createIndexBuffer();
 	UINT size_index_list = ARRAYSIZE(index_list);
-	this->ib->load(index_list, size_index_list);
+
+
+	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	//this->ib->load(index_list, size_index_list);
 
 	//constant buffer
 	constant cc;
 	cc.m_time = 0;
-	cb = GraphicsEngine::get()->createConstantBuffer();
-	cb->load(&cc, sizeof(constant));
+	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
+//	cb->load(&cc, sizeof(constant));
 }
 
 Cube::~Cube()
 {
 	InputSystem::get()->removeListener(this);
-	this->vb->release();
-	this->cb->release();
-	this->ib->release();
+	//this->vb->release();
+	//this->cb->release();
+	//this->ib->release();
 	GameObject::~GameObject();
 }
 
@@ -99,7 +102,7 @@ void Cube::update(float deltaTime)
 
 void Cube::draw(int width, int height, VertexShader* vs, PixelShader* ps)
 {
-	DeviceContext* deviceContext = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	constant cc;
 
