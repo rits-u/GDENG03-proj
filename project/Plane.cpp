@@ -14,10 +14,10 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 		{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
 		{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
 
-		{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }
+		{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
+		{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
+		{ Vector3D(0.5f,  0.0f, 0.5f),  Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
+		{ Vector3D(0.5f, 0.0f, -0.5f),  Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) }
 
 	};
 

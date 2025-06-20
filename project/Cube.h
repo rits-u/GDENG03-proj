@@ -34,6 +34,8 @@ public:
 	virtual void onRightMouseDown(const Point& mousePos);
 	virtual void onRightMouseUp(const Point& mousePos);
 
+	void resetProperties();
+
 //public:
 //	VertexBuffer* vb;
 //	IndexBuffer* ib;
@@ -53,7 +55,7 @@ private:
 	float deltaScale = 0.0f;
 	float speed = 10.0f;
 	float accumulatedTime = 0.0f;
-
+	int animation = 1;
 	Matrix4x4 m_worldCamera;
 
 };

@@ -48,6 +48,7 @@ private:
 	//void adjustSpeed();
 	float generateRandomFloat(float min, float max);
 	void spawnCircle(void* shader_byte_code, size_t size_shader);
+	float convertToRadians(float degrees);
 	//void checkInput();
 
 public:

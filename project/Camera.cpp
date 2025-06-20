@@ -28,7 +28,7 @@ void Camera::update(float deltaTime)
 		float x = localPos.m_x;
 		float y = localPos.m_y;
 		float z = localPos.m_z;
-		float offset = 0.03f;
+		float offset = 0.05f;
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
