@@ -49,7 +49,7 @@
     <Filter Include="GameEngine\Camera">
       <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345680}</UniqueIdentifier>
     </Filter>
-        <Filter Include="GameEngine\GraphicsEngine\RenderSystem">
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem">
       <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345681}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -113,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Prerequisites.h">
+      <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

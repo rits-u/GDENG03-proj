@@ -1,5 +1,6 @@
 #pragma once
 #include <d3d11.h>
+#include <vector>
 #include "Prerequisites.h"
 
 class DeviceContext;
@@ -9,6 +10,7 @@ class IndexBuffer
 
 public:
 	IndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system);
+	IndexBuffer(std::vector<unsigned int> list_indices, UINT size_list, RenderSystem* m_system);
 	UINT getSizeIndexList();
 	~IndexBuffer();
 

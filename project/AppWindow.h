@@ -14,6 +14,7 @@
 
 #include "Cube.h"
 #include "Plane.h"
+#include "Circle.h"
 #include "Camera.h"
 
 #include <iostream>
@@ -55,7 +56,7 @@ private:
 private:
 	std::vector<Cube*> cubeList;
 	std::vector<Plane*> planeList;
-
+	std::vector<Circle*> circleList;
 
 private:
 	void adjustSpeed();

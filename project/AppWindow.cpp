@@ -48,13 +48,14 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	int numCubes = 10;
+	int numCubes = 2;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-0.75f, 0.75f);
 		float y = generateRandomFloat(-0.75f, 0.75f);
 
 		Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
-		cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
+		//cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
+		cubeObject->setAnimationSpeed(5.0f);
 		cubeObject->setPosition(Vector3D(x, y, 0.0f));
 	//	cubeObject->setPosition(Vector3D::zeros());
 		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
@@ -62,14 +63,28 @@ void AppWindow::onCreate()
 
 	}
 
-	int numPlanes = 1;
-	for (int i = 0; i < numPlanes; i++) {
-		Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
-		planeObject->setPosition(Vector3D::zeros());
-		planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
-		planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
-		this->planeList.push_back(planeObject);
-	}
+	//int numPlanes = 1;
+	//for (int i = 0; i < numPlanes; i++) {
+	//	Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
+	//	planeObject->setPosition(Vector3D::zeros());
+	//	planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
+	//	planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
+	//	this->planeList.push_back(planeObject);
+	//}
+
+
+	//CIRCLE
+	int numCircles = 1;
+	int numSegment = 64;
+	int radius = 1;
+
+
+	Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius);
+	circleObject->setPosition(Vector3D(0, 0, 0));
+	circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
+	float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
+	circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
+	this->circleList.push_back(circleObject);
 
 	//RELEASE VERTEX SHADER
 	renderSystem->releaseCompiledShader();
@@ -92,8 +107,7 @@ void AppWindow::onUpdate()
 	InputSystem::get()->update();
 	SceneCameraHandler::get()->update();
 
-	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		0, 0.3f, 0.4f, 1); // 1 0 0 1
+	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.0f, 0.0f, 0.0f, 1); // 1 0 0 1
 
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
@@ -113,10 +127,14 @@ void AppWindow::onUpdate()
 		this->cubeList[i]->draw(width, height, m_vs, m_ps);
 	}
 
-	for (int i = 0; i < this->planeList.size(); i++) {
-		this->planeList [i] ->update(EngineTime::getDeltaTime());
-		this->planeList[i]->draw(width, height, m_vs, m_ps);
-	}
+	//for (int i = 0; i < this->planeList.size(); i++) {
+	//	this->planeList [i] ->update(EngineTime::getDeltaTime());
+	//	this->planeList[i]->draw(width, height, m_vs, m_ps);
+	//}
+
+	this->circleList[0]->update(EngineTime::getDeltaTime());
+	this->circleList[0]->draw(width, height, m_vs, m_ps);
+
 
 	m_swap_chain->present(false);
 }
@@ -146,6 +164,7 @@ void AppWindow::onKeyDown(int key)
 
 	else if (key == 'S')
 	{
+
 	}
 
 	else if (key == 'A')
@@ -157,6 +176,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		std::cout << "move D" << std::endl;
 	}
+
 
 
 	//---------------------ROTATION----------------
@@ -210,6 +230,17 @@ void AppWindow::onKeyDown(int key)
 	{
 		std::cout << "translate LEFT" << std::endl;
 	}
+
+	//ESCAPE KEY
+	else if (key == 27)
+	{
+		std::cout << "Closed application" << std::endl;
+		::DestroyWindow(this->m_hwnd);
+		::PostQuitMessage(0);
+	}
+
+
+//	std::cout << "Key: " << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)

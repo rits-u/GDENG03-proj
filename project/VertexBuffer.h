@@ -1,12 +1,15 @@
 #pragma once
 #include <d3d11.h>
 #include "Prerequisites.h"
+#include "GameObject.h"
+#include <vector>
 
 class VertexBuffer
 {
 
 public: 
 	VertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
+	VertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
 	UINT getSizeVertexList();
 	~VertexBuffer();
 

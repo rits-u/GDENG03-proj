@@ -6,7 +6,9 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "GameObject.h"
 
+#include <vector>
 #include <d3dcompiler.h>
 #include <exception>
 
@@ -162,7 +164,30 @@ VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_
 	return vb;
 }
 
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
+{
+	//std::vector<vertex> vertex_list;
+	VertexBufferPtr vb = nullptr;
+	try
+	{
+		vb = std::make_shared<VertexBuffer>(list_vertices, size_vertex, size_list, shader_byte_code, size_byte_shader, this);
+	}
+	catch (...) {}
+	return vb;
+}
+
 IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system)
+{
+	IndexBufferPtr ib = nullptr;
+	try
+	{
+		ib = std::make_shared<IndexBuffer>(list_indices, size_list, this);
+	}
+	catch (...) {}
+	return ib;
+}
+
+IndexBufferPtr RenderSystem::createIndexBuffer(std::vector<unsigned int> list_indices, UINT size_list, RenderSystem* m_system)
 {
 	IndexBufferPtr ib = nullptr;
 	try

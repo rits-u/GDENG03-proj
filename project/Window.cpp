@@ -69,6 +69,7 @@ Window::Window()
     wc.style = NULL;
     wc.lpfnWndProc = &WndProc;
 
+
     if (!::RegisterClassEx(&wc))    //if the registration of class will fail, return false
         throw std::exception("Registration of Class failed Window not created successfully");
 
