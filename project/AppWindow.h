@@ -44,6 +44,12 @@ public:
 	virtual void onRightMouseDown(const Point& mousePos) override;
 	virtual void onRightMouseUp(const Point& mousePos) override;
 
+private:
+	//void adjustSpeed();
+	float generateRandomFloat(float min, float max);
+	void spawnCircle(void* shader_byte_code, size_t size_shader, Vector3D color, float goUp, float goDown, float speed);
+
+
 public:
 	//Cube* cubeObject;
 	//Camera* camera;
@@ -58,9 +64,6 @@ private:
 	std::vector<Plane*> planeList;
 	std::vector<Circle*> circleList;
 
-private:
-	void adjustSpeed();
-	float generateRandomFloat(float min, float max);
 
 };
 

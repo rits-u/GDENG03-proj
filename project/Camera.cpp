@@ -10,8 +10,8 @@
 Camera::Camera(string name) : GameObject(name)
 {
 	//this->setPosition(0.0f, 0.0f, -4.0f);
-	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	InputSystem::get()->addListener(this);
+	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	this->updateViewMatrix();
 	this->isNavigating = false;
 }
@@ -58,7 +58,13 @@ void Camera::update(float deltaTime)
 			this->rightward = 1.0f;
 			this->updateViewMatrix();
 		}
+	}
 
+	if (InputSystem::get()->isKeyDown('R'))
+	{
+		this->resetCameraProperties();
+		std::cout << "Camera has been reset" << std::endl;
+		this->isNavigating = false;
 	}
 	
 }
@@ -69,7 +75,6 @@ void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 
 Matrix4x4 Camera::getViewMatrix()
 {
-   // if (m_viewDirty) 
 	updateViewMatrix();
 	return this->localMatrix;
 }
@@ -106,6 +111,7 @@ void Camera::updateViewMatrix()
 		this->localMatrix = world_cam;
 		//world_cam.inverse();
 
+		//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
 	}
 }
 void Camera::setWidthAndHeight(int width, int height)
@@ -122,54 +128,10 @@ void Camera::onKeyUp(int key)
 	this->rightward = 0.0f;
 	this->forward = 0.0f;
 }
-//void Camera::onMouseMove(const Point& mousePos)
-//{
-//	if (isNavigating) {
-//		if (firstMouseMove)
-//		{
-//			last_mouse_pos = mousePos;
-//			firstMouseMove = false;
-//			InputSystem::get()->setCursorPosition(last_mouse_pos); // force center
-//			return; // Skip the first frame to avoid snapping
-//		}
-//
-//
-//
-//		Vector3D rotation = this->getLocalRotation();
-//		float rotX = rotation.m_x;
-//		float rotY = rotation.m_y;
-//		float rotZ = rotation.m_z;
-//		float offset = 0.05f;
-//
-//		rotX += (mousePos.m_y - (height / 2.0f)) * EngineTime::getDeltaTime() * offset;
-//		rotY += (mousePos.m_x - (width / 2.0f)) * EngineTime::getDeltaTime() * offset;
-//		//float x_temp = mousePos.m_x;
-//		//float y_temp = mousePos.m_y;
-//
-//		//float speed = 0.005f;
-//		//rotX += y_temp * speed;
-//		//rotY += x_temp * speed;
-//		//std::cout << width << std::endl;
-//		this->setRotation(rotX, rotY, rotZ);
-//		this->updateViewMatrix();
-//		last_mouse_pos = mousePos;
-//
-//		InputSystem::get()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
-//	}
-//}
 
 void Camera::onMouseMove(const Point& mousePos)
 {
 	if (!isNavigating) return;
-
-	//if (firstMouseMove)
-	//{
-	//	firstMouseMove = false;
-	//	skipNextMouseMove = true;
-	//	last_mouse_pos = Point(width / 2, height / 2);
-	//	InputSystem::get()->setCursorPosition(last_mouse_pos); // force center
-	//	return;
-	//}
 
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
@@ -208,4 +170,12 @@ void Camera::onRightMouseUp(const Point& mousePos)
 {
 	this->isNavigating = false;
 	InputSystem::get()->showCursor(true);
+}
+
+void Camera::resetCameraProperties()
+{
+	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
+	this->setRotation(Vector3D(0, 0, 0));
+	this->isNavigating = true;
+	this->updateViewMatrix();
 }

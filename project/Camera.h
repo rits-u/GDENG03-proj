@@ -35,17 +35,14 @@ public:
 
 
 
-public:
-
+private:
+	void resetCameraProperties();
 
 private:
 	Matrix4x4 localMatrix;
 	int height;
 	int width;
 	bool isNavigating;
-	bool firstMouseMove = true;
-	Point last_mouse_pos;
-	bool skipNextMouseMove = false;
 
 	float forward = 0.0f;
 	float rightward = 0.0f;
