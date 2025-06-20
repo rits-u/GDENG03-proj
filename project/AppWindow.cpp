@@ -346,7 +346,7 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 
 	//direction
 	//circleObject->setDirection(goUp, goRight);
-	float dir = generateRandomFloat(0.0f, 2 * 3.14);
+	float dir = generateRandomFloat(0.0f, 2 * 3.14f);
 	float x = cosf(dir);
 	float y = sinf(dir);
 	Vector3D direction = Vector3D(x, y, 0.0f);

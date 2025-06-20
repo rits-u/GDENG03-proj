@@ -33,11 +33,6 @@ void EngineTime::LogFrameEnd()
     std::chrono::duration<double> elapsed_seconds = sharedInstance->end - sharedInstance->start;
     sharedInstance->deltaTime = elapsed_seconds.count();
 
-    //auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-    //    sharedInstance->end.time_since_epoch()
-    //).count();
-  //  std::cout << "frame end " << ms << "\n";
-
     const double targetFPS = 1.0f / 60.0f;
     if (sharedInstance->deltaTime < targetFPS)  //if frames rendered too quickly
     {

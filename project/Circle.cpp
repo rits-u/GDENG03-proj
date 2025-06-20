@@ -18,7 +18,7 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 	vertex_list.push_back({ Vector3D(0.0f, 0.0f, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
 
 	for (int i = 0; i <= numSegment; i++) {
-		float theta = (2.0f * 3.14159265f * i) / numSegment;
+		float theta = (2.0f * 3.14f * i) / numSegment;
 		float x = radius * cosf(theta);
 		float y = radius * sinf(theta);
 		vertex_list.push_back({ Vector3D(x, y, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
@@ -40,7 +40,6 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 	}
 
 	UINT size_index_list = index_list.size();
-
 	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
 
 	//constant buffer
