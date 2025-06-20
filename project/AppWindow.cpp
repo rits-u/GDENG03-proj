@@ -49,7 +49,7 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	int numCubes = 2;
+	int numCubes = 1;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-0.75f, 0.75f);
 		float y = generateRandomFloat(-0.75f, 0.75f);
@@ -57,9 +57,9 @@ void AppWindow::onCreate()
 		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
 		//cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
 		cubeObject->setAnimationSpeed(5.0f);
-		cubeObject->setPosition(Vector3D(x, y, 0.0f));
-	//	cubeObject->setPosition(Vector3D::zeros());
-		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
+		//cubeObject->setPosition(Vector3D(x, y, 0.0f));
+		cubeObject->setPosition(Vector3D::zeros());
+		cubeObject->setScale(Vector3D(0.6f, 0.6f, 0.6f));
 		this->cubeList.push_back(cubeObject);
 
 	}
@@ -117,20 +117,20 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 
-	//for (int i = 0; i < this->cubeList.size(); i++) {
-	//	this->cubeList[i]->update(EngineTime::getDeltaTime());
-	//	this->cubeList[i]->draw(width, height, m_vs, m_ps);
-	//}
+	for (int i = 0; i < this->cubeList.size(); i++) {
+		this->cubeList[i]->update(EngineTime::getDeltaTime());
+		this->cubeList[i]->draw(width, height, m_vs, m_ps);
+	}
 
 	//for (int i = 0; i < this->planeList.size(); i++) {
 	//	this->planeList [i] ->update(EngineTime::getDeltaTime());
 	//	this->planeList[i]->draw(width, height, m_vs, m_ps);
 	//}
 
-	for (int i = 0; i < this->circleList.size(); i++) {
+	/*for (int i = 0; i < this->circleList.size(); i++) {
 		this->circleList[i] ->update(EngineTime::getDeltaTime());
 		this->circleList[i]->draw(width, height, m_vs, m_ps);
-	}
+	}*/
 
 
 	m_swap_chain->present(false);

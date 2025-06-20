@@ -16,23 +16,41 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 	m_worldCamera.setIdentity();
 	m_worldCamera.setTranslation(Vector3D(0, 0, -2));
 
+	Vector3D white = Vector3D(1, 1, 1);
+
 	vertex vertex_list[] =
 	{
 		//CUBE
 		//front face
-		{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f, 0, 0)},		//pos1
-		{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(1.5f, -0.5f,1)},		//pos2
-		{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(0.5f, 1.0f,0)},		//pos3
-		{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.5f, 0,1)},		//pos4
+		{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos1
+		{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1.0f,0.5f,0.0f),	Vector3D(1.0f,0.5f,0.0f)},		//pos2
+		{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(1.0f,1.0f,0.0f)},		//pos3
+		{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos4
 
 		//back face
-		{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(1,1.0f, 0)},		//pos5
-		{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, -0.5f)},		//pos6
-		{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0,1,1),	Vector3D(0,0.5f, 0.5f)},		//pos7
-		{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0,1,0),	Vector3D(-1,-0.5f, 1)},		//pos8
-
+		{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0.0f,1.0f,0.0f),	Vector3D(0.0f,1.0f,0.0f)},		//pos5
+		{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos6
+		{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos7
+		{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos8
 
 	};
+
+	//vertex vertex_list[] =
+	//{
+	//	//CUBE
+	//	//front face
+	//	{Vector3D(-0.5f, -0.5f, -0.5f), white,	white},		//pos1
+	//	{Vector3D(-0.5f, 0.5f, -0.5f),	white,	white},		//pos2
+	//	{Vector3D(0.5f, 0.5f, -0.5f),	white,	white},		//pos3
+	//	{Vector3D(0.5f, -0.5f, -0.5f),	white,	white},		//pos4
+
+	//	//back face
+	//	{Vector3D(0.5f, -0.5f, 0.5f),	white,	white},		//pos5
+	//	{Vector3D(0.5f, 0.5f, 0.5f),	white,	white},		//pos6
+	//	{Vector3D(-0.5f, 0.5f, 0.5f),	white,	white},		//pos7
+	//	{Vector3D(-0.5f, -0.5f, 0.5f),	white,	white},		//pos8
+
+	//};
 
 
 	UINT size_list = ARRAYSIZE(vertex_list);
@@ -177,22 +195,22 @@ void Cube::setAnimationSpeed(float speed)
 
 void Cube::onKeyDown(int key)
 {
-	float rotX, rotY, rotZ;
-	rotX = this->getLocalRotation().m_x;
-	rotY = this->getLocalRotation().m_y;
-	rotZ = this->getLocalRotation().m_z;
-	float offset = 3.0f;
+	//float rotX, rotY, rotZ;
+	//rotX = this->getLocalRotation().m_x;
+	//rotY = this->getLocalRotation().m_y;
+	//rotZ = this->getLocalRotation().m_z;
+	//float offset = 3.0f;
 
-	if (key == 'W') {
-		rotX += EngineTime::getDeltaTime() * this->speed * offset;
-		rotY += EngineTime::getDeltaTime() * this->speed * offset;
-	}
-	else if (key == 'S') {
-		rotX -= EngineTime::getDeltaTime() * this->speed * offset;
-		rotY -= EngineTime::getDeltaTime() * this->speed * offset;
-	}
+	//if (key == 'W') {
+	//	rotX += EngineTime::getDeltaTime() * this->speed * offset;
+	//	rotY += EngineTime::getDeltaTime() * this->speed * offset;
+	//}
+	//else if (key == 'S') {
+	//	rotX -= EngineTime::getDeltaTime() * this->speed * offset;
+	//	rotY -= EngineTime::getDeltaTime() * this->speed * offset;
+	//}
 
-	this->setRotation(rotX, rotY, rotZ);
+	//this->setRotation(rotX, rotY, rotZ);
 }
 
 void Cube::onKeyUp(int key)

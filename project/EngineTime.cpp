@@ -32,33 +32,33 @@ void EngineTime::LogFrameEnd()
     sharedInstance->end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = sharedInstance->end - sharedInstance->start;
     sharedInstance->deltaTime = elapsed_seconds.count();
-
+    
     //auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
     //    sharedInstance->end.time_since_epoch()
     //).count();
   //  std::cout << "frame end " << ms << "\n";
 
-    const double targetFPS = 1.0f / 60.0f;
-    if (sharedInstance->deltaTime < targetFPS)  //if frames rendered too quickly
-    {
-        double sleepTime = targetFPS - sharedInstance->deltaTime;
-        auto sleepMs = std::chrono::duration<double>(sleepTime);
-        std::this_thread::sleep_for(sleepMs);   //sleep 
+    //const double targetFPS = 1.0f / 60.0f;
+    //if (sharedInstance->deltaTime < targetFPS)  //if frames rendered too quickly
+    //{
+    //    double sleepTime = targetFPS - sharedInstance->deltaTime;
+    //    auto sleepMs = std::chrono::duration<double>(sleepTime);
+    //    std::this_thread::sleep_for(sleepMs);   //sleep 
 
-        sharedInstance->end = std::chrono::system_clock::now();
-        elapsed_seconds = sharedInstance->end - sharedInstance->start;
-        sharedInstance->deltaTime = elapsed_seconds.count();    //update delta time
-    }
+    //    sharedInstance->end = std::chrono::system_clock::now();
+    //    elapsed_seconds = sharedInstance->end - sharedInstance->start;
+    //    sharedInstance->deltaTime = elapsed_seconds.count();    //update delta time
+    //}
 
-    sharedInstance->fpsTime += sharedInstance->deltaTime;
-    sharedInstance->numFrames += 1;
+    //sharedInstance->fpsTime += sharedInstance->deltaTime;
+    //sharedInstance->numFrames += 1;
 
-    if (sharedInstance->fpsTime >= 1.0f)    //1 second
-    {
-        sharedInstance->FPS = sharedInstance->numFrames;
-        sharedInstance->numFrames = 0;
-        sharedInstance->fpsTime = 0.0f;
-    }
+    //if (sharedInstance->fpsTime >= 1.0f)    //1 second
+    //{
+    //    sharedInstance->FPS = sharedInstance->numFrames;
+    //    sharedInstance->numFrames = 0;
+    //    sharedInstance->fpsTime = 0.0f;
+    //}
 
     sharedInstance->start = sharedInstance->end;
 }
