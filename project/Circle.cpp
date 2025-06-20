@@ -14,11 +14,12 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 	float r = color.m_x;
 	float g = color.m_y;
 	float b = color.m_z;
+	double pi = 3.14159f;
 
 	vertex_list.push_back({ Vector3D(0.0f, 0.0f, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
 
 	for (int i = 0; i <= numSegment; i++) {
-		float theta = (2.0f * 3.14159265f * i) / numSegment;
+		float theta = (2.0f * pi * i) / numSegment;
 		float x = radius * cosf(theta);
 		float y = radius * sinf(theta);
 		vertex_list.push_back({ Vector3D(x, y, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
@@ -26,10 +27,6 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 
 	UINT size_list = vertex_list.size();
 	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
-
-	if (!this->vb) {
-		std::cerr << "VertexBuffer creation failed!" << std::endl;
-	}
 
 	std::vector<unsigned int> index_list;
 
