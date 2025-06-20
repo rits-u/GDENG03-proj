@@ -28,34 +28,34 @@ void Camera::update(float deltaTime)
 		float x = localPos.m_x;
 		float y = localPos.m_y;
 		float z = localPos.m_z;
-		float moveSpeed = 10.0f;
+		float offset = 0.05f;
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
 			//z += deltaTime * moveSpeed;
 			//this->setPosition(x, y, z);
-			this->forward = 1.0f;
+			this->forward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('S'))
 		{
 			//	z -= deltaTime * moveSpeed;
 				//this->setPosition(x, y, z);
-			this->forward = -1.0f;
+			this->forward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('A'))
 		{
 			//	x += deltaTime * moveSpeed;
 			//	this->setPosition(x, y, z);
-			this->rightward = -1.0f;
+			this->rightward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('D'))
 		{
 			//	x -= deltaTime * moveSpeed;
 			//	this->setPosition(x, y, z);
-			this->rightward = 1.0f;
+			this->rightward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
 	}
@@ -97,8 +97,8 @@ void Camera::updateViewMatrix()
 		rotY.setRotationY(rotation.m_y);
 		world_cam *= rotY;
 
-		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward * 0.005f);
-		position = position + this->worldCamera.getXDirection() * (this->rightward * 0.005f);
+		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward);
+		position = position + this->worldCamera.getXDirection() * (this->rightward);
 		world_cam.setTranslation(position);
 		this->setPosition(position.m_x, position.m_y, position.m_z);
 
@@ -137,7 +137,7 @@ void Camera::onMouseMove(const Point& mousePos)
 	float deltaY = (float)(mousePos.m_y - height / 2);
 
 	Vector3D rotation = this->getLocalRotation();
-	float offset = 0.05f;
+	float offset = 0.08f;
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;
 	rotation.m_y += deltaX * EngineTime::getDeltaTime() * offset;
