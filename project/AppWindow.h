@@ -47,8 +47,8 @@ public:
 private:
 	//void adjustSpeed();
 	float generateRandomFloat(float min, float max);
-	void spawnCircle(void* shader_byte_code, size_t size_shader, Vector3D color, float goUp, float goDown, float speed);
-
+	void spawnCircle(void* shader_byte_code, size_t size_shader);
+	//void checkInput();
 
 public:
 	//Cube* cubeObject;
@@ -58,6 +58,11 @@ private:
 	SwapChainPtr m_swap_chain;
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
+	void* VS_ShaderByteCode = nullptr;
+	size_t VS_SizeShader = 0;
+	void* PS_ShaderByteCode = nullptr;
+	size_t PS_SizeShader = 0;
+	bool holding = false;
 
 private:
 	std::vector<Cube*> cubeList;

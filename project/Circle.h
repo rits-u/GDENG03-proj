@@ -16,7 +16,7 @@ using namespace DirectX;
 class Circle : public GameObject, public InputListener
 {
 public:
-	Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color, bool goUp, bool goRight);
+	Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color);
 	~Circle();
 
 	void update(float deltaTime) override;
@@ -35,6 +35,8 @@ public:
 	virtual void onRightMouseUp(const Point& mousePos);
 
 	void setDirection(bool goUp, bool goRight);
+	void setDirection(Vector3D direction);
+
 
 	//public:
 	//	VertexBuffer* vb;
@@ -42,6 +44,8 @@ public:
 	//	ConstantBuffer* cb;
 private:
 	void checkDirection();
+	void checkCurrentDirection();
+
 
 public:
 	float forward = 0.0f;
@@ -59,6 +63,7 @@ private:
 	float accumulatedTime = 0.0f;
 	bool goUp;
 	bool goRight;
+	Vector3D direction;
 
 };
 

@@ -36,11 +36,12 @@ void AppWindow::onCreate()
 
 	//m_swap_chain->init(this->m_hwnd, width, height);
 
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
+//	void* shader_byte_code = nullptr;
+//	size_t size_shader = 0;
 
-	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = renderSystem->createVertexShader(shader_byte_code, size_shader);
+	//renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
+	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
 	//cubeObject = new Cube("TestCube", shader_byte_code, size_shader);
 	////cubeObject->setAnimSpeed(1);
@@ -48,20 +49,20 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	//int numCubes = 2;
-	//for (int i = 0; i < numCubes; i++) {
-	//	float x = generateRandomFloat(-0.75f, 0.75f);
-	//	float y = generateRandomFloat(-0.75f, 0.75f);
+	int numCubes = 2;
+	for (int i = 0; i < numCubes; i++) {
+		float x = generateRandomFloat(-0.75f, 0.75f);
+		float y = generateRandomFloat(-0.75f, 0.75f);
 
-	//	Cube* cubeObject = new Cube("Cube", shader_byte_code, size_shader);
-	//	//cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
-	//	cubeObject->setAnimationSpeed(5.0f);
-	//	cubeObject->setPosition(Vector3D(x, y, 0.0f));
-	////	cubeObject->setPosition(Vector3D::zeros());
-	//	cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
-	//	this->cubeList.push_back(cubeObject);
+		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+		//cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
+		cubeObject->setAnimationSpeed(5.0f);
+		cubeObject->setPosition(Vector3D(x, y, 0.0f));
+	//	cubeObject->setPosition(Vector3D::zeros());
+		cubeObject->setScale(Vector3D(0.4, 0.4, 0.4));
+		this->cubeList.push_back(cubeObject);
 
-	//}
+	}
 
 	//int numPlanes = 1;
 	//for (int i = 0; i < numPlanes; i++) {
@@ -74,32 +75,23 @@ void AppWindow::onCreate()
 
 
 	//CIRCLE
-	int numCircles = 5;
-	for (int i = 0; i < numCircles; i++) {
-		float r = generateRandomFloat(0.0f, 1.0f);
-		float g = generateRandomFloat(0.0f, 1.0f);
-		float b = generateRandomFloat(0.0f, 1.0f);
-		float randX = generateRandomFloat(0, 1);
-		float randY = generateRandomFloat(0, 1);
-		float speed = 1.0f;
-		//std::cout << "go UP: " << goUp << std::endl;
-
-
-		this->spawnCircle(shader_byte_code, size_shader, Vector3D(r ,g, b), randX, randY, speed);
-	}
-	std::cout << "circles count: " << this->circleList.size() << std::endl;
+	//int numCircles = 5;
+	//for (int i = 0; i < numCircles; i++) {
+	//	//this->spawnCircle(this->shaderByteCode, this->sizeShader);
+	//}
+	//std::cout << "circles count: " << this->circleList.size() << std::endl;
 
 	//RELEASE VERTEX SHADER
-	renderSystem->releaseCompiledShader();
+	//renderSystem->releaseCompiledShader();
 
 
 	//PIXEL SHADER
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = renderSystem->createPixelShader(shader_byte_code, size_shader);
-	renderSystem->releaseCompiledShader();
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
+	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
+	//renderSystem->releaseCompiledShader();
 
 
-	std::cout << "cube list size: " << this->cubeList.size() << std::endl;
+	//std::cout << "cube list size: " << this->cubeList.size() << std::endl;
 }
 
 void AppWindow::onUpdate()
@@ -139,9 +131,6 @@ void AppWindow::onUpdate()
 		this->circleList[i] ->update(EngineTime::getDeltaTime());
 		this->circleList[i]->draw(width, height, m_vs, m_ps);
 	}
-
-	//this->circleList[0]->update(EngineTime::getDeltaTime());
-	//this->circleList[0]->draw(width, height, m_vs, m_ps);
 
 
 	m_swap_chain->present(false);
@@ -239,20 +228,57 @@ void AppWindow::onKeyDown(int key)
 		std::cout << "translate LEFT" << std::endl;
 	}
 
-	//ESCAPE KEY
+	//SPACE
+	else if (key == 32 && !this->holding)
+	{
+		this->spawnCircle(this->VS_ShaderByteCode, this->VS_SizeShader);
+		this->holding = true;
+		std::cout << "Spawned circle" << std::endl;
+		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	}
+
+	//REMOVE RECENT
+	else if (key == 8 && !this->holding)
+	{
+		if (this->circleList.size() > 0)
+		{
+			delete this->circleList.back();
+			this->circleList.pop_back();
+		}
+		this->holding = true;
+		std::cout << "Deleted recent circle" << std::endl;
+		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	}
+
+	//REMOVE ALL
+	else if (key == 46 && !this->holding)
+	{
+		for (int i = 0; i < this->circleList.size(); i++)
+		{
+			delete circleList[i];
+			circleList[i] = nullptr;
+		}
+		this->circleList.clear();
+		this->holding = true;
+		std::cout << "Deleted all circles" << std::endl;
+		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	}
+
+	//CLOSE
 	else if (key == 27)
 	{
 		std::cout << "Closed application" << std::endl;
+		GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();	
 		::DestroyWindow(this->m_hwnd);
 		::PostQuitMessage(0);
 	}
 
-
-//	std::cout << "Key: " << key << std::endl;
+	//std::cout << "Key: " << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
 {
+	this->holding = false;
 }
 
 void AppWindow::onMouseMove(const Point& mousePos)
@@ -283,20 +309,19 @@ float AppWindow::generateRandomFloat(float min, float max)
 	return dist(gen);
 }
 
-void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader, Vector3D color, float randX, float randY, float speed)
+void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 {
 	//CIRCLE
 	int numSegment = 32;
 	int radius = 1;
 
-	//float r = generateRandomFloat(0.0f, 1.0f);
-	//float g = generateRandomFloat(0.0f, 1.0f);
-	//float b = generateRandomFloat(0.0f, 1.0f);
-	//float goUp = generateRandomFloat(0, 1);
-	//float goDown = generateRandomFloat(0, 1);
+	float r = generateRandomFloat(0.0f, 1.0f);
+	float g = generateRandomFloat(0.0f, 1.0f);
+	float b = generateRandomFloat(0.0f, 1.0f);
+	float randX = generateRandomFloat(0, 1);
+	float randY = generateRandomFloat(0, 1);
 
-	bool goUp;
-	bool goRight;
+	bool goUp, goRight;
 
 	if (randX <= 0.5f) goUp = false;
 	else goUp = true;
@@ -305,53 +330,28 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader, Vector3D
 	else goRight = true;
 
 
-	std::cout << "go UP: " << goUp << std::endl;
-	std::cout << "go RIGHT: " << goRight << std::endl;
+	//std::cout << "go UP: " << goUp << std::endl;
+	//std::cout << "go RIGHT: " << goRight << std::endl;
 
-	Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, color, goUp, goRight);
-	circleObject->setDirection(goUp, goRight);
-	//circleObject->setPosition(Vector3D(-2.52f, 1.75f, 0));
+	//Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, color);
+	Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, Vector3D(r, g, b));
+
 	circleObject->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
 	circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
 
-	//float goUp = generateRandomFloat(0, 1);
-	//float goDown = generateRandomFloat(0, 1);
-	//circleObject->setDirection(goUp, goRight);
-	//circleObject->setDirection(goUp, goRight);
-
-
-
-	//circleObject->setScale(Vector3D(1.0f, 1.0f, 1.0f));
+	//rotation
 	float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
 	circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
-	//circleObject->setAnimationSpeed(speed);
-	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 5.0f));
-	std::cout << "speed: " << speed << std::endl;
+	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 8.0f));
+
+	//direction
+	//circleObject->setDirection(goUp, goRight);
+	float dir = generateRandomFloat(0.0f, 2 * 3.14);
+	float x = cosf(dir);
+	float y = sinf(dir);
+	Vector3D direction = Vector3D(x, y, 0.0f);
+	circleObject->setDirection(direction);
 
 	this->circleList.push_back(circleObject);
+
 }
-
-
-//void AppWindow::adjustSpeed()
-//{
-//	float maxSpeed = 10.0f;
-//	float minSpeed = 0.1f;
-//
-//	if (increaseSpeed) {
-//		speed += 0.02f;
-//	}
-//	else {
-//		speed -= 0.02f;
-//	}
-//
-//	if (speed >= maxSpeed) {
-//		increaseSpeed = false;
-//	}
-//	else if (speed <= minSpeed){
-//		increaseSpeed = true;
-//	}
-//
-////	std::cout << "SPEED: " << speed << std::endl;
-//		
-//}
-

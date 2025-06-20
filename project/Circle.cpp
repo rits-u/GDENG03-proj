@@ -5,28 +5,10 @@
 #include "InputSystem.h"
 #include <vector>
 
-Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color, bool goUp, bool goRight) : GameObject(name)
+Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color) : GameObject(name)
 {
-	//float randX = generateRandomFloat(0.0f, 1.0f);
-	//float randY = generateRandomFloat(0.0f, 1.0f);
-
-	//if (randX <= 0.5f) this->goUp = false;
-	//else this->goUp = true;
-
-	//if (randY <= 0.5f) this->goRight = false;
-	//else this->goRight = true;
-
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	InputSystem::get()->addListener(this);
-
-	//float upBoundary = 1.75f;
-	//float rightBoundary = 2.52f;
-//	this->goUp = goUp;
-//	this->goRight = goRight;
-
-//	this->checkDirection();
-
-
 
 	std::vector<vertex> vertex_list;
 	float r = color.m_x;
@@ -39,19 +21,22 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 		float theta = (2.0f * 3.14159265f * i) / numSegment;
 		float x = radius * cosf(theta);
 		float y = radius * sinf(theta);
-
 		vertex_list.push_back({ Vector3D(x, y, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
 	}
 
 	UINT size_list = vertex_list.size();
 	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
+	if (!this->vb) {
+		std::cerr << "VertexBuffer creation failed!" << std::endl;
+	}
+
 	std::vector<unsigned int> index_list;
 
 	for (int i = 1; i <= numSegment; i++) {
-		index_list.push_back(0);        // Center
-		index_list.push_back(i);        // Current edge
-		index_list.push_back(i + 1);    // Next edge (wraps to 1 when i == segmentCount)
+		index_list.push_back(0);        //center
+		index_list.push_back(i);        //current edge
+		index_list.push_back(i + 1);    //next edge
 	}
 
 	UINT size_index_list = index_list.size();
@@ -66,6 +51,7 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 
 Circle::~Circle()
 {
+	InputSystem::get()->removeListener(this);
 	GameObject::~GameObject();
 }
 
@@ -74,82 +60,43 @@ void Circle::update(float deltaTime)
 	this->deltaTime = deltaTime;
 	this->ticks += deltaTime;
 
-	//float upBoundary = 1.75f;
-	//float rightBoundary = 2.52f;
-
-//	std::cout << "UP: " << this->goUp << std::endl;
-	//std::cout << "RI: " << this->goRight << std::endl;
-
 	Vector3D localPos = this->getLocalPosition();
 	float x = localPos.m_x;
 	float y = localPos.m_y;
 	float z = localPos.m_z;
 	float moveSpeed = this->speed;
 
-	if (this->goUp)
-	{
-		y += deltaTime * moveSpeed;
-	//	this->checkDirection(upBoundary, rightBoundary);
-		std::cout << "y: " << y << std::endl;
-		//std::cout << "move up " << std::endl;
-	}
-	else if(!this->goUp)
-	{
-		y -= deltaTime * moveSpeed;
-	//	this->checkDirection(upBoundary, rightBoundary);
-	//	this->setPosition(x, y, z);
-	//	this->checkDirection();
-		std::cout << "move down " << std::endl;
-	}
-
-	if (this->goRight)
-	{
-		x += deltaTime * moveSpeed;
-	//	this->checkDirection(upBoundary, rightBoundary);
-	//	this->setPosition(x, y, z);
-	//	this->checkDirection();
-		std::cout << "move right " << std::endl;
-	}
-	else
-	{
-		x -= deltaTime * moveSpeed;
-	//	this->checkDirection(upBoundary, rightBoundary);
-	//	this->setPosition(x, y, z);
-	//	this->checkDirection();
-		std::cout << "move left " << std::endl;
-	}
-
-	//if (InputSystem::get()->isKeyDown('W'))
+	//vertical movement
+	//if (this->goUp)
 	//{
-	//	y += deltaTime * moveSpeed;
-	//	this->setPosition(x, y, z);
+	//	y += deltaTime * moveSpeed - 0.5f;
 	//}
-	//else if (InputSystem::get()->isKeyDown('S'))
+	//else if(!this->goUp)
 	//{
 	//	y -= deltaTime * moveSpeed;
-	//	this->setPosition(x, y, z);
 	//}
-	//else if (InputSystem::get()->isKeyDown('A'))
-	//{
-	//	x -= deltaTime * moveSpeed;
-	//	this->setPosition(x, y, z);
-	//}
-	//else if (InputSystem::get()->isKeyDown('D'))
+
+	////horizontal movement
+	//if (this->goRight)
 	//{
 	//	x += deltaTime * moveSpeed;
-	//	this->setPosition(x, y, z);
+	//}
+	//else if(!this->goRight)
+	//{
+	//	x -= deltaTime * moveSpeed;
 	//}
 
-//	this->checkDirection(upBoundary, rightBoundary);
-	//this->setPosition(x, y, z);
-//	this->checkDirection(upBoundary, rightBoundary);
+	
+	y += deltaTime * this->direction.m_y * moveSpeed;
+	x += deltaTime * this->direction.m_x * moveSpeed;
+
 
 	this->setPosition(x, y, z);
-	this->checkDirection();
+	this->checkCurrentDirection();
+	//this->checkDirection();
 
 	Vector3D newPos = this->getLocalPosition();
 	//std::cout << "Position: " << newPos.m_x << " " << newPos.m_y << " " << newPos.m_z << std::endl;
-	//std::cout << "GAGO: " << moveSpeed << std::endl;
 }
 
 void Circle::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
@@ -262,32 +209,30 @@ void Circle::setDirection(bool goUp, bool goRight)
 	this->goRight = goRight;
 }
 
+void Circle::setDirection(Vector3D direction)
+{
+	this->direction = direction;
+}
+
 void Circle::checkDirection()
 {
 	Vector3D localPos = this->getLocalPosition();
 	float x = localPos.m_x;
 	float y = localPos.m_y;;
-
-	float radius = 1.0f * this->getLocalScale().m_x; // circle radius * scale
 	float upBoundary = 1.75f;
 	float rightBoundary = 2.52f;
-	float epsilon = 0.001f; // small buffer to prevent jitter
 
-	//this->checkDirection(upBoundary, rightBoundary);
-
-	//float scaledRadius = this->getLocalScale().m_x;
-
+	//Y boundaries
 	if (y > upBoundary)	//if y position exceeds upper boundary, inverse its direction
 	{
 		this->goUp = false;
-
 	}
 	else if (y < -upBoundary)	//if y position exceeds bottom boundary, inverse its direction
 	{
 		this->goUp = true;
-		std::cout << "test: " << -upBoundary << std::endl;
 	}
 
+	//X boundaries
 	if (x > rightBoundary)	//if x position exceeds right boundary, inverse its direction
 	{
 		this->goRight = false;
@@ -295,17 +240,28 @@ void Circle::checkDirection()
 	else if (x < -rightBoundary)	//if x position exceeds left boundary, inverse its direction
 	{
 		this->goRight = true;
+	}		
+}
+
+void Circle::checkCurrentDirection()
+{
+	Vector3D localPos = this->getLocalPosition();
+	float x = localPos.m_x;
+	float y = localPos.m_y;;
+	float upBoundary = 1.75f;
+	float rightBoundary = 2.52f;
+
+	//Y boundaries
+	if (y >= upBoundary || y < -upBoundary)	//if y position exceeds boundary, inverse its direction
+	{
+		this->direction.m_y *= -1.0f;
+
 	}
 
-	//if (y + radius >= upBoundary - epsilon)
-	//	this->goUp = false;
-	//else if (y - radius <= -upBoundary + epsilon)
-	//	this->goUp = true;
-
-	//// Horizontal (X)
-	//if (x + radius >= rightBoundary - epsilon)
-	//	this->goRight = false;
-	//else if (x - radius <= -rightBoundary + epsilon)
-	//	this->goRight = true;
-		
+	//X boundaries
+	if (x >= rightBoundary || x < -rightBoundary)	//if x position exceeds boundary, inverse its direction
+	{
+		//this->goRight = false;
+		this->direction.m_x *= -1.0f;
+	}
 }

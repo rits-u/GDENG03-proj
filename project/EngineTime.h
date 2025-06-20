@@ -17,17 +17,23 @@ private:
 	~EngineTime();
 	EngineTime(EngineTime const&) {};
 	EngineTime& operator=(EngineTime const&) {};
-
 	static EngineTime* sharedInstance;
 
+private:
+	static void LogFrameStart();
+	static void LogFrameEnd();
+
+private:
 	std::chrono::system_clock::time_point start;
 	std::chrono::system_clock::time_point end;
 
 	double deltaTime = 0.0f;
+	int numFrames = 0;
+	double fpsTime = 0.0f;
+	int FPS = 0;
 
-	static void LogFrameStart();
-	static void LogFrameEnd();
 
+private:
 	friend class Window;
 
 };
