@@ -33,10 +33,15 @@ public:
 	virtual void onRightMouseDown(const Point& mousePos);
 	virtual void onRightMouseUp(const Point& mousePos);
 
-
-
 private:
 	void resetCameraProperties();
+
+public:
+	uint32_t cullingMask;
+	float depth;
+	bool clearColor;
+	bool clearDepth;
+//	Viewport viewport
 
 private:
 	Matrix4x4 localMatrix;

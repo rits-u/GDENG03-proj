@@ -90,7 +90,7 @@ void AppWindow::onCreate()
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
 	//renderSystem->releaseCompiledShader();
 
-
+	renderSystem->createRasterizerStates();
 	//std::cout << "cube list size: " << this->cubeList.size() << std::endl;
 }
 
@@ -112,10 +112,13 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setViewPortSize(width, height);
 
 
+
 	//set the default shader in the graphics pipeline to be able 
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
+
+	renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
 
 	for (int i = 0; i < this->cubeList.size(); i++) {
 		this->cubeList[i]->update(EngineTime::getDeltaTime());

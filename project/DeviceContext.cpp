@@ -85,6 +85,11 @@ void DeviceContext::setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBuffe
     m_device_context->PSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }
 
+void DeviceContext::setRasterizerState(ID3D11RasterizerState* state)
+{
+    m_device_context->RSSetState(state);
+}
+
 DeviceContext::~DeviceContext()
 {
     m_device_context->Release();

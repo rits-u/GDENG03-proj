@@ -22,6 +22,8 @@ public:
 	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr buffer);
 	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr buffer);
 
+	void setRasterizerState(ID3D11RasterizerState* state);
+
 	~DeviceContext();
 
 private:

@@ -272,6 +272,32 @@ void RenderSystem::releaseCompiledShader()
 	if (m_blob)
 		m_blob->Release();
 }
+
+void RenderSystem::createRasterizerStates()
+{
+	D3D11_RASTERIZER_DESC solidDesc = {};
+	solidDesc.FillMode = D3D11_FILL_SOLID;
+	solidDesc.CullMode = D3D11_CULL_BACK;
+	solidDesc.DepthClipEnable = true;
+	m_d3d_device->CreateRasterizerState(&solidDesc, &m_solidState);
+
+	//wireframe state
+	D3D11_RASTERIZER_DESC wireDesc = {};
+	wireDesc.FillMode = D3D11_FILL_WIREFRAME;
+	wireDesc.CullMode = D3D11_CULL_NONE;
+	wireDesc.DepthClipEnable = true;
+	m_d3d_device->CreateRasterizerState(&wireDesc, &m_wireframeState);
+}
+
+ID3D11RasterizerState* RenderSystem::getWireframeState()
+{
+	return this->m_wireframeState;
+}
+ID3D11RasterizerState* RenderSystem::getSolidState()
+{
+	return this->m_solidState;
+}
+
 //
 //RenderSystem* RenderSystem::get()
 //{
