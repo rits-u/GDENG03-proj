@@ -11,6 +11,14 @@ using namespace std;
 class VertexShader;
 class PixelShader;
 
+enum Layer : uint32_t {
+	DEFAULT = 1 << 0,
+	UI = 1 << 1,
+	ENEMY = 1 << 2,
+	PLAYER = 1 << 3,
+	DEBUG = 1 << 4,
+};
+
 class GameObject
 {
 
@@ -20,6 +28,7 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
+	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) = 0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
@@ -32,6 +41,9 @@ public:
 	void setRotation(float x, float y, float z);
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
+
+	void setLayer(uint32_t layer);
+	uint32_t getLayer();
 
 	string getName();
 
@@ -52,12 +64,15 @@ public:
 		float padding[3]; // for 16-byte alignment
 	};
 
+
+
 protected:
 	string name;
 	Vector3D localPosition;
 	Vector3D localScale;
 	Vector3D localRotation;
 	Matrix4x4 localMatrix;
+	uint32_t layer = Layer::DEFAULT;
 	//float rotX;
 	//float rotY;
 	//float royZ;

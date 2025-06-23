@@ -1,5 +1,6 @@
 #pragma once
 #include "Camera.h"
+#include <vector>
 
 class SceneCameraHandler
 {
@@ -12,7 +13,15 @@ public:
 
 	Matrix4x4 getSceneCameraViewMatrix();
 	void setScreenSize(int width, int height);
+
+	//void set
 	Camera* getCamera();
+	Camera* getCameraByIndex(int index);
+	//void createCameras(int num);
+	void addCameraToList(Camera* cam);
+	std::vector<Camera*>& getAllCameras();
+	std::vector<Camera*> getCamerasSortedByDepth();
+	void setActiveCamera(Camera* camera);
 
 private:
 	SceneCameraHandler();
@@ -22,5 +31,6 @@ private:
 	static SceneCameraHandler* sharedInstance;
 
 	Camera* sceneCamera;
+	std::vector<Camera*> cameraList;
 };
 

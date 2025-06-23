@@ -143,6 +143,10 @@ void Plane::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 
 }
 
+void Plane::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
+{
+}
+
 void Plane::setAnimationSpeed(float speed)
 {
 }

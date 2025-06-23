@@ -164,6 +164,10 @@ void Circle::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }
 
+void Circle::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
+{
+}
+
 void Circle::setAnimationSpeed(float speed)
 {
 	this->speed = speed;

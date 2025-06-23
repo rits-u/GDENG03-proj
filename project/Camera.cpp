@@ -16,6 +16,16 @@ Camera::Camera(string name) : GameObject(name)
 	this->isNavigating = false;
 }
 
+Camera::Camera(string name, bool isControllable) : GameObject(name)
+{
+	//if(isControllable)
+	InputSystem::get()->addListener(this);
+	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
+	this->updateViewMatrix();
+	this->isNavigating = false;
+	this->isControllable = isControllable;
+}
+
 Camera::~Camera()
 {
 	InputSystem::get()->removeListener(this);
@@ -70,6 +80,10 @@ void Camera::update(float deltaTime)
 }
 
 void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
+{
+}
+
+void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
 {
 }
 
@@ -131,7 +145,7 @@ void Camera::onKeyUp(int key)
 
 void Camera::onMouseMove(const Point& mousePos)
 {
-	if (!isNavigating) return;
+	if (!isNavigating || !isControllable) return;
 
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);

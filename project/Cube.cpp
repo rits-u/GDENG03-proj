@@ -188,6 +188,76 @@ void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 	
 }
 
+void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
+{
+	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+	constant cc;
+
+	deltaPos += EngineTime::getDeltaTime() / 8.0f;
+
+
+	if (this->deltaPos > 1.0f) {
+		this->deltaPos = 0.0f;
+	}
+	else {
+		this->deltaPos += this->deltaTime * 0.1f;
+	}
+
+
+	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
+
+	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+
+	scale.setIdentity();
+	scale.setScale(this->getLocalScale());
+
+	//rotation
+	Vector3D rotation = this->getLocalRotation();
+	rotX.setIdentity();
+	rotX.setRotationX(rotation.m_x);
+
+	rotY.setIdentity();
+	rotY.setRotationY(rotation.m_y);
+
+	rotZ.setIdentity();
+	rotZ.setRotationZ(rotation.m_z);
+
+	//translation
+	translation.setIdentity();
+	translation.setTranslation(this->getLocalPosition());
+
+	//matrix transformation
+	world.setIdentity();
+	world *= scale;
+	world *= rotX;
+	world *= rotY;
+	world *= rotZ;
+	world *= translation;
+
+	//update constant buffer
+	cc.m_world = world;
+	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
+	cc.m_view = cameraViewMatrix;
+	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	cc.m_time = this->ticks * 2000.0f;
+	cb->update(deviceContext, &cc);
+	//cc.m_proj = camera->getPerspective(width, height);
+
+
+	//set constant buffer
+	deviceContext->setConstantBuffer(vs, this->cb);
+	deviceContext->setConstantBuffer(ps, this->cb);
+
+	//set index and vertex buffer
+	deviceContext->setIndexBuffer(this->ib);
+	deviceContext->setVertexBuffer(this->vb);
+
+	//draw
+	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+
+}
+
 void Cube::setAnimationSpeed(float speed)
 {
 	this->speed = speed;

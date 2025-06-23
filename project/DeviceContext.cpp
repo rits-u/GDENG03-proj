@@ -95,3 +95,15 @@ DeviceContext::~DeviceContext()
     m_device_context->Release();
 }
 
+void DeviceContext::clearColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha)
+{
+    FLOAT clear_color[] = { red, green, blue, alpha };
+    m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
+}
+
+void DeviceContext::clearDepth(SwapChainPtr swap_chain)
+{
+    m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+   // m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
+}
+

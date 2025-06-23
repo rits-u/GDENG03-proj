@@ -66,6 +66,16 @@ Vector3D GameObject::getLocalRotation()
     return this->localRotation;
 }
 
+void GameObject::setLayer(uint32_t layer)
+{
+    this->layer = layer;
+}
+
+uint32_t GameObject::getLayer()
+{
+    return this->layer;
+}
+
 string GameObject::getName()
 {
     return this->name;

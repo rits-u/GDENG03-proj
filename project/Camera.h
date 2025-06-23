@@ -14,10 +14,12 @@ class Camera : public GameObject, public InputListener
 {
 public:
 	Camera(string name);
+	Camera(string name, bool isControllable);
 	~Camera();
 	
 	virtual void update(float deltaTime) override;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) override;
 
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
@@ -41,6 +43,7 @@ public:
 	float depth;
 	bool clearColor;
 	bool clearDepth;
+	bool isControllable;
 //	Viewport viewport
 
 private:

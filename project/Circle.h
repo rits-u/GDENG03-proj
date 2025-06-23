@@ -21,6 +21,7 @@ public:
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) override;
 
 	void setAnimationSpeed(float speed);
 

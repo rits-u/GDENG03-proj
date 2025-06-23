@@ -24,6 +24,8 @@ void AppWindow::onCreate()
 	//GraphicsEngine::get()->init();
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	SceneCameraHandler::get()->initialize();
+	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
@@ -31,8 +33,10 @@ void AppWindow::onCreate()
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 
-	SceneCameraHandler::get()->initialize();
-	SceneCameraHandler::get()->setScreenSize(width, height);
+	//cameraHandler->initialize();
+	//cameraHandler->createCameras(2);
+	//cameraHandler->setScreenSize(width, height);
+	//SceneCameraHandler::get
 
 	//m_swap_chain->init(this->m_hwnd, width, height);
 
@@ -61,6 +65,7 @@ void AppWindow::onCreate()
 		cubeObject->setPosition(Vector3D::zeros());
 		cubeObject->setScale(Vector3D(0.6f, 0.6f, 0.6f));
 		this->cubeList.push_back(cubeObject);
+		cubeObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 
 	}
 
@@ -92,15 +97,35 @@ void AppWindow::onCreate()
 
 	renderSystem->createRasterizerStates();
 	//std::cout << "cube list size: " << this->cubeList.size() << std::endl;
+
+
+
+	//set cameras
+	Camera* cam1 = new Camera("Camera", true);
+	cameraHandler->addCameraToList(cam1);
+	cameraHandler->getCameraByIndex(0)->cullingMask = Layer::DEFAULT;
+	cameraHandler->getCameraByIndex(0)->depth = 0;
+
+
+	//
+	//Camera* cam2 = new Camera("Camera", false);
+	//cameraHandler->addCameraToList(cam2);
+	//cameraHandler->getCameraByIndex(1)->cullingMask = Layer::DEBUG;
+	//cameraHandler->getCameraByIndex(1)->depth = 1;
+
+	//cameraHandler->setScreenSize(width, height);
 }
 
 void AppWindow::onUpdate()
 {
 	//Window::onUpdate();
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 
 	InputSystem::get()->update();
-	SceneCameraHandler::get()->update();
+	cameraHandler->update();
+	std::vector<Camera*> sortedCameras = cameraHandler->getCamerasSortedByDepth();
+
 
 	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.0f, 0.0f, 0.0f, 1); // 1 0 0 1
 
@@ -118,22 +143,43 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 
-	renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
+	for (Camera* cam : sortedCameras) {
+		cameraHandler->setActiveCamera(cam);
 
-	for (int i = 0; i < this->cubeList.size(); i++) {
-		this->cubeList[i]->update(EngineTime::getDeltaTime());
-		this->cubeList[i]->draw(width, height, m_vs, m_ps);
+		if (cam->cullingMask & Layer::DEBUG)
+			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
+		else
+			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
+
+
+	//	renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
+
+		//pptionally clear depth only (not color) before debug camera if needed
+		if (cam->cullingMask & Layer::DEBUG)
+		    renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
+
+		for (int i = 0; i < this->cubeList.size(); i++) {
+			/*this->cubeList[i]->update(EngineTime::getDeltaTime());
+			this->cubeList[i]->draw(width, height, m_vs, m_ps);*/
+
+			if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
+			{
+				this->cubeList[i]->update(EngineTime::getDeltaTime());
+				this->cubeList[i]->draw(width, height, m_vs, m_ps);
+			}
+		}
+
+		//for (int i = 0; i < this->planeList.size(); i++) {
+		//	this->planeList [i] ->update(EngineTime::getDeltaTime());
+		//	this->planeList[i]->draw(width, height, m_vs, m_ps);
+		//}
+
+		/*for (int i = 0; i < this->circleList.size(); i++) {
+			this->circleList[i] ->update(EngineTime::getDeltaTime());
+			this->circleList[i]->draw(width, height, m_vs, m_ps);
+		}*/
+
 	}
-
-	//for (int i = 0; i < this->planeList.size(); i++) {
-	//	this->planeList [i] ->update(EngineTime::getDeltaTime());
-	//	this->planeList[i]->draw(width, height, m_vs, m_ps);
-	//}
-
-	/*for (int i = 0; i < this->circleList.size(); i++) {
-		this->circleList[i] ->update(EngineTime::getDeltaTime());
-		this->circleList[i]->draw(width, height, m_vs, m_ps);
-	}*/
 
 
 	m_swap_chain->present(false);
