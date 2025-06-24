@@ -53,7 +53,7 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	int numCubes = 3;
+	int numCubes = 4;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-2.75f, 2.75f);
 		float y = generateRandomFloat(-2.75f, 2.75f);
@@ -82,7 +82,7 @@ void AppWindow::onCreate()
 		//cubeObject->setPosition(Vector3D::zeros());
 		cubeObject->setScale(Vector3D(0.4f, 0.4f, 0.4f));
 		this->cubeList.push_back(cubeObject);
-		cubeObject->setLayer(Layer::DEFAULT);
+		//cubeObject->setLayer(Layer::DEFAULT);
 
 	}
 
@@ -94,21 +94,32 @@ void AppWindow::onCreate()
 		planeObject->setPosition(Vector3D::zeros());
 		planeObject->setScale(Vector3D(4.0f, 4.0f, 4.0f));
 		//planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
-		planeObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
+		planeObject->setLayer(Layer::DEBUG);
 		this->planeList.push_back(planeObject);
 	}
 
 
 	//CIRCLE
 	Vector3D color = Vector3D(1.0, 1.0, 0.0);
-	Circle* circleObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
-	circleObject->setScale(Vector3D(0.6, 0.6, 0.6));
-	circleObject->setRotation(Vector3D(convertToRadians(180), 0, 0));
-	circleObject->setLayer(Layer::UI);
-	//circleObject->setPosition(Vector3D::zeros());
-	circleObject->setPosition(Vector3D(960.0f, 540.0f, 0.0f));
-	this->circleList.push_back(circleObject);
-	//this->UIElements.push_back(circleObject);
+	Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
+	UIObject->setScale(Vector3D(1.0f, 1.0f, 1.0f));
+	UIObject->setRotation(Vector3D(convertToRadians(180), 0, 0));
+	UIObject->setLayer(Layer::UI);
+
+	float px = 900;
+	float py = 100;
+	float posX = (px - width / 2.0f) / 100.0f;
+	float posY = (height / 2.0f - py) / 100.0f;
+	float posZ = 0.0f;
+
+	std::cout << "width: " << width << std::endl;
+	std::cout << "height: " << height << std::endl;
+
+//	circleObject->setPosition(3, 3, 0);
+	UIObject->setPosition(posX, posY, 0);
+	//circleObject->setPosition(Vector3D(960.0f, 540.0f, 0.0f));
+	//this->circleList.push_back(circleObject);
+	this->UIElements.push_back(UIObject);
 	
 
 //int numCircles = 5;
@@ -211,7 +222,7 @@ void AppWindow::onUpdate()
 		    renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
 
 
-		/*if (cam->cullingMask & Layer::UI) {
+	/*	if (cam->cullingMask & Layer::UI) {
 			renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
 			renderSystem->getImmediateDeviceContext()->disableDepth(this->m_swap_chain);
 		}*/
@@ -270,6 +281,18 @@ void AppWindow::onUpdate()
 			}
 		}
 
+		for (int i = 0; i < this->UIElements.size(); i++) {
+			if ((cam->cullingMask & this->UIElements[i]->getLayer()) != 0)
+			{
+				this->UIElements[i]->update(EngineTime::getDeltaTime());
+				this->UIElements[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+				if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
+					this->UIElements[i]->render();
+				}
+			}
+		}
+
 		//
 		int test = 0;
 		for (int i = 0; i < sortedCameras.size(); i++) {
@@ -277,7 +300,7 @@ void AppWindow::onUpdate()
 				test++;
 		}
 
-		std::cout << "COUNT: " << test << std::endl;
+	//	std::cout << "COUNT: " << test << std::endl;
 		index++;
 	}
 
@@ -324,14 +347,15 @@ void AppWindow::onKeyDown(int key)
 		bool isEnabled = SceneCameraHandler::get()->getCameraByIndex(1)->isEnabled();
 		if (isEnabled) {
 			isEnabled = false;
+			std::cout << "Disabled DEBUG Camera" << "\n" << std::endl;
 		}
 		else {
 			isEnabled = true;
+			std::cout << "Enabled DEBUG Camera" << "\n" << std::endl;
 		}
 
 		SceneCameraHandler::get()->getCameraByIndex(1)->setEnabled(isEnabled);
 		this->holding = true;
-		//SceneCameraHandler::get()->getCameraByIndex(2)
 	}
 
 	else if (key == 'Y' && !this->holding)
@@ -339,12 +363,30 @@ void AppWindow::onKeyDown(int key)
 		bool isEnabled = SceneCameraHandler::get()->getCameraByIndex(0)->isEnabled();
 		if (isEnabled) {
 			isEnabled = false;
+			std::cout << "Disabled DEFAULT Camera" << "\n" << std::endl;
 		}
 		else {
 			isEnabled = true;
+			std::cout << "Enabled DEFAULT Camera" << "\n" << std::endl;
 		}
 
 		SceneCameraHandler::get()->getCameraByIndex(0)->setEnabled(isEnabled);
+		this->holding = true;
+	}
+
+	else if (key == 'U' && !this->holding)
+	{
+		bool isEnabled = SceneCameraHandler::get()->getCameraByIndex(2)->isEnabled();
+		if (isEnabled) {
+			isEnabled = false;
+			std::cout << "Disabled UI Camera" << "\n" << std::endl;
+		}
+		else {
+			isEnabled = true;
+			std::cout << "Enabled UI Camera" << "\n" << std::endl;
+		}
+
+		SceneCameraHandler::get()->getCameraByIndex(2)->setEnabled(isEnabled);
 		this->holding = true;
 	}
 
