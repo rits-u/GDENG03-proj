@@ -17,9 +17,11 @@ public:
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
-	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) override;
+	void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
+	void render() override;
 
 	void setAnimationSpeed(float speed);
+
 
 private:
 	VertexBufferPtr vb;

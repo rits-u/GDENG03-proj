@@ -76,6 +76,16 @@ uint32_t GameObject::getLayer()
     return this->layer;
 }
 
+void GameObject::setEnabled(bool enabled)
+{
+    this->enabled = enabled;
+}
+
+bool GameObject::isEnabled()
+{
+    return this->enabled;
+}
+
 string GameObject::getName()
 {
     return this->name;

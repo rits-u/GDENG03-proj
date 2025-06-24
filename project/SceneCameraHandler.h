@@ -20,8 +20,10 @@ public:
 	//void createCameras(int num);
 	void addCameraToList(Camera* cam);
 	std::vector<Camera*>& getAllCameras();
+	void prepareSort();
 	std::vector<Camera*> getCamerasSortedByDepth();
 	void setActiveCamera(Camera* camera);
+	Camera* getTestCamera();
 
 private:
 	SceneCameraHandler();
@@ -32,5 +34,6 @@ private:
 
 	Camera* sceneCamera;
 	std::vector<Camera*> cameraList;
+	//std::vector<Camera*> sortedCameras;
 };
 

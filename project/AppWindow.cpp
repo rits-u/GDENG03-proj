@@ -53,30 +53,50 @@ void AppWindow::onCreate()
 	//cubeObject->setScale(Vector3D(0.5f, 0.5f, 0.5f));
 	//this->cubeList.push_back(cubeObject);
 
-	int numCubes = 1;
+	int numCubes = 3;
 	for (int i = 0; i < numCubes; i++) {
-		float x = generateRandomFloat(-0.75f, 0.75f);
-		float y = generateRandomFloat(-0.75f, 0.75f);
+		float x = generateRandomFloat(-2.75f, 2.75f);
+		float y = generateRandomFloat(-2.75f, 2.75f);
 
 		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-		//cubeObject->setAnimationSpeed(generateRandomFloat(-3.75f, 3.75f));
-		cubeObject->setAnimationSpeed(5.0f);
-		//cubeObject->setPosition(Vector3D(x, y, 0.0f));
-		cubeObject->setPosition(Vector3D::zeros());
-		cubeObject->setScale(Vector3D(0.6f, 0.6f, 0.6f));
+		cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
+		//cubeObject->setAnimationSpeed(5.0f);
+		cubeObject->setPosition(Vector3D(x, y, 0.0f));
+		//cubeObject->setPosition(Vector3D::zeros());
+		cubeObject->setScale(Vector3D(0.7f, 0.7f, 0.7f));
 		this->cubeList.push_back(cubeObject);
 		cubeObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 
 	}
 
-	//int numPlanes = 1;
-	//for (int i = 0; i < numPlanes; i++) {
-	//	Plane* planeObject = new Plane("Plane", shader_byte_code, size_shader);
-	//	planeObject->setPosition(Vector3D::zeros());
-	//	planeObject->setScale(Vector3D(3.0f, 3.0f, 3.0f));
-	//	planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
-	//	this->planeList.push_back(planeObject);
-	//}
+
+	numCubes = 5;
+	for (int i = 0; i < numCubes; i++) {
+		float x = generateRandomFloat(-2.75f, 2.75f);
+		float y = generateRandomFloat(-2.75f, 2.75f);
+
+		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+		cubeObject->setAnimationSpeed(generateRandomFloat(-0.5, 3.0f));
+	//	cubeObject->setAnimationSpeed(5.0f);
+		cubeObject->setPosition(Vector3D(x, y, 0.0f));
+		//cubeObject->setPosition(Vector3D::zeros());
+		cubeObject->setScale(Vector3D(0.4f, 0.4f, 0.4f));
+		this->cubeList.push_back(cubeObject);
+		cubeObject->setLayer(Layer::DEFAULT);
+
+	}
+
+
+
+	int numPlanes = 1;
+	for (int i = 0; i < numPlanes; i++) {
+		Plane* planeObject = new Plane("Plane", this->VS_ShaderByteCode, this->VS_SizeShader);
+		planeObject->setPosition(Vector3D::zeros());
+		planeObject->setScale(Vector3D(4.0f, 4.0f, 4.0f));
+		planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
+		planeObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
+		this->planeList.push_back(planeObject);
+	}
 
 
 	//CIRCLE
@@ -101,19 +121,22 @@ void AppWindow::onCreate()
 
 
 	//set cameras
-	Camera* cam1 = new Camera("Camera", true);
+	//Camera* cam1 = new Camera("Camera", true);
+	Camera* cam1 = new Camera("Camera");
 	cameraHandler->addCameraToList(cam1);
 	cameraHandler->getCameraByIndex(0)->cullingMask = Layer::DEFAULT;
 	cameraHandler->getCameraByIndex(0)->depth = 0;
 
 
 	//
-	//Camera* cam2 = new Camera("Camera", false);
-	//cameraHandler->addCameraToList(cam2);
-	//cameraHandler->getCameraByIndex(1)->cullingMask = Layer::DEBUG;
-	//cameraHandler->getCameraByIndex(1)->depth = 1;
-
-	//cameraHandler->setScreenSize(width, height);
+	//Camera* cam2 = new Camera("Camera", true);
+	Camera* cam2 = new Camera("Camera");
+	cameraHandler->addCameraToList(cam2);
+	cameraHandler->getCameraByIndex(1)->cullingMask = Layer::DEBUG;
+	cameraHandler->getCameraByIndex(1)->depth = 1;
+	cameraHandler->getCameraByIndex(1)->setEnabled(false);
+	//std::cout << cameraHandler->getCameraByIndex(1)->isEnabled << std::endl;
+	cameraHandler->setScreenSize(width, height);
 }
 
 void AppWindow::onUpdate()
@@ -142,6 +165,7 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
+	int index = 0;
 
 	for (Camera* cam : sortedCameras) {
 		cameraHandler->setActiveCamera(cam);
@@ -154,7 +178,7 @@ void AppWindow::onUpdate()
 
 	//	renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
 
-		//pptionally clear depth only (not color) before debug camera if needed
+		//clear depth only for debug camera 
 		if (cam->cullingMask & Layer::DEBUG)
 		    renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
 
@@ -165,7 +189,30 @@ void AppWindow::onUpdate()
 			if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
 			{
 				this->cubeList[i]->update(EngineTime::getDeltaTime());
-				this->cubeList[i]->draw(width, height, m_vs, m_ps);
+				this->cubeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+				if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
+					this->cubeList[i]->render();
+				}
+				//this->cubeList[i]->draw(width, height, m_vs, m_ps);
+				//this->cubeList[i]->draw(width, height, m_vs, m_ps, index);
+			}
+		}
+
+		for (int i = 0; i < this->planeList.size(); i++) {
+			/*this->cubeList[i]->update(EngineTime::getDeltaTime());
+			this->cubeList[i]->draw(width, height, m_vs, m_ps);*/
+
+			if ((cam->cullingMask & this->planeList[i]->getLayer()) != 0)
+			{
+				this->planeList[i]->update(EngineTime::getDeltaTime());
+				this->planeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+				if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
+					this->planeList[i]->render();
+				}
+				//this->cubeList[i]->draw(width, height, m_vs, m_ps);
+				//this->cubeList[i]->draw(width, height, m_vs, m_ps, index);
 			}
 		}
 
@@ -174,12 +221,36 @@ void AppWindow::onUpdate()
 		//	this->planeList[i]->draw(width, height, m_vs, m_ps);
 		//}
 
-		/*for (int i = 0; i < this->circleList.size(); i++) {
-			this->circleList[i] ->update(EngineTime::getDeltaTime());
-			this->circleList[i]->draw(width, height, m_vs, m_ps);
-		}*/
+		for (int i = 0; i < this->circleList.size(); i++) {
+			this->circleList[i]->update(EngineTime::getDeltaTime());
+			this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+			if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
+				this->circleList[i]->render();
+			}
+			//this->circleList[i]->draw(width, height, m_vs, m_ps);
+		}
 
+		//
+
+		std::cout << "COUNT: " << sortedCameras.size() << std::endl;
+		index++;
 	}
+
+
+	//Camera* cam = cameraHandler->getTestCamera();
+	//cameraHandler->setActiveCamera(cam);
+
+
+	//	for (int i = 0; i < this->cubeList.size(); i++) {
+	//		/*this->cubeList[i]->update(EngineTime::getDeltaTime());
+	//		this->cubeList[i]->draw(width, height, m_vs, m_ps);*/
+
+	//		if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
+	//		{
+	//			this->cubeList[i]->update(EngineTime::getDeltaTime());
+	//			this->cubeList[i]->draw(width, height, m_vs, m_ps);
+	//		}
+	//	}
 
 
 	m_swap_chain->present(false);
@@ -203,58 +274,19 @@ void AppWindow::onKillFocus()
 
 void AppWindow::onKeyDown(int key)
 {
-	//---------------------TRANSLATION----------------
-	if (key == 'W')
+	if (key == 'T' && !this->holding)
 	{
-	}
+		bool isEnabled = SceneCameraHandler::get()->getCameraByIndex(1)->isEnabled();
+		if (isEnabled) {
+			isEnabled = false;
+		}
+		else {
+			isEnabled = true;
+		}
 
-	else if (key == 'S')
-	{
-
-	}
-
-	else if (key == 'A')
-	{
-	//	std::cout << "move A" << std::endl;
-	}
-
-	else if (key == 'D')
-	{
-	//	std::cout << "move D" << std::endl;
-	}
-
-
-
-	//---------------------ROTATION----------------
-	else if (key == 'I')
-	{
-		std::cout << "rotate I" << std::endl;
-	}
-
-	else if (key == 'K')
-	{
-		std::cout << "rotate K" << std::endl;
-	}
-
-	else if (key == 'J')
-	{
-		std::cout << "rotate J" << std::endl;
-	}
-
-	else if (key == 'L')
-	{
-		std::cout << "rotate L" << std::endl;
-	}
-
-	//---------------------SCALE----------------
-	else if (key == 'Q')
-	{
-		std::cout << "scale Q" << std::endl;
-	}
-
-	else if (key == 'E')
-	{
-		std::cout << "scale E" << std::endl;
+		SceneCameraHandler::get()->getCameraByIndex(1)->setEnabled(isEnabled);
+		this->holding = true;
+		//SceneCameraHandler::get()->getCameraByIndex(2)
 	}
 
 	else if (key == 38)
@@ -391,7 +423,7 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 	//rotation
 	float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
 	circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
-	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 8.0f));
+	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 3.0f));
 
 	//direction
 	//circleObject->setDirection(goUp, goRight);
@@ -400,6 +432,7 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 	float y = sinf(dir);
 	Vector3D direction = Vector3D(x, y, 0.0f);
 	circleObject->setDirection(direction);
+	//circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 
 	this->circleList.push_back(circleObject);
 

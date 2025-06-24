@@ -28,7 +28,8 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
-	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) = 0;
+	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
+	virtual void render() = 0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
@@ -44,6 +45,9 @@ public:
 
 	void setLayer(uint32_t layer);
 	uint32_t getLayer();
+
+	void setEnabled(bool enabled);
+	bool isEnabled();
 
 	string getName();
 
@@ -61,8 +65,13 @@ public:
 		Matrix4x4 m_view;
 		Matrix4x4 m_proj;
 		float m_time;
-		float padding[3]; // for 16-byte alignment
+		float useWireColor; //1 for true, //0 for false
+		//float padding[3]; // for 16-byte alignment
+		float padding[2];
+		//float wireColor[4];
+		Vector4D wireColor;
 	};
+
 
 
 
@@ -73,6 +82,7 @@ protected:
 	Vector3D localRotation;
 	Matrix4x4 localMatrix;
 	uint32_t layer = Layer::DEFAULT;
+	bool enabled;
 	//float rotX;
 	//float rotY;
 	//float royZ;

@@ -14,16 +14,18 @@ class Camera : public GameObject, public InputListener
 {
 public:
 	Camera(string name);
-	Camera(string name, bool isControllable);
+	//Camera(string name, bool isControllable);
 	~Camera();
 	
 	virtual void update(float deltaTime) override;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
-	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix) override;
+	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
+	virtual void render() override;
 
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
 	void setWidthAndHeight(int width, int height);
+	//bool get
 
 	virtual void onKeyDown(int key);
 	virtual void onKeyUp(int key);
@@ -43,7 +45,8 @@ public:
 	float depth;
 	bool clearColor;
 	bool clearDepth;
-	bool isControllable;
+	//bool isEnabled;
+	//bool isControllable;
 //	Viewport viewport
 
 private:
@@ -51,6 +54,7 @@ private:
 	int height;
 	int width;
 	bool isNavigating;
+
 
 	float forward = 0.0f;
 	float rightward = 0.0f;

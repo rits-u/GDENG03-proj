@@ -115,7 +115,7 @@ void Cube::update(float deltaTime)
 	this->ticks += deltaTime;
 
 	float rotSpeed = this->ticks * this->speed;
-	//this->setRotation(rotSpeed, rotSpeed, rotSpeed);
+	this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
 void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
@@ -188,7 +188,7 @@ void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 	
 }
 
-void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
+void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
 {
 	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
@@ -237,10 +237,27 @@ void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Ma
 
 	//update constant buffer
 	cc.m_world = world;
+
+	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
+	cc.m_view = cam->getViewMatrix();
+
 	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
-	cc.m_view = cameraViewMatrix;
+	
+	//cc.m_view = cameraViewMatrix;
 	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	cc.m_time = this->ticks * 2000.0f;
+
+
+	if (cam->cullingMask & Layer::DEBUG)
+	{
+		cc.useWireColor = 1.0f;
+		cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	else {
+		cc.useWireColor = 0.0f;
+	}
+
+
 	cb->update(deviceContext, &cc);
 	//cc.m_proj = camera->getPerspective(width, height);
 
@@ -254,7 +271,11 @@ void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Ma
 	deviceContext->setVertexBuffer(this->vb);
 
 	//draw
-	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+//	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+
+	//if (!cam->isEnabled) {
+	//	this->render();
+	//}
 
 }
 
@@ -305,4 +326,10 @@ void Cube::onRightMouseDown(const Point& mousePos)
 
 void Cube::onRightMouseUp(const Point& mousePos)
 {
+}
+
+void Cube::render()
+{
+	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }

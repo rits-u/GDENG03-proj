@@ -14,17 +14,19 @@ Camera::Camera(string name) : GameObject(name)
 	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	this->updateViewMatrix();
 	this->isNavigating = false;
+	//this->isEnabled = true;
+	this->setEnabled(true);
 }
 
-Camera::Camera(string name, bool isControllable) : GameObject(name)
-{
-	//if(isControllable)
-	InputSystem::get()->addListener(this);
-	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
-	this->updateViewMatrix();
-	this->isNavigating = false;
-	this->isControllable = isControllable;
-}
+//Camera::Camera(string name, bool isControllable) : GameObject(name)
+//{
+//	//if(isControllable)
+//	InputSystem::get()->addListener(this);
+//	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
+//	this->updateViewMatrix();
+//	this->isNavigating = false;
+//	//this->isControllable = isControllable;
+//}
 
 Camera::~Camera()
 {
@@ -77,56 +79,62 @@ void Camera::update(float deltaTime)
 		this->isNavigating = false;
 	}
 	
+	//std::cout << "Updating Camera: " << this->getName() << std::endl;
 }
 
 void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
 }
 
-void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 cameraViewMatrix)
+void Camera::render()
+{
+}
+
+void Camera::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
 {
 }
 
 Matrix4x4 Camera::getViewMatrix()
 {
-	updateViewMatrix();
+	//updateViewMatrix();
 	return this->localMatrix;
 }
 
 void Camera::updateViewMatrix()
 {
-	if (isNavigating) {
-		Vector3D rotation = this->getLocalRotation();
-		Vector3D position = this->getLocalPosition();
-		Vector3D newPos;
+	if (!isNavigating) return;
 
-		Matrix4x4 world_cam, rotX, rotY, pos;
-		world_cam.setIdentity();
+	Vector3D rotation = this->getLocalRotation();
+	Vector3D position = this->getLocalPosition();
+	Vector3D newPos;
 
-		rotX.setIdentity();
-		rotX.setRotationX(rotation.m_x);
-		world_cam *= rotX;
+	Matrix4x4 world_cam, rotX, rotY, pos;
+	world_cam.setIdentity();
 
-		rotY.setIdentity();
-		rotY.setRotationY(rotation.m_y);
-		world_cam *= rotY;
+	rotX.setIdentity();
+	rotX.setRotationX(rotation.m_x);
+	world_cam *= rotX;
 
-		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward);
-		position = position + this->worldCamera.getXDirection() * (this->rightward);
-		world_cam.setTranslation(position);
-		this->setPosition(position.m_x, position.m_y, position.m_z);
+	rotY.setIdentity();
+	rotY.setRotationY(rotation.m_y);
+	world_cam *= rotY;
 
-		//pos.setIdentity();
-		//pos.setTranslation(position);
-		//world_cam *= pos;
+	position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward);
+	position = position + this->worldCamera.getXDirection() * (this->rightward);
+	world_cam.setTranslation(position);
+	this->setPosition(position.m_x, position.m_y, position.m_z);
 
-		this->worldCamera = world_cam;
-		world_cam.inverse();
-		this->localMatrix = world_cam;
-		//world_cam.inverse();
+	//pos.setIdentity();
+	//pos.setTranslation(position);
+	//world_cam *= pos;
 
-		//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
-	}
+	this->worldCamera = world_cam;
+	world_cam.inverse();
+	this->localMatrix = world_cam;
+	//world_cam.inverse();
+
+	//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
+	//}
 }
 void Camera::setWidthAndHeight(int width, int height)
 {
@@ -145,7 +153,8 @@ void Camera::onKeyUp(int key)
 
 void Camera::onMouseMove(const Point& mousePos)
 {
-	if (!isNavigating || !isControllable) return;
+	if (!isNavigating) return;
+	//if (!isNavigating || !isControllable) return;
 
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
@@ -155,6 +164,8 @@ void Camera::onMouseMove(const Point& mousePos)
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;
 	rotation.m_y += deltaX * EngineTime::getDeltaTime() * offset;
+	//rotation.m_x += deltaY * offset;
+	//rotation.m_y += deltaX * offset;
 
 	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
 	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;

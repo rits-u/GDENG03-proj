@@ -37,6 +37,7 @@ void SceneCameraHandler::update()
     for (Camera* cam : this->cameraList)
     {
         cam->update(EngineTime::getDeltaTime());
+        
     }
 }
 
@@ -47,7 +48,7 @@ Matrix4x4 SceneCameraHandler::getSceneCameraViewMatrix()
 
 void SceneCameraHandler::setScreenSize(int width, int height)
 {
-    this->sceneCamera->setWidthAndHeight(width, height);
+   // this->sceneCamera->setWidthAndHeight(width, height);
 
     if (this->cameraList.size() > 0) {
         for (Camera* camera : this->cameraList) {
@@ -75,9 +76,22 @@ std::vector<Camera*>& SceneCameraHandler::getAllCameras()
     return this->cameraList;
 }
 
+void SceneCameraHandler::prepareSort()
+{
+    //sortedCameras = this->cameraList;
+}
+
+
 std::vector<Camera*> SceneCameraHandler::getCamerasSortedByDepth()
 {
     std::vector<Camera*> sortedCameras = this->cameraList;
+    //for (Camera* cam : this->cameraList) {
+    //    if (cam->isEnabled == true)
+    //        sortedCameras.push_back(cam);
+    //}
+
+    //std::cout << "Enabled: " << sortedCameras.size() << std::endl;
+
     for (int i = 0; i < sortedCameras.size(); i++)
     {
         for (int j = i + 1; j < sortedCameras.size(); j++)
@@ -99,6 +113,12 @@ void SceneCameraHandler::setActiveCamera(Camera* camera)
     this->sceneCamera = camera;
 }
 
+Camera* SceneCameraHandler::getTestCamera()
+{
+    if (this->cameraList[0] != NULL)
+        return this->cameraList[0];
+}
+
 Camera* SceneCameraHandler::getCamera()
 {
     return this->sceneCamera;
@@ -111,7 +131,7 @@ Camera* SceneCameraHandler::getCameraByIndex(int index)
 
 SceneCameraHandler::SceneCameraHandler()
 {
-   // this->sceneCamera = new Camera("SceneCamera");
+  // this->sceneCamera = new Camera("SceneCamera");
   //  this->cameraList[0] = new C
 }
 
