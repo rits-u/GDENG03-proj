@@ -13,6 +13,7 @@ public:
 
 	Matrix4x4 getSceneCameraViewMatrix();
 	void setScreenSize(int width, int height);
+	void setScreenSizeForAllCameras(int width, int height);
 
 	//void set
 	Camera* getCamera();

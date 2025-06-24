@@ -122,7 +122,7 @@ void AppWindow::onCreate()
 
 	//set cameras
 	//Camera* cam1 = new Camera("Camera", true);
-	Camera* cam1 = new Camera("Camera");
+	Camera* cam1 = new Camera("World Camera");
 	cameraHandler->addCameraToList(cam1);
 	cameraHandler->getCameraByIndex(0)->cullingMask = Layer::DEFAULT;
 	cameraHandler->getCameraByIndex(0)->depth = 0;
@@ -130,13 +130,26 @@ void AppWindow::onCreate()
 
 	//
 	//Camera* cam2 = new Camera("Camera", true);
-	Camera* cam2 = new Camera("Camera");
+	Camera* cam2 = new Camera("Debug Camera");
 	cameraHandler->addCameraToList(cam2);
 	cameraHandler->getCameraByIndex(1)->cullingMask = Layer::DEBUG;
 	cameraHandler->getCameraByIndex(1)->depth = 1;
 	cameraHandler->getCameraByIndex(1)->setEnabled(false);
 	//std::cout << cameraHandler->getCameraByIndex(1)->isEnabled << std::endl;
-	cameraHandler->setScreenSize(width, height);
+
+
+	Camera* cam3 = new Camera("UI Camera");
+	cam3->cullingMask = Layer::UI;
+	cam3->depth = 2;
+	cameraHandler->addCameraToList(cam3);
+
+	//cameraHandler->getCameraByIndex(2)->cullingMask = Layer::UI;
+	//cameraHandler->getCameraByIndex(2)->depth = 2;
+//	cameraHandler->setScreenSize(width, height);
+
+
+
+	cameraHandler->setScreenSizeForAllCameras(width, height);
 }
 
 void AppWindow::onUpdate()
@@ -170,10 +183,14 @@ void AppWindow::onUpdate()
 	for (Camera* cam : sortedCameras) {
 		cameraHandler->setActiveCamera(cam);
 
-		if (cam->cullingMask & Layer::DEBUG)
+		if (cam->cullingMask & Layer::DEBUG) 
 			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
 		else
 			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
+
+
+		//if(cam->cullingMask & Layer::DEBUG)
+			
 
 
 	//	renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
@@ -222,17 +239,26 @@ void AppWindow::onUpdate()
 		//}
 
 		for (int i = 0; i < this->circleList.size(); i++) {
-			this->circleList[i]->update(EngineTime::getDeltaTime());
-			this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-			if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
-				this->circleList[i]->render();
+			if ((cam->cullingMask & this->circleList[i]->getLayer()) != 0)
+			{
+				this->circleList[i]->update(EngineTime::getDeltaTime());
+				this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+				if (cameraHandler->getCameraByIndex(index)->isEnabled()) {
+					this->circleList[i]->render();
+				}
+				//this->circleList[i]->draw(width, height, m_vs, m_ps);
 			}
-			//this->circleList[i]->draw(width, height, m_vs, m_ps);
 		}
 
 		//
+		int test = 0;
+		for (int i = 0; i < sortedCameras.size(); i++) {
+			if (sortedCameras[i]->isEnabled())
+				test++;
+		}
 
-		std::cout << "COUNT: " << sortedCameras.size() << std::endl;
+		std::cout << "COUNT: " << test << std::endl;
 		index++;
 	}
 
@@ -287,6 +313,20 @@ void AppWindow::onKeyDown(int key)
 		SceneCameraHandler::get()->getCameraByIndex(1)->setEnabled(isEnabled);
 		this->holding = true;
 		//SceneCameraHandler::get()->getCameraByIndex(2)
+	}
+
+	else if (key == 'Y' && !this->holding)
+	{
+		bool isEnabled = SceneCameraHandler::get()->getCameraByIndex(0)->isEnabled();
+		if (isEnabled) {
+			isEnabled = false;
+		}
+		else {
+			isEnabled = true;
+		}
+
+		SceneCameraHandler::get()->getCameraByIndex(0)->setEnabled(isEnabled);
+		this->holding = true;
 	}
 
 	else if (key == 38)
@@ -432,7 +472,7 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 	float y = sinf(dir);
 	Vector3D direction = Vector3D(x, y, 0.0f);
 	circleObject->setDirection(direction);
-	//circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
+	circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 
 	this->circleList.push_back(circleObject);
 

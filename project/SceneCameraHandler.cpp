@@ -48,8 +48,17 @@ Matrix4x4 SceneCameraHandler::getSceneCameraViewMatrix()
 
 void SceneCameraHandler::setScreenSize(int width, int height)
 {
-   // this->sceneCamera->setWidthAndHeight(width, height);
+   this->sceneCamera->setWidthAndHeight(width, height);
 
+    /*if (this->cameraList.size() > 0) {
+        for (Camera* camera : this->cameraList) {
+            camera->setWidthAndHeight(width, height);
+        }
+    }*/
+}
+
+void SceneCameraHandler::setScreenSizeForAllCameras(int width, int height)
+{
     if (this->cameraList.size() > 0) {
         for (Camera* camera : this->cameraList) {
             camera->setWidthAndHeight(width, height);
