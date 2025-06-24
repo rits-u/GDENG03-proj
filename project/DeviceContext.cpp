@@ -104,7 +104,12 @@ void DeviceContext::clearColor(SwapChainPtr swap_chain, float red, float green, 
 
 void DeviceContext::clearDepth(SwapChainPtr swap_chain)
 {
-    m_device_context->ClearDepthStencilView(swap_chain->m_dsv, null);
-   // m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
+   // m_device_context->ClearDepthStencilView(swap_chain->m_dsv, null);
+    m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
+}
+
+void DeviceContext::disableDepth(SwapChainPtr swap_chain)
+{
+    m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
 }
 

@@ -93,14 +93,25 @@ void AppWindow::onCreate()
 		Plane* planeObject = new Plane("Plane", this->VS_ShaderByteCode, this->VS_SizeShader);
 		planeObject->setPosition(Vector3D::zeros());
 		planeObject->setScale(Vector3D(4.0f, 4.0f, 4.0f));
-		planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
+		//planeObject->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
 		planeObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 		this->planeList.push_back(planeObject);
 	}
 
 
 	//CIRCLE
-	//int numCircles = 5;
+	Vector3D color = Vector3D(1.0, 1.0, 0.0);
+	Circle* circleObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
+	circleObject->setScale(Vector3D(0.6, 0.6, 0.6));
+	circleObject->setRotation(Vector3D(convertToRadians(180), 0, 0));
+	circleObject->setLayer(Layer::UI);
+	//circleObject->setPosition(Vector3D::zeros());
+	circleObject->setPosition(Vector3D(960.0f, 540.0f, 0.0f));
+	this->circleList.push_back(circleObject);
+	//this->UIElements.push_back(circleObject);
+	
+
+//int numCircles = 5;
 	//for (int i = 0; i < numCircles; i++) {
 	//	//this->spawnCircle(this->shaderByteCode, this->sizeShader);
 	//}
@@ -198,6 +209,14 @@ void AppWindow::onUpdate()
 		//clear depth only for debug camera 
 		if (cam->cullingMask & Layer::DEBUG)
 		    renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
+
+
+		/*if (cam->cullingMask & Layer::UI) {
+			renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
+			renderSystem->getImmediateDeviceContext()->disableDepth(this->m_swap_chain);
+		}*/
+
+
 
 		for (int i = 0; i < this->cubeList.size(); i++) {
 			/*this->cubeList[i]->update(EngineTime::getDeltaTime());
@@ -461,7 +480,8 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 	circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
 
 	//rotation
-	float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
+	//float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
+	float radians = convertToRadians(180);
 	circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
 	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 3.0f));
 
@@ -476,4 +496,10 @@ void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 
 	this->circleList.push_back(circleObject);
 
+}
+
+float AppWindow::convertToRadians(float degrees)
+{
+	float radians = degrees * (3.14f / 180.0f);
+	return radians;
 }

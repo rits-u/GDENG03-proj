@@ -215,12 +215,29 @@ void Circle::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs
 	cc.m_world = world;
 
 	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
-	cc.m_view = cam->getViewMatrix();
+
 
 	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
 
 	//cc.m_view = cameraViewMatrix;
-	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+
+	if (cam->cullingMask & Layer::UI)
+	{
+		cc.m_view.setIdentity();
+		cc.m_proj.setOrthoLH((float)width, (float)height, -100.0f, 100.0f);
+		//cc.m_proj.setOrthoLH(10.0f, 10.0f * ((float)height / (float)width), -1.0f, 1.0f);
+		
+		//cc.m_proj.setOrthoLH((float)width / 400.0f, (float)height / 400.0f, -4.0f, 4.0f);
+	}
+	else 
+	{
+		cc.m_view = cam->getViewMatrix();
+		cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	}
+	
+
+
+
 	cc.m_time = this->ticks * 2000.0f;
 
 
