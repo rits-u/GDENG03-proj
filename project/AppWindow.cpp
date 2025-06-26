@@ -38,29 +38,30 @@ void AppWindow::onCreate()
 	
 	//instantiate CUBES with DEBUG layer
 	int numCubes = 4;
-	//for (int i = 0; i < numCubes; i++) {
-	//	float x = generateRandomFloat(-2.75f, 2.75f);
-	//	float y = generateRandomFloat(-2.75f, 2.75f);
-
-	//	Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-	//	cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
-	//	cubeObject->setPosition(x, y, 0.0f);
-	//	cubeObject->setScale(0.7f, 0.7f, 0.7f);
-	//	this->cubeList.push_back(cubeObject);
-	//	cubeObject->setLayer(cubeObject->getLayer() | Layer::DEBUG);
-
-	//}
-
-	//instantiate CUBES without DEBUG layer
-	numCubes = 1;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-2.75f, 2.75f);
 		float y = generateRandomFloat(-2.75f, 2.75f);
 
 		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+		cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
+		cubeObject->setPosition(x, y, 0.0f);
+		cubeObject->setScale(0.7f, 0.7f, 0.7f);
+		this->cubeList.push_back(cubeObject);
+		cubeObject->setLayer(cubeObject->getLayer() | Layer::DEBUG);
+
+	}
+
+	//instantiate CUBES without DEBUG layer
+	numCubes = 5;
+	for (int i = 0; i < numCubes; i++) {
+		float x = generateRandomFloat(-2.75f, 2.75f);
+		float y = generateRandomFloat(-2.75f, 2.75f);
+		float z = generateRandomFloat(-1.0f, 1.0f);
+
+		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
 		cubeObject->setAnimationSpeed(generateRandomFloat(-0.5, 3.0f));
-		cubeObject->setPosition(0, 0, 0.0f);
-		cubeObject->setScale(1.0f, 1.0f, 1.0f);
+		cubeObject->setPosition(x, y, z);
+		cubeObject->setScale(0.4, 0.4f, 0.4f);
 		cubeObject->setRotation(convertToRadians(90), 0, 0);
 		cubeObject->setIsAnimated(false);
 		this->cubeList.push_back(cubeObject);
@@ -81,25 +82,25 @@ void AppWindow::onCreate()
 
 
 	//CIRCLE UI
-	//Vector3D color = Vector3D(1.0, 1.0, 0.0);
-	//Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
-	//UIObject->setScale(50, 50, 1.0f);
-	//UIObject->setRotation(convertToRadians(180), 0, 0);
-	//Vector3D worldCoords = convertPixelsToWorld(2.0f, 900, 100, width, height);
-	//UIObject->setPosition(worldCoords);
-	//UIObject->setLayer(Layer::UI);
-	//this->UIElements.push_back(UIObject);
+	Vector3D color = Vector3D(1.0, 1.0, 0.0);
+	Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
+	UIObject->setScale(50, 50, 1.0f);
+	UIObject->setRotation(convertToRadians(180), 0, 0);
+	Vector3D worldCoords = convertPixelsToWorld(2.0f, 900, 100, width, height);
+	UIObject->setPosition(worldCoords);
+	UIObject->setLayer(Layer::UI);
+	this->UIElements.push_back(UIObject);
 
-	//
-	//Cube* UIObject1 = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-	//UIObject1->setScale(40, 200, 1.0f);
-	//UIObject->setRotation(convertToRadians(180), 0, 0);
-	//worldCoords = convertPixelsToWorld(2.0f, 100, 350, width, height);
-	//UIObject1->setPosition(worldCoords);
-	//UIObject1->setLayer(Layer::UI);
-	//UIObject1->setIsAnimated(false);
-	//this->UIElements.push_back(UIObject1);
-	//
+	
+	Cube* UIObject1 = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+	UIObject1->setScale(40, 200, 1.0f);
+	UIObject->setRotation(convertToRadians(180), 0, 0);
+	worldCoords = convertPixelsToWorld(2.0f, 100, 350, width, height);
+	UIObject1->setPosition(worldCoords);
+	UIObject1->setLayer(Layer::UI);
+	UIObject1->setIsAnimated(false);
+	this->UIElements.push_back(UIObject1);
+	
 
 	//RELEASE VERTEX SHADER
 	//renderSystem->releaseCompiledShader();
@@ -111,8 +112,8 @@ void AppWindow::onCreate()
 
 	renderSystem->createRasterizerStates();
 
-	//createCamera(Layer::DEBUG,   1, false);
-	//createCamera(Layer::UI,	     2, true);
+	createCamera(Layer::DEBUG,   1, false);
+	createCamera(Layer::UI,	     2, true);
 	createCamera(Layer::DEFAULT, 0, true);
 
 	cameraHandler->setScreenSizeForAllCameras(width, height);
