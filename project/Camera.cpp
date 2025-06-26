@@ -44,29 +44,21 @@ void Camera::update(float deltaTime)
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
-			//z += deltaTime * moveSpeed;
-			//this->setPosition(x, y, z);
 			this->forward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('S'))
 		{
-			//	z -= deltaTime * moveSpeed;
-				//this->setPosition(x, y, z);
 			this->forward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('A'))
 		{
-			//	x += deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('D'))
 		{
-			//	x -= deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
@@ -131,8 +123,6 @@ void Camera::updateViewMatrix()
 	this->worldCamera = world_cam;
 	world_cam.inverse();
 	this->localMatrix = world_cam;
-	//world_cam.inverse();
-
 	//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
 	//}
 }
