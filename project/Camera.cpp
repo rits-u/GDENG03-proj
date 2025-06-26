@@ -119,8 +119,6 @@ void Camera::updateViewMatrix()
 	this->worldCamera = world_cam;
 	world_cam.inverse();
 	this->localMatrix = world_cam;
-	//world_cam.inverse();
-
 	//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
 	//}
 }

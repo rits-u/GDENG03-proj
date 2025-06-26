@@ -38,29 +38,31 @@ void AppWindow::onCreate()
 	
 	//instantiate CUBES with DEBUG layer
 	int numCubes = 4;
-	for (int i = 0; i < numCubes; i++) {
-		float x = generateRandomFloat(-2.75f, 2.75f);
-		float y = generateRandomFloat(-2.75f, 2.75f);
+	//for (int i = 0; i < numCubes; i++) {
+	//	float x = generateRandomFloat(-2.75f, 2.75f);
+	//	float y = generateRandomFloat(-2.75f, 2.75f);
 
-		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-		cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
-		cubeObject->setPosition(x, y, 0.0f);
-		cubeObject->setScale(0.7f, 0.7f, 0.7f);
-		this->cubeList.push_back(cubeObject);
-		cubeObject->setLayer(cubeObject->getLayer() | Layer::DEBUG);
+	//	Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+	//	cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
+	//	cubeObject->setPosition(x, y, 0.0f);
+	//	cubeObject->setScale(0.7f, 0.7f, 0.7f);
+	//	this->cubeList.push_back(cubeObject);
+	//	cubeObject->setLayer(cubeObject->getLayer() | Layer::DEBUG);
 
-	}
+	//}
 
 	//instantiate CUBES without DEBUG layer
-	numCubes = 5;
+	numCubes = 1;
 	for (int i = 0; i < numCubes; i++) {
 		float x = generateRandomFloat(-2.75f, 2.75f);
 		float y = generateRandomFloat(-2.75f, 2.75f);
 
 		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
 		cubeObject->setAnimationSpeed(generateRandomFloat(-0.5, 3.0f));
-		cubeObject->setPosition(x, y, 0.0f);
-		cubeObject->setScale(0.4f, 0.4f, 0.4f);
+		cubeObject->setPosition(0, 0, 0.0f);
+		cubeObject->setScale(1.0f, 1.0f, 1.0f);
+		cubeObject->setRotation(convertToRadians(90), 0, 0);
+		cubeObject->setIsAnimated(false);
 		this->cubeList.push_back(cubeObject);
 		//cubeObject->setLayer(Layer::DEFAULT);
 
@@ -72,62 +74,32 @@ void AppWindow::onCreate()
 	for (int i = 0; i < numPlanes; i++) {
 		Plane* planeObject = new Plane("Plane", this->VS_ShaderByteCode, this->VS_SizeShader);
 		planeObject->setPosition(Vector3D::zeros());
-		planeObject->setScale(4.0f, 4.0f, 4.0f);
+		planeObject->setScale(5.0f, 5.0f, 5.0f);
 		planeObject->setLayer(planeObject->getLayer() | Layer::DEBUG);
 		this->planeList.push_back(planeObject);
 	}
 
 
 	//CIRCLE UI
-	Vector3D color = Vector3D(1.0, 1.0, 0.0);
-	Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
-	UIObject->setScale(50, 50, 1.0f);
-	UIObject->setRotation(convertToRadians(180), 0, 0);
-	Vector3D worldCoords = convertPixelsToWorld(2.0f, 900, 100, width, height);
-	UIObject->setPosition(worldCoords);
-	UIObject->setLayer(Layer::UI);
-	this->UIElements.push_back(UIObject);
+	//Vector3D color = Vector3D(1.0, 1.0, 0.0);
+	//Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
+	//UIObject->setScale(50, 50, 1.0f);
+	//UIObject->setRotation(convertToRadians(180), 0, 0);
+	//Vector3D worldCoords = convertPixelsToWorld(2.0f, 900, 100, width, height);
+	//UIObject->setPosition(worldCoords);
+	//UIObject->setLayer(Layer::UI);
+	//this->UIElements.push_back(UIObject);
 
-	
-	Cube* UIObject1 = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-	UIObject1->setScale(40, 200, 1.0f);
-	UIObject->setRotation(convertToRadians(180), 0, 0);
-	worldCoords = convertPixelsToWorld(2.0f, 100, 350, width, height);
-	UIObject1->setPosition(worldCoords);
-	UIObject1->setLayer(Layer::UI);
-	UIObject1->setIsAnimated(false);
-	this->UIElements.push_back(UIObject1);
-	
-
-
-	//Plane* UIObject1 = new Plane("Plane", this->VS_ShaderByteCode, this->VS_SizeShader);
-	//UIObject1->setScale(50, 50, 1.0f);
-	//UIObject1->setRotation(convertToRadians(0), 0, 0);
-	//worldCoords = convertPixelsToWorld(2.0f, 50, 100, width, height);
+	//
+	//Cube* UIObject1 = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
+	//UIObject1->setScale(40, 200, 1.0f);
+	//UIObject->setRotation(convertToRadians(180), 0, 0);
+	//worldCoords = convertPixelsToWorld(2.0f, 100, 350, width, height);
 	//UIObject1->setPosition(worldCoords);
 	//UIObject1->setLayer(Layer::UI);
+	//UIObject1->setIsAnimated(false);
 	//this->UIElements.push_back(UIObject1);
-
-	////pixel to world space
-	//float temp = 2.0f;
-	//float px = 900;
-	//float py = 100;
-	//float posX = (px - width / 2.0f) / temp;
-	//float posY = (height / 2.0f - py) / temp;
-	//float posZ = 0.0f;
-
-	//std::cout << "width: " << width << std::endl;
-	//std::cout << "height: " << height << std::endl;
-
-	//UIObject->setPosition(posX, posY, posZ);
-
-	
-
-//int numCircles = 5;
-	//for (int i = 0; i < numCircles; i++) {
-	//	//this->spawnCircle(this->shaderByteCode, this->sizeShader);
-	//}
-	//std::cout << "circles count: " << this->circleList.size() << std::endl;
+	//
 
 	//RELEASE VERTEX SHADER
 	//renderSystem->releaseCompiledShader();
@@ -136,32 +108,11 @@ void AppWindow::onCreate()
 	//PIXEL SHADER
 	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
-	//renderSystem->releaseCompiledShader();
 
 	renderSystem->createRasterizerStates();
-	//std::cout << "cube list size: " << this->cubeList.size() << std::endl;
 
-
-	//set cameraa
-	//Camera* cam2 = new Camera("Debug Camera");
-	//cam2->cullingMask = Layer::DEBUG;
-	//cam2->depth = 1;
-	//cam2->setEnabled(false);
-	//cameraHandler->addCameraToList(cam2);
-
-	//Camera* cam3 = new Camera("UI Camera");
-	//cam3->cullingMask = Layer::UI;
-	//cam3->depth = 2;
-	//cameraHandler->addCameraToList(cam3);
-
-	//Camera* cam1 = new Camera("World Camera");
-	//cam1->cullingMask = Layer::DEFAULT;
-	//cam1->depth = 0;
-	//cameraHandler->addCameraToList(cam1);
-
-
-	createCamera(Layer::DEBUG,   1, false);
-	createCamera(Layer::UI,	     2, true);
+	//createCamera(Layer::DEBUG,   1, false);
+	//createCamera(Layer::UI,	     2, true);
 	createCamera(Layer::DEFAULT, 0, true);
 
 	cameraHandler->setScreenSizeForAllCameras(width, height);
