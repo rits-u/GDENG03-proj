@@ -115,7 +115,9 @@ void Cube::update(float deltaTime)
 	this->ticks += deltaTime;
 
 	float rotSpeed = this->ticks * this->speed;
-	this->setRotation(rotSpeed, rotSpeed, rotSpeed);
+
+	if(animated)
+		this->setRotation(rotSpeed, rotSpeed, rotSpeed);
 }
 
 void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
@@ -236,18 +238,11 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	world *= translation;
 
 	//update constant buffer
+
 	cc.m_world = world;
-
-	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
-	cc.m_view = cam->getViewMatrix();
-
-	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
-	
-	//cc.m_view = cameraViewMatrix;
-	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	cc.m_time = this->ticks * 2000.0f;
 
-
+	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);	
 	if (cam->cullingMask & Layer::DEBUG)
 	{
 		cc.useWireColor = 1.0f;
@@ -255,6 +250,17 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	}
 	else {
 		cc.useWireColor = 0.0f;
+	}
+
+	if (cam->cullingMask & Layer::UI)
+	{
+		cc.m_view.setIdentity();	
+		cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
+	}
+	else 
+	{
+		cc.m_view = cam->getViewMatrix();
+		cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	}
 
 
@@ -282,6 +288,11 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 void Cube::setAnimationSpeed(float speed)
 {
 	this->speed = speed;
+}
+
+void Cube::setIsAnimated(bool animated)
+{
+	this->animated = animated;
 }
 
 void Cube::onKeyDown(int key)

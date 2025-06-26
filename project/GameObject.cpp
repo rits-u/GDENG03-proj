@@ -7,6 +7,7 @@ GameObject::GameObject(string name)
     this->localPosition = Vector3D::zeros();
     this->localScale = Vector3D::ones();
     this->localRotation = Vector3D::zeros();
+    this->layer = Layer::DEFAULT;
 }
 
 GameObject::~GameObject()
@@ -66,12 +67,12 @@ Vector3D GameObject::getLocalRotation()
     return this->localRotation;
 }
 
-void GameObject::setLayer(uint32_t layer)
+void GameObject::setLayer(unsigned int layer)
 {
     this->layer = layer;
 }
 
-uint32_t GameObject::getLayer()
+unsigned int GameObject::getLayer()
 {
     return this->layer;
 }

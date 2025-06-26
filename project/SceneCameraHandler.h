@@ -18,13 +18,15 @@ public:
 	//void set
 	Camera* getCamera();
 	Camera* getCameraByIndex(int index);
-	//void createCameras(int num);
 	void addCameraToList(Camera* cam);
 	std::vector<Camera*>& getAllCameras();
-	void prepareSort();
-	std::vector<Camera*> getCamerasSortedByDepth();
+	void sortCamerasByDepth();
 	void setActiveCamera(Camera* camera);
-	Camera* getTestCamera();
+
+	//Camera* getTestCamera();
+	//std::vector<Camera*> getCamerasSortedByDepth();
+	//void createCameras(int num);
+	// 	void prepareSort();
 
 private:
 	SceneCameraHandler();

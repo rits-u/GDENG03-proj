@@ -41,7 +41,7 @@ private:
 	void resetCameraProperties();
 
 public:
-	uint32_t cullingMask;
+	unsigned int cullingMask;
 	float depth;
 	bool clearColor;
 	bool clearDepth;

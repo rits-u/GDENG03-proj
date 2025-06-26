@@ -45,11 +45,12 @@ public:
 	virtual void onRightMouseUp(const Point& mousePos) override;
 
 private:
-	//void adjustSpeed();
 	float generateRandomFloat(float min, float max);
 	void spawnCircle(void* shader_byte_code, size_t size_shader);
 	float convertToRadians(float degrees);
-	//void checkInput();
+	Vector3D convertPixelsToWorld(float scale, float px, float py, float width, float height);
+	void createCamera(Layer layer, float depth, bool enabled);
+	//void createGameObjects(GameObject obj, int num, float scale, Layer layer, )
 
 public:
 	//Cube* cubeObject;
@@ -70,6 +71,7 @@ private:
 	std::vector<Plane*> planeList;
 	std::vector<Circle*> circleList;
 	std::vector<GameObject*> UIElements;
+	std::vector<Camera*> sortedCameras;
 
 
 };

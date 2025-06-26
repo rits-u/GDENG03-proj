@@ -11,13 +11,24 @@ using namespace std;
 class VertexShader;
 class PixelShader;
 
-enum Layer : uint32_t {
-	DEFAULT = 1 << 0,
-	UI = 1 << 1,
-	ENEMY = 1 << 2,
-	PLAYER = 1 << 3,
-	DEBUG = 1 << 4,
-};
+	enum Layer : unsigned int {
+		DEFAULT = 1 << 0,
+		UI = 1 << 2,
+		DEBUG = 1 << 1,
+	};
+
+/*
+	bitmask with DEFAULT and DEBUG
+	0 0 0 0   0 0 1 1
+
+	with UI
+	0 0 0 0   0 1 0 0
+
+	DEFAULT ONLY
+	0 0 0 0   0 0 0 1
+*/
+
+
 
 class GameObject
 {
@@ -43,8 +54,8 @@ public:
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
 
-	void setLayer(uint32_t layer);
-	uint32_t getLayer();
+	void setLayer(unsigned int layer);
+	unsigned int getLayer();
 
 	void setEnabled(bool enabled);
 	bool isEnabled();
@@ -81,7 +92,7 @@ protected:
 	Vector3D localScale;
 	Vector3D localRotation;
 	Matrix4x4 localMatrix;
-	uint32_t layer = Layer::DEFAULT;
+	unsigned int layer;
 	bool enabled;
 	//float rotX;
 	//float rotY;

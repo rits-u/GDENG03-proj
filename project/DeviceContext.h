@@ -9,7 +9,7 @@ public:
 	void clearRenderTargetColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha);
 	void clearColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha);
 	void clearDepth(SwapChainPtr swap_chain);
-	void disableDepth(SwapChainPtr swap_chain);
+	//void disableDepth(SwapChainPtr swap_chain);
 	void setVertexBuffer(VertexBufferPtr vertex_buffer);
 	void setIndexBuffer(IndexBufferPtr index_buffer);
 
