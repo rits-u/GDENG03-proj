@@ -36,37 +36,25 @@ Camera::~Camera()
 void Camera::update(float deltaTime)
 {
 	if (isNavigating) {
-		Vector3D localPos = this->getLocalPosition();
-		float x = localPos.m_x;
-		float y = localPos.m_y;
-		float z = localPos.m_z;
 		float offset = 0.03f;
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
-			//z += deltaTime * moveSpeed;
-			//this->setPosition(x, y, z);
 			this->forward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('S'))
 		{
-			//	z -= deltaTime * moveSpeed;
-				//this->setPosition(x, y, z);
 			this->forward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('A'))
 		{
-			//	x += deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('D'))
 		{
-			//	x -= deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
@@ -154,7 +142,6 @@ void Camera::onKeyUp(int key)
 void Camera::onMouseMove(const Point& mousePos)
 {
 	if (!isNavigating) return;
-	//if (!isNavigating || !isControllable) return;
 
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
@@ -167,8 +154,8 @@ void Camera::onMouseMove(const Point& mousePos)
 	//rotation.m_x += deltaY * offset;
 	//rotation.m_y += deltaX * offset;
 
-	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
-	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;
+//	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
+//	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;
 
 	this->setRotation(rotation);
 	this->updateViewMatrix();
