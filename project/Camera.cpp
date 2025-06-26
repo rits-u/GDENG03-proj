@@ -11,7 +11,7 @@ Camera::Camera(string name) : GameObject(name)
 {
 	//this->setPosition(0.0f, 0.0f, -4.0f);
 	InputSystem::get()->addListener(this);
-	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
+	this->localMatrix.setTranslation(Vector3D(0, 0, -2));
 	this->updateViewMatrix();
 	this->isNavigating = false;
 	//this->isEnabled = true;
@@ -36,10 +36,6 @@ Camera::~Camera()
 void Camera::update(float deltaTime)
 {
 	if (isNavigating) {
-		Vector3D localPos = this->getLocalPosition();
-		float x = localPos.m_x;
-		float y = localPos.m_y;
-		float z = localPos.m_z;
 		float offset = 0.03f;
 
 		if (InputSystem::get()->isKeyDown('W'))
@@ -100,6 +96,8 @@ void Camera::updateViewMatrix()
 	Vector3D position = this->getLocalPosition();
 	Vector3D newPos;
 
+	std::cout << position.m_x << " " << position.m_y << " " << position.m_z << std::endl;
+
 	Matrix4x4 world_cam, rotX, rotY, pos;
 	world_cam.setIdentity();
 
@@ -116,16 +114,14 @@ void Camera::updateViewMatrix()
 	world_cam.setTranslation(position);
 	this->setPosition(position.m_x, position.m_y, position.m_z);
 
-	//pos.setIdentity();
-	//pos.setTranslation(position);
-	//world_cam *= pos;
-
 	this->worldCamera = world_cam;
 	world_cam.inverse();
 	this->localMatrix = world_cam;
-	//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
-	//}
+
+
 }
+
+
 void Camera::setWidthAndHeight(int width, int height)
 {
 	this->width = width;
@@ -144,7 +140,6 @@ void Camera::onKeyUp(int key)
 void Camera::onMouseMove(const Point& mousePos)
 {
 	if (!isNavigating) return;
-	//if (!isNavigating || !isControllable) return;
 
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
@@ -154,11 +149,6 @@ void Camera::onMouseMove(const Point& mousePos)
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;
 	rotation.m_y += deltaX * EngineTime::getDeltaTime() * offset;
-	//rotation.m_x += deltaY * offset;
-	//rotation.m_y += deltaX * offset;
-
-	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
-	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;
 
 	this->setRotation(rotation);
 	this->updateViewMatrix();
