@@ -6,6 +6,7 @@
 #include "SceneCameraHandler.h"
 #include "RenderSystem.h"
 
+
 AppWindow::AppWindow()
 {
 }
@@ -29,6 +30,18 @@ void AppWindow::onCreate()
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
+
+
+
+	////IMGUI Setup
+	//IMGUI_CHECKVERSION();
+	//ImGui::CreateContext();
+	//ImGuiIO& io = ImGui::GetIO();
+	//ImGui_ImplWin32_Init(this->m_hwnd);
+	//ImGui_ImplDX11_Init(renderSystem->m_d3d_device, renderSystem->m_imm_context);
+	//ImGui::StyleColorsDark();
+
+
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 
@@ -118,6 +131,18 @@ void AppWindow::onCreate()
 
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
+
+
+
+	//IMGUI Setup
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(this->m_hwnd);
+	ImGui_ImplDX11_Init(renderSystem->m_d3d_device, renderSystem->m_imm_context);
+	ImGui::StyleColorsDark();
+
+
 }
 
 void AppWindow::onUpdate()
@@ -235,6 +260,28 @@ void AppWindow::onUpdate()
 	//			this->cubeList[i]->draw(width, height, m_vs, m_ps);
 	//		}
 	//	}
+
+
+	//IMGUI
+	//start ImGui Frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	//create ImGui test window
+	ImGui::Begin("Test");
+	ImGui::Text("hello world");
+	ImGui::End();
+
+	//assemble together draw data
+	ImGui::Render();
+
+	//render draw data
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+
+
+
 
 
 	m_swap_chain->present(false);

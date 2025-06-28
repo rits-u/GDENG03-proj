@@ -21,6 +21,10 @@
 #include <vector>
 #include <random>
 
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui_impl_dx11.h"
+#include "IMGUI/imgui_impl_win32.h"
+
 class AppWindow : public Window, public InputListener
 {
 public:
