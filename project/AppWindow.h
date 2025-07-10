@@ -25,6 +25,10 @@
 #include "IMGUI/imgui_impl_dx11.h"
 #include "IMGUI/imgui_impl_win32.h"
 
+//#define _CRT_SECURE_NO_WARNINGS
+//#define STB_IMAGE_IMPLEMENTATION
+//#include "stb_image.h"
+
 class AppWindow : public Window, public InputListener
 {
 public:
@@ -56,6 +60,10 @@ private:
 	void createCamera(Layer layer, float depth, bool enabled);
 	//void createGameObjects(GameObject obj, int num, float scale, Layer layer, )
 
+private:
+	bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
+	bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
+
 public:
 	//Cube* cubeObject;
 	//Camera* camera;
@@ -77,6 +85,13 @@ private:
 	std::vector<GameObject*> UIElements;
 	std::vector<Camera*> sortedCameras;
 
+private:
+	bool test = true;
+
+private:
+	/*	my_image_texture
+		my_image_width
+		my_image_height*/
 
 };
 

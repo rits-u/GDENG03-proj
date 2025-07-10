@@ -155,6 +155,8 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SceneCameraHandler.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="EngineTime.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UINames.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_dx11.h" />
@@ -188,7 +192,9 @@
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SceneCameraHandler.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="UIScreen.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="Vector4D.h" />
     <ClInclude Include="VertexBuffer.h" />

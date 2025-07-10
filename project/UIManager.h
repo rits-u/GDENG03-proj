@@ -1,0 +1,35 @@
+#pragma once
+//#include <string>
+//#include <vector>
+#include "UINames.h"
+#include "UIScreen.h"
+
+class UIManager
+{
+public:
+	typedef std::string String;
+	typedef std::vector<UIScreen*> UIList;
+	typedef std::unordered_map<String, UIScreen*> UIMap;
+
+	static UIManager* get();
+	static void initialize(HWND windowHandle);
+	static void destroy();
+
+	void drawAllUI();
+
+	static const int WINDOW_WIDTH = 1024;
+	static const int WINDOW_HEIGHT = 768;
+
+private:
+	UIManager(HWND windowHandle);
+	~UIManager();
+	UIManager(UIManager const&) {};
+	UIManager& operator=(UIManager const&) {};
+	static UIManager* sharedInstance;
+
+	UIList uiList;
+	UIMap uiMap;
+};
+
+
+
