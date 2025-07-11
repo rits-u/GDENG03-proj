@@ -55,6 +55,12 @@
     <Filter Include="GameEngine\IMGUI">
       <UniqueIdentifier>{a12b3c4d-5678-1234-9abc-def012345682}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\UI">
+      <UniqueIdentifier>{4e47fd51-6d5f-463c-8292-db3a127772b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\UI\Screens">
+      <UniqueIdentifier>{4e47fd51-6d5f-463c-8292-db3a127772b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -105,9 +111,6 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="CameraDump.cpp">
-      <Filter>GameEngine\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>GameEngine\Camera</Filter>
     </ClCompile>
@@ -138,8 +141,18 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp">
       <Filter>GameEngine\IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="UIScreen.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIScreen.cpp">
+      <Filter>GameEngine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsScreen.cpp">
+      <Filter>GameEngine\UI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuToolbar.cpp">
+      <Filter>GameEngine\UI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameEngine\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -202,9 +215,6 @@
     <ClInclude Include="Vector4D.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="CameraDump.h">
-      <Filter>GameEngine\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>GameEngine\Camera</Filter>
     </ClInclude>
@@ -244,10 +254,24 @@
     <ClInclude Include="IMGUI\imstb_truetype.h">
       <Filter>GameEngine\IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="UIScreen.h" />
-    <ClInclude Include="UINames.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="stb_image.h">
+      <Filter>GameEngine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScreen.h">
+      <Filter>GameEngine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UINames.h">
+      <Filter>GameEngine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>GameEngine\UI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuToolbar.h">
+      <Filter>GameEngine\UI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameEngine\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

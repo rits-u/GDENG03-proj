@@ -25,7 +25,7 @@ void MenuToolbar::draw()
                 this->toggleUIScreen(uiNames.CREDITS_SCREEN);
             }
             ImGui::EndMenu();
-        }
+        }   
 
         if (ImGui::BeginMenu("Color")) {
             if (ImGui::MenuItem("Show Color Picker")) {

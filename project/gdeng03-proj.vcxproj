@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraDump.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
@@ -166,7 +165,6 @@
   <ItemGroup>
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraDump.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CreditsScreen.h" />
