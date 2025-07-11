@@ -7,6 +7,7 @@ int main()
 	{
 		GraphicsEngine::create();
 		InputSystem::create();
+		//UIManager::initialize();
 	}
 	catch (...) { return -1; }
 

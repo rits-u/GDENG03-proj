@@ -136,6 +136,7 @@
     <ClCompile Include="CameraDump.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="EngineTime.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuToolbar.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -167,11 +169,13 @@
     <ClInclude Include="CameraDump.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="MenuToolbar.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UINames.h" />
     <ClInclude Include="IMGUI\imconfig.h" />

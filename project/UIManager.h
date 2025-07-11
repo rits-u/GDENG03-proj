@@ -4,6 +4,12 @@
 #include "UINames.h"
 #include "UIScreen.h"
 
+#include "CreditsScreen.h"
+#include "MenuToolbar.h"
+
+#include "RenderSystem.h"
+#include "GraphicsEngine.h"
+
 class UIManager
 {
 public:
@@ -16,9 +22,7 @@ public:
 	static void destroy();
 
 	void drawAllUI();
-
-	static const int WINDOW_WIDTH = 1024;
-	static const int WINDOW_HEIGHT = 768;
+	UIScreen* getUIScreenByName(String name);
 
 private:
 	UIManager(HWND windowHandle);
@@ -29,6 +33,10 @@ private:
 
 	UIList uiList;
 	UIMap uiMap;
+
+public:
+	static const int WINDOW_WIDTH = 1024;
+	static const int WINDOW_HEIGHT = 768;
 };
 
 

@@ -15,4 +15,7 @@ public:
 	const String MENU_SCREEN = "MENU_SCREEN";
 	const String INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
 	const String HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
+	const String CREDITS_SCREEN = "CREDITS_SCREEN";
+	const String COLOR_PICKER = "COLOR_PICKER";
+	const String MENU_TOOLBAR = "MENU_TOOLBAR";
 };

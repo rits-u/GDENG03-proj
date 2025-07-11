@@ -31,21 +31,11 @@ void AppWindow::onCreate()
 	SceneCameraHandler::get()->initialize();
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 
+	UIManager::get()->initialize(this->m_hwnd);
+
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
-
-
-
-	////IMGUI Setup
-	//IMGUI_CHECKVERSION();
-	//ImGui::CreateContext();
-	//ImGuiIO& io = ImGui::GetIO();
-	//ImGui_ImplWin32_Init(this->m_hwnd);
-	//ImGui_ImplDX11_Init(renderSystem->m_d3d_device, renderSystem->m_imm_context);
-	//ImGui::StyleColorsDark();
-
-
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 
@@ -136,23 +126,6 @@ void AppWindow::onCreate()
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
 
-
-
-	//IMGUI Setup
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui_ImplWin32_Init(this->m_hwnd);
-	ImGui_ImplDX11_Init(renderSystem->m_d3d_device, renderSystem->m_imm_context);
-	ImGui::StyleColorsDark();
-
-
-	int my_image_width = 0;
-	int my_image_height = 0;
-	ID3D11ShaderResourceView* my_texture = NULL;
-	bool ret = LoadTextureFromFile("../../../dlsu-logo.png", &my_texture, &my_image_width, &my_image_height);
-	IM_ASSERT(ret);
-
 }
 
 void AppWindow::onUpdate()
@@ -164,9 +137,9 @@ void AppWindow::onUpdate()
 
 	InputSystem::get()->update();
 
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	//ImGui_ImplDX11_NewFrame();
+	//ImGui_ImplWin32_NewFrame();
+	//ImGui::NewFrame();
 
 	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.0f, 0.0f, 0.0f, 1); // 1 0 0 1
 
@@ -249,133 +222,11 @@ void AppWindow::onUpdate()
 			}
 		}
 
-	//	std::cout << cam->getName() << std::endl;
-
-		//
-		/*int test = 0;
-		for (int i = 0; i < sortedCameras.size(); i++) {
-			if (sortedCameras[i]->isEnabled())
-				test++;
-		}*/
-
-	//	std::cout << "COUNT: " << test << std::endl;
 		index++;
 	}
 
 
-	//Camera* cam = cameraHandler->getTestCamera();
-	//cameraHandler->setActiveCamera(cam);
-
-
-	//	for (int i = 0; i < this->cubeList.size(); i++) {
-	//		/*this->cubeList[i]->update(EngineTime::getDeltaTime());
-	//		this->cubeList[i]->draw(width, height, m_vs, m_ps);*/
-
-	//		if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
-	//		{
-	//			this->cubeList[i]->update(EngineTime::getDeltaTime());
-	//			this->cubeList[i]->draw(width, height, m_vs, m_ps);
-	//		}
-	//	}
-
-
-	//IMGUI
-	//start ImGui Frame
-
-
-	////create ImGui test window
-	//ImGui::Begin("Test");
-	//ImGui::Text("hello world");
-	//ImGui::End();
-
-	////assemble together draw data
-	//ImGui::Render();
-
-	////render draw data
-	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-	//float f;
-	//std::string buf;
-
-
-	//ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
-	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-	//bool my_tool_active = true;
-	float my_color[4];
-
-	// Create a window called "My First Tool", with a menu bar.
-	//ImGui::Begin("My First Tool", &this->test, ImGuiWindowFlags_MenuBar);
-	//if (ImGui::BeginMenuBar())
-	//{
-	//	if (ImGui::BeginMenu("File"))
-	//	{
-	//		if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Close", "Ctrl+W")) { this->test = false; }
-	//		ImGui::EndMenu();
-	//	}
-	//	ImGui::EndMenuBar();
-	//}
-
-	//// Edit a color stored as 4 floats
-	//ImGui::ColorEdit4("Color", my_color);
-
-	//// Generate samples and plot them
-	//float samples[100];
-	//for (int n = 0; n < 100; n++)
-	//	samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-	//ImGui::PlotLines("Samples", samples, 100);
-
-	//ImGui::Text("Hello, world %d", 123);
-	//if (ImGui::Button("Spawn"))
-	//	spawnCircle(this->VS_ShaderByteCode, this->VS_SizeShader);
-
-	//// Display contents in a scrolling region
-	//ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	//ImGui::BeginChild("Scrolling");
-	//for (int n = 0; n < 50; n++)
-	//	ImGui::Text("%04d: Some text", n);
-	//ImGui::EndChild();
-	//ImGui::End();
-
-
-
-	ImGui::Begin("Credits", &this->test, ImGuiWindowFlags_MenuBar);
-	//ImGui::Image()
-	//ImGui::TextColored(ImVec4(1, 0, 1, 1), "Developed by: Andrea Legaspi");
-	//ImGui::TextColored(ImVec4(0, 1, 1, 1), "Version: v0.0.1");
-	ImGui::Separator();
-	//ImGui::Text("Hello world!");
-	ImGui::NewLine();
-	//if (ImGui::Button("Close"))
-	//	this->test = false;
-	ImGui::End();
-
-	//ImGui::Begin("OpenGL Texture Text");
-	//ImGui::Text("pointer = %x", my_image_texture);
-	//ImGui::Text("size = %d x %d", my_image_width, my_image_height);
-	//ImGui::Image((ImTextureID)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height));
-	//ImGui::End();
-
-	float color[4];
-
-	/*ImGui::Begin("Color Picker");
-	ImGui::ColorPicker3("Test", color);
-	ImGui::End();*/
-
-
-
-	ImGui::Render();
-
-	//render draw data
-	if (this->test)
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-
-
-	//std::cout << "sdhasd: " << this->test << std::endl;
-
-
+	UIManager::get()->drawAllUI();
 
 
 	m_swap_chain->present(false);
@@ -384,6 +235,7 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
+	UIManager::destroy();
 	//GraphicsEngine::get()->release();
 }
 
@@ -620,69 +472,4 @@ void AppWindow::createCamera(Layer layer, float depth, bool enabled)
 	cam->depth = depth;
 	cam->setEnabled(enabled);
 	SceneCameraHandler::get()->addCameraToList(cam);
-}
-
-bool AppWindow::LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height)
-{
-	//// Load from disk into a raw RGBA buffer
-	//int image_width = 0;
-	//int image_height = 0;
-	//unsigned char* image_data = stbi_load_from_memory((const unsigned char*)data, (int)data_size, &image_width, &image_height, NULL, 4);
-	//if (image_data == NULL)
-	//	return false;
-
-	//// Create texture
-	//D3D11_TEXTURE2D_DESC desc;
-	//ZeroMemory(&desc, sizeof(desc));
-	//desc.Width = image_width;
-	//desc.Height = image_height;
-	//desc.MipLevels = 1;
-	//desc.ArraySize = 1;
-	//desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//desc.SampleDesc.Count = 1;
-	//desc.Usage = D3D11_USAGE_DEFAULT;
-	//desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	//desc.CPUAccessFlags = 0;
-
-	//ID3D11Texture2D* pTexture = NULL;
-	//D3D11_SUBRESOURCE_DATA subResource;
-	//subResource.pSysMem = image_data;
-	//subResource.SysMemPitch = desc.Width * 4;
-	//subResource.SysMemSlicePitch = 0;
-	//GraphicsEngine::get()->getRenderSystem()->m_d3d_device->CreateTexture2D(&desc, &subResource, &pTexture);
-
-	//// Create texture view
-	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	//ZeroMemory(&srvDesc, sizeof(srvDesc));
-	//srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	//srvDesc.Texture2D.MipLevels = desc.MipLevels;
-	//srvDesc.Texture2D.MostDetailedMip = 0;
-	//GraphicsEngine::get()->getRenderSystem()->m_d3d_device->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
-	//pTexture->Release();
-
-	//*out_width = image_width;
-	//*out_height = image_height;
-	//stbi_image_free(image_data);
-
-	return true;
-}
-
-bool AppWindow::LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height)
-{
-	/*FILE* f = fopen_s(file_name, "rb", );
-	if (f == NULL)
-		return false;
-	fseek(f, 0, SEEK_END);
-	size_t file_size = (size_t)ftell(f);
-	if (file_size == -1)
-		return false;
-	fseek(f, 0, SEEK_SET);
-	void* file_data = IM_ALLOC(file_size);
-	fread(file_data, 1, file_size, f);
-	fclose(f);
-	bool ret = LoadTextureFromMemory(file_data, file_size, out_srv, out_width, out_height);
-	IM_FREE(file_data);
-	return ret;*/
-	return true;
 }

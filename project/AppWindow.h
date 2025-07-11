@@ -25,6 +25,8 @@
 #include "IMGUI/imgui_impl_dx11.h"
 #include "IMGUI/imgui_impl_win32.h"
 
+#include "UIManager.h"
+
 //#define _CRT_SECURE_NO_WARNINGS
 //#define STB_IMAGE_IMPLEMENTATION
 //#include "stb_image.h"
