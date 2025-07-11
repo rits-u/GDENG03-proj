@@ -32,7 +32,6 @@ void CreditsScreen::draw()
 					          "Sir Neil's GDENG03 Course";
 		ImGui::Text(text.c_str());
 		ImGui::End();
-		std::cout << "girllll" << std::endl;
 	}
 
 	//reference:
