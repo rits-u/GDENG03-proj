@@ -111,7 +111,7 @@ Cube::~Cube()
 	//this->vb->release();
 	//this->cb->release();
 	//this->ib->release();
-	GameObject::~GameObject();
+	//GameObject::~GameObject();
 }
 
 void Cube::update(float deltaTime)

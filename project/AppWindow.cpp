@@ -45,8 +45,10 @@ void AppWindow::onCreate()
 	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
 	//PIXEL SHADER
+
 	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
+
 
 	//instantiate CUBES with DEBUG layer
 	int numCubes = 1;
@@ -119,7 +121,6 @@ void AppWindow::onCreate()
 
 
 
-
 	renderSystem->createRasterizerStates();
 
 	createCamera(Layer::DEBUG,   1, false);
@@ -130,8 +131,13 @@ void AppWindow::onCreate()
 	cameraHandler->sortCamerasByDepth();
 
 
-	GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
-	GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
+	//GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
+	//GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
+
+	UINames uiNames;
+
+	MenuToolbar* menuToolbar = (MenuToolbar*)UIManager::get()->getUIScreenByName(uiNames.MENU_TOOLBAR);
+	menuToolbar->setShaders(this->VS_ShaderByteCode, this->VS_SizeShader);
 
 }
 
@@ -141,7 +147,7 @@ void AppWindow::onUpdate()
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
-
+	
 	InputSystem::get()->update();
 
 	//ImGui_ImplDX11_NewFrame();
@@ -161,10 +167,15 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	cameraHandler->updateAllCameras();
 	this->sortedCameras = cameraHandler->getAllCameras();
+	cameraHandler->updateAllCameras();
+	
+	List gameObjectList = GameObjectManager::get()->getAllObjects();
 
 	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain);
+
+	int index = 0;
+
 
 
 	//int index = 0;
@@ -176,6 +187,9 @@ void AppWindow::onUpdate()
 	//	else {
 	//		renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
 	//	}
+
+	//	std::cout << "??? " << cam->cullingMask << std::endl;
+	//	std::cout << "asdasdas " << this->sortedCameras.size() << std::endl;
 
 	//	//clear depth only for debug camera 
 	//	if (cam->cullingMask & Layer::DEBUG)
@@ -229,20 +243,20 @@ void AppWindow::onUpdate()
 	//		}
 	//	}
 
-	//	List gameObjectList = GameObjectManager::get()->getAllObjects();
-	//	for (int i = 0; i < gameObjectList.size(); i++) {
-	//		if ((cam->cullingMask & gameObjectList[i]->getLayer()) != 0) {
-	//			gameObjectList[i]->update(EngineTime::getDeltaTime());
-	//			gameObjectList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-	//			if (cam->isEnabled()) {
-	//				gameObjectList[i]->render();
-	//			}
-	//		}
-	//	}
+	/*	List gameObjectList = GameObjectManager::get()->getAllObjects();
+		for (int i = 0; i < gameObjectList.size(); i++) {
+			if ((cam->cullingMask & gameObjectList[i]->getLayer()) != 0) {
+				gameObjectList[i]->update(EngineTime::getDeltaTime());
+				gameObjectList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+				if (cam->isEnabled()) {
+					gameObjectList[i]->render();
+				}
+			}
+		}*/
 
-	//	std::cout << "WWWWWWWWWWWW" << gameObjectList.size() << std::endl;
+	//	std::cout << "WWWWWWWWWWWW" << GameObjectManager::get()->getAllObjects().size() << std::endl;
 
-	//	index++;
+		//index++;
 	//}
 
 
@@ -252,23 +266,37 @@ void AppWindow::onUpdate()
 
 
 	m_swap_chain->present(false);
+
+
 }
+
 
 void AppWindow::onDestroy()
 {
+	InputSystem::get()->removeListener(this);
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
+	GameObjectManager::get()->destroy();
+	SceneCameraHandler::get()->destroy();
+	UIManager::get()->destroy();
+	InputSystem::get()->release();
+	GraphicsEngine::get()->release();
 	Window::onDestroy();
-	UIManager::destroy();
-	//GraphicsEngine::get()->release();
+	std::cout << "hi" << std::endl;
+
 }
 
 void AppWindow::onFocus()
 {
-	InputSystem::get()->addListener(SceneCameraHandler::get()->getCamera());
+	Camera* camera = SceneCameraHandler::get()->getCamera();
+	if(camera)
+		InputSystem::get()->addListener(camera);
 }
 
 void AppWindow::onKillFocus()
 {
-	InputSystem::get()->removeListener(SceneCameraHandler::get()->getCamera());
+	Camera* camera = SceneCameraHandler::get()->getCamera();
+	if (camera)
+		InputSystem::get()->removeListener(camera);
 }
 
 void AppWindow::onKeyDown(int key)
@@ -378,16 +406,16 @@ void AppWindow::onKeyDown(int key)
 		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
 	}
 
-	//CLOSE
-	else if (key == 27)
+	//CLOSE escape key
+	else if (key == 27 && !this->holding)
 	{
+		this->holding = true;
 		std::cout << "Closed application" << std::endl;
-		GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();	
 		::DestroyWindow(this->m_hwnd);
 		::PostQuitMessage(0);
-	}
+		return;
 
-	//std::cout << "Key: " << key << std::endl;
+	}
 }
 
 void AppWindow::onKeyUp(int key)

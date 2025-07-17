@@ -69,6 +69,11 @@ Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(
 	cc.m_time = 0;
 	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 	//cb->load(&cc, sizeof(constant));
+
+	this->setPosition(0.0f, 0.0f, 0.0f);
+	this->setScale(5.0f, 5.0f, 5.0f);
+	this->setRotation(0.0f, 0.0f, 0.0f);
+	this->setLayer(this->getLayer() | Layer::DEBUG);
 }
 
 

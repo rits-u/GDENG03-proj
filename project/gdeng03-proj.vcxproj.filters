@@ -291,7 +291,7 @@
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
-      <Filter>GameEngine</Filter>
+      <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

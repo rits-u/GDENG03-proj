@@ -9,13 +9,15 @@
 #include "Camera.h"
 
 #include "GraphicsEngine.h"
+#include "InputSystem.h"
+#include "Types.h"
 
 class GameObjectManager
 {
 public:
 	//typedef std::string String;
-	typedef std::vector<GameObject*> List;
-	typedef std::unordered_map<string, GameObject*> HashTable;
+	//typedef std::vector<GameObject*> List;
+	//typedef std::unordered_map<string, GameObject*> HashTable;
 
 	enum PrimitiveType {
 		CUBE,
@@ -39,9 +41,15 @@ public:
 	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
 	void deleteObject(GameObject* gameObject);
 	void deleteObjectByName(string name);
+	void markDeletion(GameObject* gameObject);
+	void processPendingDeletions();
+	void clearSelectedObject();
 	void setSelectedObject(string name);
 	void setSelectedObject(GameObject* gameObject);
 	GameObject* getSelectedObject();
+
+private:
+	string adjustGameObjectName(string name);
 
 private:
 	GameObjectManager();
@@ -54,6 +62,7 @@ private:
 	List gameObjectList;
 	HashTable gameObjectTable;
 	GameObject* selectedObject;
+	List pendingDeletion;
 
 };
 

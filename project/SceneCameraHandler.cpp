@@ -20,6 +20,9 @@ void SceneCameraHandler::initialize()
 
 void SceneCameraHandler::destroy()
 {
+    if (!SceneCameraHandler::sharedInstance)
+        return;
+
     delete sharedInstance;
 }
 
@@ -112,7 +115,12 @@ SceneCameraHandler::SceneCameraHandler()
 
 SceneCameraHandler::~SceneCameraHandler()
 {
-    delete this->sceneCamera;
+    for (int i = 0; i < this->cameraList.size(); i++) {
+        delete this->cameraList[i];
+    }
+   // delete this->sceneCamera;
+    cameraList.clear();
+    SceneCameraHandler::sharedInstance = nullptr;
 }
 
 

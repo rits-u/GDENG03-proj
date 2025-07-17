@@ -39,6 +39,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         window->onKillFocus();
         break;
     }
+
+    case WM_KEYDOWN:
+        if (wparam == VK_ESCAPE)
+        {
+            Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+            ::DestroyWindow(hwnd);
+            ::PostQuitMessage(0);
+            return 0; 
+        }
+        break;
     case WM_DESTROY:
     {
         //event fired when the window will be destroyed

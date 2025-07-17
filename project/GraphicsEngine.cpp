@@ -28,7 +28,8 @@ GraphicsEngine::~GraphicsEngine()
 
 RenderSystem* GraphicsEngine::getRenderSystem()
 {
-	return this->m_render_system;
+	if(m_render_system)
+		return this->m_render_system;
 }
 
 GraphicsEngine* GraphicsEngine::get()

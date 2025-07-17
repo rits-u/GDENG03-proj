@@ -14,6 +14,7 @@ private:
 public:
 	RenderSystem* getRenderSystem();
 
+
 public:
 	static GraphicsEngine* get();
 	static void create();

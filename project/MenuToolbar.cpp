@@ -38,6 +38,17 @@ void MenuToolbar::draw()
             ImGui::EndMenu();
         }
 
+        if (ImGui::BeginMenu("Game Object")) {
+            if (ImGui::MenuItem("Cube")) {
+                GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->shaderByteCode, this->sizeShader);
+            }
+            if (ImGui::MenuItem("Plane")) {
+                GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::PLANE, this->shaderByteCode, this->sizeShader);
+            }
+
+            ImGui::EndMenu();
+        }
+
         if (ImGui::BeginMenu("Color")) {
             if (ImGui::MenuItem("Show Color Picker")) {
                 showColorPicker = !showColorPicker;
@@ -76,4 +87,11 @@ void MenuToolbar::openColorPickerUI()
         ImGui::ColorPicker3("Color", this->myColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_NoInputs);
         ImGui::End();
     }
+}
+
+
+void MenuToolbar::setShaders(void* shaderByteCode, size_t sizeShader)
+{
+    this->shaderByteCode = shaderByteCode;
+    this->sizeShader = sizeShader;
 }

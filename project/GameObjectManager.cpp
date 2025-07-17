@@ -98,21 +98,29 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
     int index = 0; 
 
     for (Camera* cam : cameras) {
-        if (!cam || !cam->isEnabled())
-            continue;
+      /*  if (!cam || !cam->isEnabled())
+            continue;*/
 
-        if (cam->cullingMask & Layer::DEBUG)
+        if (cam->cullingMask & Layer::DEBUG) {
             context->setRasterizerState(renderSystem->getWireframeState());
-        else
+            context->clearDepth(sc);
+        }
+        else {
             context->setRasterizerState(renderSystem->getSolidState());
+        }
 
-        context->clearDepth(sc);
+//        std::cout << cam->getLayer() << std::endl;
+
+        //context->clearDepth(sc);
 
         for (GameObject* obj : gameObjectList) {
             if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
-                obj->update(EngineTime::getDeltaTime());
-                obj->updateTransformAndBuffers(width, height, vs, ps, index);
-                obj->render();
+                if (obj != NULL) {
+                    obj->update(EngineTime::getDeltaTime());
+                    obj->updateTransformAndBuffers(width, height, vs, ps, index);
+                    if (cam->isEnabled())
+                        obj->render();
+                }
             }
         }
 
@@ -129,10 +137,17 @@ void GameObjectManager::addObject(GameObject* gameObject)
 void GameObjectManager::createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader)
 {
     switch (type) {
-    case PrimitiveType::CUBE: 
-        Cube* cubeObject = new Cube("Cube", shaderByteCode, sizeShader);
-        this->addObject(cubeObject);
-        break;
+        case PrimitiveType::CUBE: {
+            Cube* cubeObject = new Cube(adjustGameObjectName("Cube"), shaderByteCode, sizeShader);
+            this->addObject(cubeObject);
+            break;
+        }
+   
+        case PrimitiveType::PLANE: {
+            Plane* planeObject = new Plane(adjustGameObjectName("Plane"), shaderByteCode, sizeShader);
+            this->addObject(planeObject);
+            break;
+        }
     }
 }
 
@@ -140,6 +155,9 @@ void GameObjectManager::deleteObject(GameObject* gameObject)
 {
     for (int i = 0; i < this->gameObjectList.size(); i++) {
         if (this->gameObjectList[i] == gameObject) {
+            if (dynamic_cast<InputListener*>(this->gameObjectList[i]))
+                InputSystem::get()->removeListener((InputListener*)this->gameObjectList[i]);
+
             delete this->gameObjectList[i];
             this->gameObjectList.erase(this->gameObjectList.begin() + i);
             break;
@@ -156,6 +174,11 @@ void GameObjectManager::deleteObjectByName(string name)
             break;
         }
     }
+}
+
+void GameObjectManager::clearSelectedObject()
+{
+    this->selectedObject = nullptr;
 }
 
 void GameObjectManager::setSelectedObject(string name)
@@ -181,6 +204,25 @@ void GameObjectManager::setSelectedObject(GameObject* gameObject)
 GameObject* GameObjectManager::getSelectedObject()
 {
     return this->selectedObject;
+}
+
+string GameObjectManager::adjustGameObjectName(string name)
+{
+    string adjustedName;
+    int count = 0;
+
+    for (GameObject* obj : this->gameObjectList) {
+        string temp = obj->getName();
+        if (temp.find(name) != std::string::npos)
+            count++;
+    }
+
+    if (count > 0)
+        adjustedName = name + " " + to_string(count);
+    else
+        adjustedName = name;
+
+    return adjustedName;
 }
 
 GameObjectManager::GameObjectManager()
