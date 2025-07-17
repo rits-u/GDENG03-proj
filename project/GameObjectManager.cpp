@@ -48,7 +48,7 @@ int GameObjectManager::activeObjects()
     return activeObjs;
 }
 
-void GameObjectManager::updateAll()
+void GameObjectManager::initialUpdateAll()
 {
     for (GameObject* obj : this->gameObjectList) {
         if (obj->isEnabled())
@@ -72,24 +72,6 @@ void GameObjectManager::renderAll()
     }
 }
 
-//void GameObjectManager::updateAllTransformAndBuffers()
-//{
-//    for (int i = 0; i < this->gameObjectList.size(); i++) {
-//        if (this->gameObjectList[i]->isEnabled()) {
-//            this->gameObjectList[i]->updateTransformAndBuffers()
-//        }
-//    }
-//}
-//
-//void GameObjectManager::renderAll(int viewportWidth, int viewportHeight, VertexShaderPtr vertexShader, PixelShaderPtr pixelShader)
-//{
-//    for (int i = 0; i < this->gameObjectList.size(); i++) {
-//        if (this->gameObjectList[i]->isEnabled()) {
-//            this->gameObjectList[i]->draw(viewportWidth, viewportHeight, vertexShader, pixelShader);
-//        }
-//    }
-//}
-
 void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc)
 {
     RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
@@ -98,9 +80,6 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
     int index = 0; 
 
     for (Camera* cam : cameras) {
-      /*  if (!cam || !cam->isEnabled())
-            continue;*/
-
         if (cam->cullingMask & Layer::DEBUG) {
             context->setRasterizerState(renderSystem->getWireframeState());
             context->clearDepth(sc);

@@ -85,11 +85,8 @@ bool UIScreen::LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceVi
     //FILE* f = fopen(file_name, "rb");
     FILE* f = nullptr;
     fopen_s(&f, file_name, "rb");
-    if (!f)
-    {
-        // Handle error
+    if (!f) 
         return false;
-    }
    // if (f == NULL)
       //  return false;
     fseek(f, 0, SEEK_END);

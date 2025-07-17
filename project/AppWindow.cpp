@@ -7,9 +7,6 @@
 #include "RenderSystem.h"
 
 #include "Types.h"
-//#define _CRT_SECURE_NO_WARNINGS
-//#define STB_IMAGE_IMPLEMENTATION
-//#include "stb_image.h"
 
 
 AppWindow::AppWindow()
@@ -45,80 +42,12 @@ void AppWindow::onCreate()
 	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
 	//PIXEL SHADER
-
 	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
 
 
-	//instantiate CUBES with DEBUG layer
-	int numCubes = 1;
-	for (int i = 0; i < numCubes; i++) {
-		float x = generateRandomFloat(-2.75f, 2.75f);
-		float y = generateRandomFloat(-2.75f, 2.75f);
-
-		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-		cubeObject->setAnimationSpeed(generateRandomFloat(0.5f, 3.0f));
-		cubeObject->setPosition(x, y, 0.0f);
-		cubeObject->setScale(0.7f, 0.7f, 0.7f);
-		this->cubeList.push_back(cubeObject);
-		cubeObject->setLayer(cubeObject->getLayer() | Layer::DEBUG);
-
-	}
-
-	//instantiate CUBES without DEBUG layer
-	numCubes = 0;
-	for (int i = 0; i < numCubes; i++) {
-		float x = generateRandomFloat(-2.75f, 2.75f);
-		float y = generateRandomFloat(-2.75f, 2.75f);
-		float z = generateRandomFloat(-1.0f, 1.0f);
-
-		Cube* cubeObject = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-		cubeObject->setAnimationSpeed(generateRandomFloat(-0.5, 3.0f));
-		cubeObject->setPosition(x, y, z);
-		cubeObject->setScale(0.4, 0.4f, 0.4f);
-		cubeObject->setRotation(convertToRadians(90), 0, 0);
-		cubeObject->setIsAnimated(false);
-		this->cubeList.push_back(cubeObject);
-		//cubeObject->setLayer(Layer::DEFAULT);
-
-	}
-
-
-	//instantiate PLANES with DEBUG layer
-	int numPlanes = 1;
-	for (int i = 0; i < numPlanes; i++) {
-		Plane* planeObject = new Plane("Plane", this->VS_ShaderByteCode, this->VS_SizeShader);
-		planeObject->setPosition(Vector3D::zeros());
-		planeObject->setScale(5.0f, 5.0f, 5.0f);
-		planeObject->setLayer(planeObject->getLayer() | Layer::DEBUG);
-		this->planeList.push_back(planeObject);
-	}
-
-
-	//CIRCLE UI
-	Vector3D color = Vector3D(1.0, 1.0, 0.0);
-	Circle* UIObject = new Circle("Circle", this->VS_ShaderByteCode, this->VS_SizeShader, 32, 1, color);
-	UIObject->setScale(50, 50, 1.0f);
-	UIObject->setRotation(convertToRadians(180), 0, 0);
-	Vector3D worldCoords = convertPixelsToWorld(2.0f, 900, 100, width, height);
-	UIObject->setPosition(worldCoords);
-	UIObject->setLayer(Layer::UI);
-	this->UIElements.push_back(UIObject);
-
-	
-	Cube* UIObject1 = new Cube("Cube", this->VS_ShaderByteCode, this->VS_SizeShader);
-	UIObject1->setScale(40, 200, 1.0f);
-	UIObject->setRotation(convertToRadians(180), 0, 0);
-	worldCoords = convertPixelsToWorld(2.0f, 100, 350, width, height);
-	UIObject1->setPosition(worldCoords);
-	UIObject1->setLayer(Layer::UI);
-	UIObject1->setIsAnimated(false);
-	this->UIElements.push_back(UIObject1);
-	
-
 	//RELEASE VERTEX SHADER
 	//renderSystem->releaseCompiledShader();
-
 
 
 	renderSystem->createRasterizerStates();
@@ -130,12 +59,7 @@ void AppWindow::onCreate()
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
 
-
-	//GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
-	//GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
-
 	UINames uiNames;
-
 	MenuToolbar* menuToolbar = (MenuToolbar*)UIManager::get()->getUIScreenByName(uiNames.MENU_TOOLBAR);
 	menuToolbar->setShaders(this->VS_ShaderByteCode, this->VS_SizeShader);
 
@@ -149,10 +73,6 @@ void AppWindow::onUpdate()
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 	
 	InputSystem::get()->update();
-
-	//ImGui_ImplDX11_NewFrame();
-	//ImGui_ImplWin32_NewFrame();
-	//ImGui::NewFrame();
 
 	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.05f, 0.05f, 0.05f, 1); // 1 0 0 1
 
@@ -171,103 +91,12 @@ void AppWindow::onUpdate()
 	cameraHandler->updateAllCameras();
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
-
 	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain);
 
-	int index = 0;
-
-
-
-	//int index = 0;
-	//for (Camera* cam : this->sortedCameras) {
-	//	if (cam->cullingMask & Layer::DEBUG) {
-	//		renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
-	//		renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
-	//	}
-	//	else {
-	//		renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
-	//	}
-
-	//	std::cout << "??? " << cam->cullingMask << std::endl;
-	//	std::cout << "asdasdas " << this->sortedCameras.size() << std::endl;
-
-	//	//clear depth only for debug camera 
-	//	if (cam->cullingMask & Layer::DEBUG)
-	//
-	//	for (int i = 0; i < this->cubeList.size(); i++) {
-	//		if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
-	//		{
-	//			this->cubeList[i]->update(EngineTime::getDeltaTime());
-	//			this->cubeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-	//			if (cam->isEnabled()) {
-	//				this->cubeList[i]->render();
-	//			}
-	//		}
-	//	}
-
-	//	for (int i = 0; i < this->planeList.size(); i++) {
-	//		if ((cam->cullingMask & this->planeList[i]->getLayer()) != 0)
-	//		{
-	//			this->planeList[i]->update(EngineTime::getDeltaTime());
-	//			this->planeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-	//			if (cam->isEnabled()) {
-	//				this->planeList[i]->render();
-	//			}
-	//		}
-	//	}
-
-
-	//	for (int i = 0; i < this->circleList.size(); i++) {
-	//		if ((cam->cullingMask & this->circleList[i]->getLayer()) != 0)
-	//		{
-	//			this->circleList[i]->update(EngineTime::getDeltaTime());
-	//			this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-	//			if (cam->isEnabled()) {
-	//				this->circleList[i]->render();
-	//			}
-	//		}
-	//	}
-
-	//	for (int i = 0; i < this->UIElements.size(); i++) {
-	//		if ((cam->cullingMask & this->UIElements[i]->getLayer()) != 0)
-	//		{
-	//			this->UIElements[i]->update(EngineTime::getDeltaTime());
-	//			this->UIElements[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-	//			if (cam->isEnabled()) {
-	//				this->UIElements[i]->render();
-	//			}
-	//		}
-	//	}
-
-	/*	List gameObjectList = GameObjectManager::get()->getAllObjects();
-		for (int i = 0; i < gameObjectList.size(); i++) {
-			if ((cam->cullingMask & gameObjectList[i]->getLayer()) != 0) {
-				gameObjectList[i]->update(EngineTime::getDeltaTime());
-				gameObjectList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-				if (cam->isEnabled()) {
-					gameObjectList[i]->render();
-				}
-			}
-		}*/
-
-	//	std::cout << "WWWWWWWWWWWW" << GameObjectManager::get()->getAllObjects().size() << std::endl;
-
-		//index++;
-	//}
-
-
-	//GameObjectManager::get()->updateAll();
-	//GameObjectManager::get()->renderAll(width, height, m_vs, m_ps);
 	UIManager::get()->drawAllUI();
 
 
 	m_swap_chain->present(false);
-
-
 }
 
 
@@ -281,7 +110,7 @@ void AppWindow::onDestroy()
 	InputSystem::get()->release();
 	GraphicsEngine::get()->release();
 	Window::onDestroy();
-	std::cout << "hi" << std::endl;
+	std::cout << "Closed Program" << std::endl;
 
 }
 
@@ -371,40 +200,40 @@ void AppWindow::onKeyDown(int key)
 	}
 
 	//SPACE
-	else if (key == 32 && !this->holding)
-	{
-		this->spawnCircle(this->VS_ShaderByteCode, this->VS_SizeShader);
-		this->holding = true;
-		std::cout << "Spawned circle" << std::endl;
-		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	}
+	//else if (key == 32 && !this->holding)
+	//{
+	//	this->spawnCircle(this->VS_ShaderByteCode, this->VS_SizeShader);
+	//	this->holding = true;
+	//	std::cout << "Spawned circle" << std::endl;
+	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	//}
 
-	//REMOVE RECENT
-	else if (key == 8 && !this->holding)
-	{
-		if (this->circleList.size() > 0)
-		{
-			delete this->circleList.back();
-			this->circleList.pop_back();
-		}
-		this->holding = true;
-		std::cout << "Deleted recent circle" << std::endl;
-		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	}
+	////REMOVE RECENT
+	//else if (key == 8 && !this->holding)
+	//{
+	//	if (this->circleList.size() > 0)
+	//	{
+	//		delete this->circleList.back();
+	//		this->circleList.pop_back();
+	//	}
+	//	this->holding = true;
+	//	std::cout << "Deleted recent circle" << std::endl;
+	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	//}
 
-	//REMOVE ALL
-	else if (key == 46 && !this->holding)
-	{
-		for (int i = 0; i < this->circleList.size(); i++)
-		{
-			delete circleList[i];
-			circleList[i] = nullptr;
-		}
-		this->circleList.clear();
-		this->holding = true;
-		std::cout << "Deleted all circles" << std::endl;
-		std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	}
+	////REMOVE ALL
+	//else if (key == 46 && !this->holding)
+	//{
+	//	for (int i = 0; i < this->circleList.size(); i++)
+	//	{
+	//		delete circleList[i];
+	//		circleList[i] = nullptr;
+	//	}
+	//	this->circleList.clear();
+	//	this->holding = true;
+	//	std::cout << "Deleted all circles" << std::endl;
+	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
+	//}
 
 	//CLOSE escape key
 	else if (key == 27 && !this->holding)

@@ -19,34 +19,7 @@ cbuffer constant : register(b0)
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
-	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
-    //return float4(input.color, 1.0f);
-    
-      //return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
-  
-    //float t = (sin(m_time / 3000.0f) + 1.0f) * 0.5f;
-    //return float4(lerp(input.color, input.color1, t), 1.0f);
-    
-    
-      //return float4(lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f), 1.0f);
-    
     float3 baseColor = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     return float4(lerp(baseColor, wireColor.rgb, useWireColor), 1.0f);
-    
-    //if (useWireColor > 0.5f)
-    //    return float4(wireColor.rgb, 1.0f);
- 
-    //float3 baseColor = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);    
-    //float3 finalColor = baseColor;
-    //if (useWireColor > 0.5f)
-    //{
-    //    finalColor = wireColor.rgb;
-    //}
-    //return float4(finalColor, 1.0f);
-    
-    //return float4(wireColor.rgb, 1.0f);
   
-   
-
-   
 }

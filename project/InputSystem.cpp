@@ -35,13 +35,6 @@ void InputSystem::update()
 			++it;
 		}
 
-		//	auto currentListeners = mapListeners; //  copy to avoid iterator invalidation
-
-		//	for (auto& [key, listener] : currentListeners)
-		//	{
-		//		listener->onMouseMove(Point(currentMousePos.x, currentMousePos.y));
-		//	}
-		//}
 		old_mouse_pos = Point(currentMousePos.x, currentMousePos.y);
 	}
 	if (::GetKeyboardState(keys_state))
@@ -56,9 +49,6 @@ void InputSystem::update()
 				std::map<InputListener*, InputListener*>::iterator it = currentListeners.begin();
 				while (it != currentListeners.end())
 				{
-					/*InputListener* listener = it->first;
-					if (!listener || listener->isDestroyed) continue;*/
-
 					if (i == VK_LBUTTON)
 					{
 						if (keys_state[i] != old_keys_state[i]) {
