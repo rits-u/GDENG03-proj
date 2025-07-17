@@ -9,7 +9,7 @@ public:
 	static void initialize();
 	static void destroy();
 
-	void update();
+	void updateAllCameras();
 
 	Matrix4x4 getSceneCameraViewMatrix();
 	void setScreenSize(int width, int height);

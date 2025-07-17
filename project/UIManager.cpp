@@ -70,6 +70,14 @@ UIManager::UIManager(HWND windowHandle)
     this->uiMap[uiNames.CREDITS_SCREEN] = creditsScreen;
     this->uiList.push_back(creditsScreen);
 
+    InspectorScreen* inspectorScreen = new InspectorScreen();
+    this->uiMap[uiNames.INSPECTOR_SCREEN] = inspectorScreen;
+    this->uiList.push_back(inspectorScreen);
+
+    HierarchyScreen* hierarchyScreen = new HierarchyScreen();
+    this->uiMap[uiNames.HIERARCHY_SCREEN] = hierarchyScreen;
+    this->uiList.push_back(hierarchyScreen);
+
    // CreditsSreen* 
 }
 

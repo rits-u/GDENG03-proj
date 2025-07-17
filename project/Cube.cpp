@@ -13,8 +13,8 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	InputSystem::get()->addListener(this);
 
-	m_worldCamera.setIdentity();
-	m_worldCamera.setTranslation(Vector3D(0, 0, -2));
+	/*m_worldCamera.setIdentity();
+	m_worldCamera.setTranslation(Vector3D(0, 0, -2));*/
 
 	Vector3D white = Vector3D(1, 1, 1);
 
@@ -98,6 +98,11 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 	cc.m_time = 0;
 	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 //	cb->load(&cc, sizeof(constant));
+
+	this->setPosition(0.0f, 0.0f, 0.0f);
+	this->setScale(1.0f, 1.0f, 1.0f);
+	this->setRotation(0.0f, 0.0f, 0.0f);
+	this->setLayer(this->getLayer() | Layer::DEBUG);
 }
 
 Cube::~Cube()

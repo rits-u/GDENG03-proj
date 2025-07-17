@@ -8,6 +8,7 @@ GameObject::GameObject(string name)
     this->localScale = Vector3D::ones();
     this->localRotation = Vector3D::zeros();
     this->layer = Layer::DEFAULT;
+    this->enabled = true;
 }
 
 GameObject::~GameObject()

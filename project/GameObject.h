@@ -2,7 +2,6 @@
 #include <string>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
-#include "CameraDump.h"
 #include "Prerequisites.h"
 //#include "Camera.h"
 

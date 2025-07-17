@@ -16,7 +16,7 @@ public:
 private:
 //	bool isActive;
 	bool showColorPicker;
-	bool showCredits;
+	//bool showCredits;
 
 	float myColor[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
 

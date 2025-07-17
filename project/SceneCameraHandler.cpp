@@ -23,7 +23,7 @@ void SceneCameraHandler::destroy()
     delete sharedInstance;
 }
 
-void SceneCameraHandler::update()
+void SceneCameraHandler::updateAllCameras()
 {  
  //   this->sceneCamera->update(EngineTime::getDeltaTime());
 

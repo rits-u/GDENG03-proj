@@ -57,8 +57,8 @@ private:
 	float deltaScale = 0.0f;
 	float speed = 10.0f;
 	float accumulatedTime = 0.0f;
-	bool animated = true;
-	Matrix4x4 m_worldCamera;
+	bool animated = false;
+	//Matrix4x4 m_worldCamera;
 
 };
 

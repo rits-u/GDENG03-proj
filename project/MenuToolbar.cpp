@@ -5,7 +5,7 @@ MenuToolbar::MenuToolbar() : UIScreen("Menu Toolbar")
 {
 	//this->isActive = true;
     this->showColorPicker = false;
-    this->showCredits = false;
+   // this->showCredits = false;
 
 }
 
@@ -26,6 +26,17 @@ void MenuToolbar::draw()
             }
             ImGui::EndMenu();
         }   
+
+        if (ImGui::BeginMenu("Window")) {
+            if (ImGui::MenuItem("Hierarchy")) {
+                this->toggleUIScreen(uiNames.HIERARCHY_SCREEN);
+            }
+            if (ImGui::MenuItem("Inspector")) {
+                this->toggleUIScreen(uiNames.INSPECTOR_SCREEN);
+            }
+
+            ImGui::EndMenu();
+        }
 
         if (ImGui::BeginMenu("Color")) {
             if (ImGui::MenuItem("Show Color Picker")) {

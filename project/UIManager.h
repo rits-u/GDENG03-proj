@@ -6,6 +6,8 @@
 
 #include "CreditsScreen.h"
 #include "MenuToolbar.h"
+#include "InspectorScreen.h"
+#include "HierarchyScreen.h"
 
 #include "RenderSystem.h"
 #include "GraphicsEngine.h"
@@ -35,8 +37,8 @@ private:
 	UIMap uiMap;
 
 public:
-	static const int WINDOW_WIDTH = 1024;
-	static const int WINDOW_HEIGHT = 768;
+	static const int WINDOW_WIDTH = 1200;
+	static const int WINDOW_HEIGHT = 800;
 };
 
 

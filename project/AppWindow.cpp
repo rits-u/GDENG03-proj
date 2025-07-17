@@ -6,6 +6,7 @@
 #include "SceneCameraHandler.h"
 #include "RenderSystem.h"
 
+#include "Types.h"
 //#define _CRT_SECURE_NO_WARNINGS
 //#define STB_IMAGE_IMPLEMENTATION
 //#include "stb_image.h"
@@ -32,6 +33,7 @@ void AppWindow::onCreate()
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 
 	UIManager::get()->initialize(this->m_hwnd);
+	GameObjectManager::get()->initialize();
 
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
@@ -42,7 +44,10 @@ void AppWindow::onCreate()
 	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
 	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
-	
+	//PIXEL SHADER
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
+	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
+
 	//instantiate CUBES with DEBUG layer
 	int numCubes = 1;
 	for (int i = 0; i < numCubes; i++) {
@@ -113,9 +118,7 @@ void AppWindow::onCreate()
 	//renderSystem->releaseCompiledShader();
 
 
-	//PIXEL SHADER
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
-	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
+
 
 	renderSystem->createRasterizerStates();
 
@@ -125,6 +128,10 @@ void AppWindow::onCreate()
 
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
+
+
+	GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
+	GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->VS_ShaderByteCode, this->VS_SizeShader);
 
 }
 
@@ -141,7 +148,7 @@ void AppWindow::onUpdate()
 	//ImGui_ImplWin32_NewFrame();
 	//ImGui::NewFrame();
 
-	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.0f, 0.0f, 0.0f, 1); // 1 0 0 1
+	renderSystem->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.05f, 0.05f, 0.05f, 1); // 1 0 0 1
 
 	//set viewport of render target in which we have to draw
 	RECT rc = this->getClientWindowRect();
@@ -154,78 +161,93 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-
+	cameraHandler->updateAllCameras();
 	this->sortedCameras = cameraHandler->getAllCameras();
-	cameraHandler->update();
+
+	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain);
 
 
+	//int index = 0;
+	//for (Camera* cam : this->sortedCameras) {
+	//	if (cam->cullingMask & Layer::DEBUG) {
+	//		renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
+	//		renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
+	//	}
+	//	else {
+	//		renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
+	//	}
 
-	int index = 0;
-	for (Camera* cam : this->sortedCameras) {
-		if (cam->cullingMask & Layer::DEBUG) {
-			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getWireframeState());
-			renderSystem->getImmediateDeviceContext()->clearDepth(this->m_swap_chain);
-		}
-		else {
-			renderSystem->getImmediateDeviceContext()->setRasterizerState(renderSystem->getSolidState());
-		}
+	//	//clear depth only for debug camera 
+	//	if (cam->cullingMask & Layer::DEBUG)
+	//
+	//	for (int i = 0; i < this->cubeList.size(); i++) {
+	//		if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
+	//		{
+	//			this->cubeList[i]->update(EngineTime::getDeltaTime());
+	//			this->cubeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
 
-		////clear depth only for debug camera 
-		//if (cam->cullingMask & Layer::DEBUG)
-	
-		for (int i = 0; i < this->cubeList.size(); i++) {
-			if ((cam->cullingMask & this->cubeList[i]->getLayer()) != 0)
-			{
-				this->cubeList[i]->update(EngineTime::getDeltaTime());
-				this->cubeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+	//			if (cam->isEnabled()) {
+	//				this->cubeList[i]->render();
+	//			}
+	//		}
+	//	}
 
-				if (cam->isEnabled()) {
-					this->cubeList[i]->render();
-				}
-			}
-		}
+	//	for (int i = 0; i < this->planeList.size(); i++) {
+	//		if ((cam->cullingMask & this->planeList[i]->getLayer()) != 0)
+	//		{
+	//			this->planeList[i]->update(EngineTime::getDeltaTime());
+	//			this->planeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
 
-		for (int i = 0; i < this->planeList.size(); i++) {
-			if ((cam->cullingMask & this->planeList[i]->getLayer()) != 0)
-			{
-				this->planeList[i]->update(EngineTime::getDeltaTime());
-				this->planeList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-				if (cam->isEnabled()) {
-					this->planeList[i]->render();
-				}
-			}
-		}
-
-
-		for (int i = 0; i < this->circleList.size(); i++) {
-			if ((cam->cullingMask & this->circleList[i]->getLayer()) != 0)
-			{
-				this->circleList[i]->update(EngineTime::getDeltaTime());
-				this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-				if (cam->isEnabled()) {
-					this->circleList[i]->render();
-				}
-			}
-		}
-
-		for (int i = 0; i < this->UIElements.size(); i++) {
-			if ((cam->cullingMask & this->UIElements[i]->getLayer()) != 0)
-			{
-				this->UIElements[i]->update(EngineTime::getDeltaTime());
-				this->UIElements[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
-
-				if (cam->isEnabled()) {
-					this->UIElements[i]->render();
-				}
-			}
-		}
-
-		index++;
-	}
+	//			if (cam->isEnabled()) {
+	//				this->planeList[i]->render();
+	//			}
+	//		}
+	//	}
 
 
+	//	for (int i = 0; i < this->circleList.size(); i++) {
+	//		if ((cam->cullingMask & this->circleList[i]->getLayer()) != 0)
+	//		{
+	//			this->circleList[i]->update(EngineTime::getDeltaTime());
+	//			this->circleList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+	//			if (cam->isEnabled()) {
+	//				this->circleList[i]->render();
+	//			}
+	//		}
+	//	}
+
+	//	for (int i = 0; i < this->UIElements.size(); i++) {
+	//		if ((cam->cullingMask & this->UIElements[i]->getLayer()) != 0)
+	//		{
+	//			this->UIElements[i]->update(EngineTime::getDeltaTime());
+	//			this->UIElements[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+
+	//			if (cam->isEnabled()) {
+	//				this->UIElements[i]->render();
+	//			}
+	//		}
+	//	}
+
+	//	List gameObjectList = GameObjectManager::get()->getAllObjects();
+	//	for (int i = 0; i < gameObjectList.size(); i++) {
+	//		if ((cam->cullingMask & gameObjectList[i]->getLayer()) != 0) {
+	//			gameObjectList[i]->update(EngineTime::getDeltaTime());
+	//			gameObjectList[i]->updateTransformAndBuffers(width, height, m_vs, m_ps, index);
+	//			if (cam->isEnabled()) {
+	//				gameObjectList[i]->render();
+	//			}
+	//		}
+	//	}
+
+	//	std::cout << "WWWWWWWWWWWW" << gameObjectList.size() << std::endl;
+
+	//	index++;
+	//}
+
+
+	//GameObjectManager::get()->updateAll();
+	//GameObjectManager::get()->renderAll(width, height, m_vs, m_ps);
 	UIManager::get()->drawAllUI();
 
 
