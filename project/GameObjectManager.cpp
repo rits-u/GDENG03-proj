@@ -225,6 +225,28 @@ GameObject* GameObjectManager::getSelectedObject()
     return this->selectedObject;
 }
 
+void GameObjectManager::createModel(String model, void* shaderByteCode, size_t sizeShader)
+{
+    if (model == "Teapot") {
+        MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
+        Model* model = new Model(adjustGameObjectName("Teapot"), mesh, shaderByteCode, sizeShader);
+        this->addObject(model);
+        std::cout << "Spawned Teapot" << std::endl;
+    }
+    else if (model == "Bunny") {
+        MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\bunny.obj");
+        Model* model = new Model(adjustGameObjectName("Bunny"), mesh, shaderByteCode, sizeShader);
+        this->addObject(model);
+        std::cout << "Spawned Bunny" << std::endl;
+    }
+    else if (model == "Armadillo") {
+        MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\armadillo.obj");
+        Model* model = new Model(adjustGameObjectName("Armadillo"), mesh, shaderByteCode, sizeShader);
+        this->addObject(model);
+        std::cout << "Spawned Bunny" << std::endl;
+    }
+}
+
 string GameObjectManager::adjustGameObjectName(string name)
 {
     string adjustedName;

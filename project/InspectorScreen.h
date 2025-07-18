@@ -10,5 +10,8 @@ public:
 	~InspectorScreen();
 
 	void draw() override;
+
+private:
+	bool useUniformScale = false;
 };
 

@@ -6,6 +6,7 @@
 #include "InputSystem.h"
 #include "SceneCameraHandler.h"
 #include "RenderSystem.h"
+#include "Mesh.h"
 
 #include "Types.h"
 
@@ -26,7 +27,9 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
 
-	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
+	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
+	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
+//	this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	SceneCameraHandler::get()->initialize();
@@ -49,6 +52,19 @@ void AppWindow::onCreate()
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
 
 
+	//void* shader_byte_code = nullptr;
+	//size_t size_shader = 0;
+	//renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	//::memcpy(m_mesh_layout_byte_code, shader_byte_code, size_shader);
+	//m_mesh_layout_size = size_shader;
+	//renderSystem->releaseCompiledShader();
+
+
+	//renderSystem->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &this->mesh_ShaderByteCode, &this->mesh_SizeShader);
+	//::memcpy(m_mesh_layout_byte_code, this->mesh_ShaderByteCode, this->mesh_SizeShader);
+	//m_mesh_layout_size = this->mesh_SizeShader;
+
+
 	//RELEASE VERTEX SHADER
 	//renderSystem->releaseCompiledShader();
 
@@ -65,8 +81,6 @@ void AppWindow::onCreate()
 	UINames uiNames;
 	MenuToolbar* menuToolbar = (MenuToolbar*)UIManager::get()->getUIScreenByName(uiNames.MENU_TOOLBAR);
 	menuToolbar->setShaders(this->VS_ShaderByteCode, this->VS_SizeShader);
-
-	std::cout << "__cplusplus = " << __cplusplus << std::endl;
 
 }
 
@@ -92,8 +106,19 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+	//renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
 	renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
+
+	//	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+
+
+	//mesh
+	//renderSystem->getImmediateDeviceContext()->setVertexBuffer(this->mesh->getVertexBuffer());
+	//renderSystem->getImmediateDeviceContext()->setIndexBuffer(this->mesh->getIndexBuffer());
+
+	//renderSystem->getImmediateDeviceContext()->drawIndexedTriangleList(this->mesh->getIndexBuffer()->getSizeIndexList(), 0, 0);
+
+
 
 	this->sortedCameras = cameraHandler->getAllCameras();
 	cameraHandler->updateAllCameras();

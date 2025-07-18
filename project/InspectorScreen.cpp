@@ -31,10 +31,24 @@ void InspectorScreen::draw()
 			selectedObject->setRotation(rot);
 		}
 
-		Vector3D scale = selectedObject->getLocalScale();
-		if (ImGui::DragFloat3("Scale", &scale.m_x, 0.1f)) {
-			selectedObject->setScale(scale);
+		ImGui::Checkbox("Uniform Scale", &this->useUniformScale);
+		if (!this->useUniformScale) {
+			Vector3D scale = selectedObject->getLocalScale();
+			if (ImGui::DragFloat3("Scale", &scale.m_x, 0.1f)) {
+				selectedObject->setScale(scale);
+			}
 		}
+		else {
+			//Vector3D scale =
+			float uni = selectedObject->getLocalScale().m_x;
+			if (ImGui::DragFloat("Scale", &uni, 0.1f)) {
+				selectedObject->setScale(Vector3D(uni, uni, uni));
+			}
+		}
+	
+	/*	if (ImGui::DragFloat3("Scale", &scale.m_x, 0.1f)) {
+			selectedObject->setScale(scale);
+		}*/
 		ImGui::NewLine(); ImGui::Separator();
 
 		if (ImGui::Button("Delete")) {

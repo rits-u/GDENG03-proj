@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Cube.h"
 #include "Plane.h"
+#include "Model.h"
 #include "Camera.h"
 
 #include "GraphicsEngine.h"
@@ -44,6 +45,9 @@ public:
 	void setSelectedObject(string name);
 	void setSelectedObject(GameObject* gameObject);
 	GameObject* getSelectedObject();
+
+	void createModel(String model, void* shaderByteCode, size_t sizeShader);
+	//void addModel(Model* model);
 
 private:
 	string adjustGameObjectName(string name);

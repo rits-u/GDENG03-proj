@@ -45,6 +45,23 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Plane")) {
                 GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::PLANE, this->shaderByteCode, this->sizeShader);
             }
+            if (ImGui::MenuItem("Teapot")) {
+                GameObjectManager::get()->createModel("Teapot", this->shaderByteCode, this->sizeShader);
+            }
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("3D Objects")) {
+            if (ImGui::MenuItem("Teapot")) {
+                GameObjectManager::get()->createModel("Teapot", this->shaderByteCode, this->sizeShader);
+            }
+            if (ImGui::MenuItem("Bunny")) {
+                GameObjectManager::get()->createModel("Bunny", this->shaderByteCode, this->sizeShader);
+            }
+            if (ImGui::MenuItem("Armadillo")) {
+                GameObjectManager::get()->createModel("Armadillo", this->shaderByteCode, this->sizeShader);
+            }
 
             ImGui::EndMenu();
         }

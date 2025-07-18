@@ -78,12 +78,18 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 	TexturePtr woodTex;
+	MeshPtr mesh;
 
 	void* VS_ShaderByteCode = nullptr;
 	size_t VS_SizeShader = 0;
 	void* PS_ShaderByteCode = nullptr;
 	size_t PS_SizeShader = 0;
 	bool holding = false;
+
+	void* mesh_ShaderByteCode = nullptr;
+	size_t mesh_SizeShader = 0;
+	unsigned char m_mesh_layout_byte_code[1024];
+	size_t m_mesh_layout_size = 0;
 
 private:
 	std::vector<Cube*> cubeList;

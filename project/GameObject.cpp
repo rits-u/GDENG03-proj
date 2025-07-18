@@ -92,3 +92,8 @@ String GameObject::getName()
 {
     return this->name;
 }
+
+//void GameObject::setMesh(MeshPtr mesh)
+//{
+//    this->mesh = mesh;
+//}

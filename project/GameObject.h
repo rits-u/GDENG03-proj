@@ -64,6 +64,8 @@ public:
 
 	String getName();
 
+	//void setMesh(MeshPtr mesh);
+
 	//struct vertex {
 	//	Vector3D position;
 	////	float padding;
@@ -100,6 +102,7 @@ protected:
 	Matrix4x4 localMatrix;
 	unsigned int layer;
 	bool enabled;
+	//MeshPtr mesh;
 	//float rotX;
 	//float rotY;
 	//float royZ;

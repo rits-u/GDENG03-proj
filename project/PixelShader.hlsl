@@ -31,6 +31,6 @@ float4 psmain(PS_INPUT input) : SV_TARGET
     //float3 baseColor = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
     //return float4(lerp(baseColor, wireColor.rgb, useWireColor), 1.0f);
     
-    return Texture.Sample(TextureSampler, input.texCoord);
+    return Texture.Sample(TextureSampler, input.texCoord * 0.5);
   
 }
