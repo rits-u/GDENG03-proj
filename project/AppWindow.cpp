@@ -6,6 +6,7 @@
 #include "InputSystem.h"
 #include "SceneCameraHandler.h"
 #include "RenderSystem.h"
+#include "Mesh.h"
 
 #include "Types.h"
 
@@ -26,7 +27,8 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
 
-	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
+	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
+	//this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	SceneCameraHandler::get()->initialize();
@@ -44,6 +46,8 @@ void AppWindow::onCreate()
 	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
 	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
+	std::cout << "HSADKAHDKASHDA" << std::endl;
+	
 	//PIXEL SHADER
 	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
 	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
@@ -92,11 +96,23 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+
 	renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
+
+//	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+
+
+	//mesh
+	//renderSystem->getImmediateDeviceContext()->setVertexBuffer(this->mesh->getVertexBuffer());
+	//renderSystem->getImmediateDeviceContext()->setIndexBuffer(this->mesh->getIndexBuffer());
+
+	//renderSystem->getImmediateDeviceContext()->drawIndexedTriangleList(this->mesh->getIndexBuffer()->getSizeIndexList(), 0, 0);
+
 
 	this->sortedCameras = cameraHandler->getAllCameras();
 	cameraHandler->updateAllCameras();
+
+
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
 	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain, this->woodTex);

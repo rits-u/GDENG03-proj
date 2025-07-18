@@ -166,6 +166,23 @@ void GameObjectManager::createObject(PrimitiveType type, void* shaderByteCode, s
             break;
         }
     }
+
+    //TEMP
+}
+
+void GameObjectManager::createModel(String model, void* shaderByteCode, size_t sizeShader)
+{
+    if (model == "Teapot") {
+        MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
+        Model* model = new Model("Teapot", mesh, shaderByteCode, sizeShader);
+        this->addModel(model);
+       // this->addModel((GameObject*)mesh);
+    }
+}
+
+void GameObjectManager::addModel(Model* model)
+{
+    this->modelList.push_back(model);
 }
 
 void GameObjectManager::deleteObject(GameObject* gameObject)
@@ -224,6 +241,7 @@ GameObject* GameObjectManager::getSelectedObject()
 {
     return this->selectedObject;
 }
+
 
 string GameObjectManager::adjustGameObjectName(string name)
 {

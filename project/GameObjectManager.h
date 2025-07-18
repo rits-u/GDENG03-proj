@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Cube.h"
 #include "Plane.h"
+#include "Model.h"
 #include "Camera.h"
 
 #include "GraphicsEngine.h"
@@ -38,12 +39,15 @@ public:
 	void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc, TexturePtr tex);
 	void addObject(GameObject* gameObject);
 	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
+	void createModel(String model, void* shaderByteCode, size_t sizeShader);
+	void addModel(Model* model);
 	void deleteObject(GameObject* gameObject);
 	void deleteObjectByName(string name);
 	void clearSelectedObject();
 	void setSelectedObject(string name);
 	void setSelectedObject(GameObject* gameObject);
 	GameObject* getSelectedObject();
+
 
 private:
 	string adjustGameObjectName(string name);
@@ -59,7 +63,7 @@ private:
 	List gameObjectList;
 	HashTable gameObjectTable;
 	GameObject* selectedObject;
-	List pendingDeletion;
+	List modelList;
 
 };
 
