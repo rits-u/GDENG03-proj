@@ -107,6 +107,42 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
     }
 }
 
+
+void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc, TexturePtr tex)
+{
+    RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+    DeviceContextPtr context = renderSystem->getImmediateDeviceContext();
+
+    int index = 0;
+
+    for (Camera* cam : cameras) {
+        if (cam->cullingMask & Layer::DEBUG) {
+            context->setRasterizerState(renderSystem->getWireframeState());
+            context->clearDepth(sc);
+        }
+        else {
+            context->setRasterizerState(renderSystem->getSolidState());
+        }
+
+        //        std::cout << cam->getLayer() << std::endl;
+
+                //context->clearDepth(sc);
+
+        for (GameObject* obj : gameObjectList) {
+            if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
+                if (obj != NULL) {
+                    obj->update(EngineTime::getDeltaTime());
+                    obj->updateTransformAndBuffers(width, height, vs, ps, index);
+                    if (cam->isEnabled())
+                        obj->render();
+                }
+            }
+        }
+
+        index++;
+    }
+}
+
 void GameObjectManager::addObject(GameObject* gameObject)
 {
     this->gameObjectList.push_back(gameObject);
@@ -119,12 +155,14 @@ void GameObjectManager::createObject(PrimitiveType type, void* shaderByteCode, s
         case PrimitiveType::CUBE: {
             Cube* cubeObject = new Cube(adjustGameObjectName("Cube"), shaderByteCode, sizeShader);
             this->addObject(cubeObject);
+            std::cout << "Spawned Cube" << std::endl;
             break;
         }
    
         case PrimitiveType::PLANE: {
             Plane* planeObject = new Plane(adjustGameObjectName("Plane"), shaderByteCode, sizeShader);
             this->addObject(planeObject);
+            std::cout << "Spawned Plane" << std::endl;
             break;
         }
     }
@@ -134,11 +172,13 @@ void GameObjectManager::deleteObject(GameObject* gameObject)
 {
     for (int i = 0; i < this->gameObjectList.size(); i++) {
         if (this->gameObjectList[i] == gameObject) {
+            std::cout << "Deleted " << gameObject->getName() << std::endl;
             if (dynamic_cast<InputListener*>(this->gameObjectList[i]))
                 InputSystem::get()->removeListener((InputListener*)this->gameObjectList[i]);
 
             delete this->gameObjectList[i];
             this->gameObjectList.erase(this->gameObjectList.begin() + i);
+        
             break;
         }
     }

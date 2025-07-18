@@ -77,6 +77,8 @@ private:
 	SwapChainPtr m_swap_chain;
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
+	TexturePtr woodTex;
+
 	void* VS_ShaderByteCode = nullptr;
 	size_t VS_SizeShader = 0;
 	void* PS_ShaderByteCode = nullptr;
@@ -89,6 +91,7 @@ private:
 	std::vector<Circle*> circleList;
 	std::vector<GameObject*> UIElements;
 	std::vector<Camera*> sortedCameras;
+
 
 private:
 	bool test = true;

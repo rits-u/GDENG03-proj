@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "Vector3D.h"
 
-GameObject::GameObject(string name)
+GameObject::GameObject(String name)
 {
     this->name = name;
     this->localPosition = Vector3D::zeros();
@@ -88,7 +88,7 @@ bool GameObject::isEnabled()
     return this->enabled;
 }
 
-string GameObject::getName()
+String GameObject::getName()
 {
     return this->name;
 }

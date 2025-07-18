@@ -16,7 +16,7 @@ using namespace DirectX;
 class Circle : public GameObject, public InputListener
 {
 public:
-	Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color);
+	Circle(String name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color);
 	~Circle();
 
 	void update(float deltaTime) override;

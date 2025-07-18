@@ -30,9 +30,23 @@ void InputSystem::update()
 		std::map<InputListener*, InputListener*>::iterator it = currentListeners.begin();
 		while (it != currentListeners.end())
 		{
-			if (it->second && !it->second->isDestroyed)
+			//if (it->second == nullptr || it->second->isDestroyed) {
+			//	it = mapListeners.erase(it); // safely remove
+			//}
+			//else {
+			//	it->second->onMouseMove(Point(currentMousePos.x, currentMousePos.y));
+			//	++it;
+			//}
+
+			if (it->second && !it->second->isDestroyed) {
 				it->second->onMouseMove(Point(currentMousePos.x, currentMousePos.y));
+			}
 			++it;
+
+			/*if (it->second != nullptr && it->second->isDestroyed) {
+				it->second->onMouseMove(Point(currentMousePos.x, currentMousePos.y));
+			}
+			++it;*/
 		}
 
 		old_mouse_pos = Point(currentMousePos.x, currentMousePos.y);

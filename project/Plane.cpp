@@ -3,77 +3,77 @@
 #include "DeviceContext.h"
 #include "SceneCameraHandler.h"
 
-Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
+Plane::Plane(String name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
-	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	//RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
+	////vertex vertex_list[] =
+	////{
+	////*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
+
+	////	{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }
+
+	////};
+
+	//Vector3D gray = Vector3D(0.3, 0.3, 0.3);
 
 	//vertex vertex_list[] =
 	//{
-	//*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
-
-	//	{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-	//	{ Vector3D(0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }
+	//	{ Vector3D(-0.5f, 0.0f, -0.5f), gray, gray },
+	//	{ Vector3D(-0.5f, 0.0f,  0.5f), gray, gray },
+	//	{ Vector3D(0.5f,  0.0f,  0.5f), gray, gray },
+	//	{ Vector3D(0.5f,  0.0f, -0.5f), gray, gray }
 
 	//};
 
-	Vector3D gray = Vector3D(0.3, 0.3, 0.3);
 
-	vertex vertex_list[] =
-	{
-		{ Vector3D(-0.5f, 0.0f, -0.5f), gray, gray },
-		{ Vector3D(-0.5f, 0.0f,  0.5f), gray, gray },
-		{ Vector3D(0.5f,  0.0f,  0.5f), gray, gray },
-		{ Vector3D(0.5f,  0.0f, -0.5f), gray, gray }
+	//UINT size_list = ARRAYSIZE(vertex_list);
+	//this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
-	};
+	////this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
+	////unsigned int index_list[] =
+	////{
+	////	////front side
+	////	//0, 1, 2,	//first triangle
+	////	//2, 3, 0,	//2nd
 
-	UINT size_list = ARRAYSIZE(vertex_list);
-	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+	////	0, 1, 2,
+	////	0, 2, 3
+	////};
 
-	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
-
-	//unsigned int index_list[] =
-	//{
-	//	////front side
-	//	//0, 1, 2,	//first triangle
-	//	//2, 3, 0,	//2nd
-
-	//	0, 1, 2,
-	//	0, 2, 3
-	//};
+	////unsigned int index_list[] = {
+	////	0, 2, 1,
+	////	0, 3, 2
+	////};
 
 	//unsigned int index_list[] = {
-	//	0, 2, 1,
-	//	0, 3, 2
+	//0, 1, 2,
+	//0, 2, 3
 	//};
 
-	unsigned int index_list[] = {
-	0, 1, 2,
-	0, 2, 3
-	};
 
+	////index buffer
+	//UINT size_index_list = ARRAYSIZE(index_list);
+	//this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	////this->ib->load(index_list, size_index_list);
 
-	//index buffer
-	UINT size_index_list = ARRAYSIZE(index_list);
-	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
-	//this->ib->load(index_list, size_index_list);
+	////constant buffer
+	//constant cc;
+	//cc.m_time = 0;
+	//cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
+	////cb->load(&cc, sizeof(constant));
 
-	//constant buffer
-	constant cc;
-	cc.m_time = 0;
-	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
-	//cb->load(&cc, sizeof(constant));
-
-	this->setPosition(0.0f, 0.0f, 0.0f);
-	this->setScale(5.0f, 5.0f, 5.0f);
-	this->setRotation(0.0f, 0.0f, 0.0f);
-	this->setLayer(this->getLayer() | Layer::DEBUG);
+	//this->setPosition(0.0f, 0.0f, 0.0f);
+	//this->setScale(5.0f, 5.0f, 5.0f);
+	//this->setRotation(0.0f, 0.0f, 0.0f);
+	//this->setLayer(this->getLayer() | Layer::DEBUG);
 }
 
 

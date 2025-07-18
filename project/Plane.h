@@ -12,7 +12,7 @@ using namespace DirectX;
 class Plane : public GameObject
 {
 public:
-	Plane(string name, void* shaderByteCode, size_t sizeShader);
+	Plane(String name, void* shaderByteCode, size_t sizeShader);
 	~Plane();
 
 	void update(float deltaTime) override;

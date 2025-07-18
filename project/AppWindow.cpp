@@ -1,6 +1,7 @@
 #include "AppWindow.h"
 #include <Windows.h>
 #include "Vector3D.h"
+//#include "Vector2D.h"
 #include "Matrix4x4.h"
 #include "InputSystem.h"
 #include "SceneCameraHandler.h"
@@ -24,6 +25,8 @@ void AppWindow::onCreate()
 	//InputSystem::get()->initialize();
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
+
+	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	SceneCameraHandler::get()->initialize();
@@ -63,6 +66,8 @@ void AppWindow::onCreate()
 	MenuToolbar* menuToolbar = (MenuToolbar*)UIManager::get()->getUIScreenByName(uiNames.MENU_TOOLBAR);
 	menuToolbar->setShaders(this->VS_ShaderByteCode, this->VS_SizeShader);
 
+	std::cout << "__cplusplus = " << __cplusplus << std::endl;
+
 }
 
 void AppWindow::onUpdate()
@@ -87,10 +92,14 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
 	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
+	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+	renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
+
 	this->sortedCameras = cameraHandler->getAllCameras();
 	cameraHandler->updateAllCameras();
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
+	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain, this->woodTex);
 	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain);
 
 	UIManager::get()->drawAllUI();

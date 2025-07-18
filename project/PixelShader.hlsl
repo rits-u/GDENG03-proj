@@ -1,8 +1,17 @@
+//struct PS_INPUT
+//{
+//    float4 pos : SV_POSITION;
+//    float3 color : COLOR;
+//    float3 color1 : COLOR1;
+//};
+
+Texture2D Texture : register(t0);
+sampler TextureSampler : register(s0);
+
 struct PS_INPUT
 {
     float4 pos : SV_POSITION;
-    float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texCoord : TEXCOORD0;
 };
 
 cbuffer constant : register(b0)
@@ -19,7 +28,9 @@ cbuffer constant : register(b0)
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
-    float3 baseColor = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
-    return float4(lerp(baseColor, wireColor.rgb, useWireColor), 1.0f);
+    //float3 baseColor = lerp(input.color, input.color1, (sin(m_time / 1000.0f) + 1.0f) / 2.0f);
+    //return float4(lerp(baseColor, wireColor.rgb, useWireColor), 1.0f);
+    
+    return Texture.Sample(TextureSampler, input.texCoord);
   
 }

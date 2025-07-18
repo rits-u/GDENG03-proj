@@ -5,7 +5,7 @@
 #include "InputSystem.h"
 #include <vector>
 
-Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color) : GameObject(name)
+Circle::Circle(String name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color) : GameObject(name)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	InputSystem::get()->addListener(this);
@@ -16,14 +16,14 @@ Circle::Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegm
 	float b = color.m_z;
 	double pi = 3.14159f;
 
-	vertex_list.push_back({ Vector3D(0.0f, 0.0f, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
+	/*vertex_list.push_back({ Vector3D(0.0f, 0.0f, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
 
 	for (int i = 0; i <= numSegment; i++) {
 		float theta = (2.0f * pi * i) / numSegment;
 		float x = radius * cosf(theta);
 		float y = radius * sinf(theta);
 		vertex_list.push_back({ Vector3D(x, y, 0.0f), Vector3D(r, g, b), Vector3D(r, g, b) });
-	}
+	}*/
 
 	UINT size_list = vertex_list.size();
 	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);

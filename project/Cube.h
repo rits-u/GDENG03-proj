@@ -16,7 +16,7 @@ using namespace DirectX;
 class Cube : public GameObject, public InputListener
 {
 public:
-	Cube(string name, void* shaderByteCode, size_t sizeShader);
+	Cube(String name, void* shaderByteCode, size_t sizeShader);
 	~Cube();
 
 	void update(float deltaTime) override;

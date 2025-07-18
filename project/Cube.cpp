@@ -1,14 +1,14 @@
 #include "Cube.h"
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
-
+#include "Vector2D.h"
 #include <DirectXMath.h>
 #include "SceneCameraHandler.h"
 #include "InputSystem.h"
 
 
 
-Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
+Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	InputSystem::get()->addListener(this);
@@ -18,22 +18,23 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 	Vector3D white = Vector3D(1, 1, 1);
 
-	vertex vertex_list[] =
-	{
-		//CUBE
-		//front face
-		{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos1
-		{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1.0f,0.5f,0.0f),	Vector3D(1.0f,0.5f,0.0f)},		//pos2
-		{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(1.0f,1.0f,0.0f)},		//pos3
-		{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos4
+	//OLDDDDDD
+	//vertex vertex_list[] =
+	//{
+	//	//CUBE
+	//	//front face
+	//	{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos1
+	//	{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1.0f,0.5f,0.0f),	Vector3D(1.0f,0.5f,0.0f)},		//pos2
+	//	{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(1.0f,1.0f,0.0f)},		//pos3
+	//	{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos4
 
-		//back face
-		{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0.0f,1.0f,0.0f),	Vector3D(0.0f,1.0f,0.0f)},		//pos5
-		{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos6
-		{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos7
-		{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos8
+	//	//back face
+	//	{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0.0f,1.0f,0.0f),	Vector3D(0.0f,1.0f,0.0f)},		//pos5
+	//	{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos6
+	//	{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos7
+	//	{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos8
 
-	};
+	//};
 
 	//vertex vertex_list[] =
 	//{
@@ -52,11 +53,99 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 	//};
 
+	Vector3D positionList[] =
+	{
+		//CUBE
+		//front face
+		{ Vector3D(-0.5f, -0.5f, -0.5f)},		//pos1
+		{ Vector3D(-0.5f, 0.5f, -0.5f) },		//pos2
+		{ Vector3D(0.5f, 0.5f, -0.5f)  },		//pos3
+		{ Vector3D(0.5f, -0.5f, -0.5f) },		//pos4
+
+		//back face
+		{ Vector3D(0.5f, -0.5f, 0.5f) },		//pos5
+		{ Vector3D(0.5f, 0.5f, 0.5f)  },		//pos6
+		{ Vector3D(-0.5f, 0.5f, 0.5f) },		//pos7
+		{ Vector3D(-0.5f, -0.5f, 0.5f)},		//pos8
+	};
+
+	Vector2D texCoordList[] =
+	{
+		{ Vector2D(0.0f, 0.0f) },		//pos1
+		{ Vector2D(0.0f, 1.0f) },		//pos2
+		{ Vector2D(1.0f, 0.0f) },		//pos3
+		{ Vector2D(1.0f, 1.0f) },		//pos4
+	};
+
+	vertex vertex_list[] =
+	{
+		//front face
+		{ positionList[0], texCoordList[1] },
+		{ positionList[1], texCoordList[0] },
+		{ positionList[2], texCoordList[2] },
+		{ positionList[3], texCoordList[3] },
+
+		//back face
+		{ positionList[4], texCoordList[1] },
+		{ positionList[5], texCoordList[0] },
+		{ positionList[6], texCoordList[2] },
+		{ positionList[7], texCoordList[3] },
+
+		{ positionList[1], texCoordList[1] },
+		{ positionList[6], texCoordList[0] },
+		{ positionList[5], texCoordList[2] },
+		{ positionList[2], texCoordList[3] },
+
+		{ positionList[7], texCoordList[1] },
+		{ positionList[0], texCoordList[0] },
+		{ positionList[3], texCoordList[2] },
+		{ positionList[4], texCoordList[3] },
+
+		{ positionList[3], texCoordList[1] },
+		{ positionList[2], texCoordList[0] },
+		{ positionList[5], texCoordList[2] },
+		{ positionList[4], texCoordList[3] },
+
+		{ positionList[7], texCoordList[1] },
+		{ positionList[6], texCoordList[0] },
+		{ positionList[1], texCoordList[2] },
+		{ positionList[0], texCoordList[3] },
+
+	};
+
 
 	UINT size_list = ARRAYSIZE(vertex_list);
 	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
 
 	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+
+	//OLDDDD
+	//unsigned int index_list[] =
+	//{
+	//	//front side
+	//	0, 1, 2,	//first triangle
+	//	2, 3, 0,	//2nd
+
+	//	//back side
+	//	4, 5, 6,	//3rd
+	//	6, 7, 4,	//4th
+
+	//	//top side
+	//	1, 6, 5,
+	//	5, 2, 1,
+
+	//	//bottom side
+	//	7, 0, 3,
+	//	3, 4, 7,
+
+	//	//right side
+	//	3, 2, 5,
+	//	5, 4, 3,
+
+	//	//left side
+	//	7, 6, 1,
+	//	1, 0, 7
+	//};
 
 	unsigned int index_list[] =
 	{
@@ -69,20 +158,20 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 		6, 7, 4,	//4th
 
 		//top side
-		1, 6, 5,
-		5, 2, 1,
+		8, 9, 10,
+		10, 11, 8,
 
 		//bottom side
-		7, 0, 3,
-		3, 4, 7,
+		12, 13, 14,
+		14, 15, 12,
 
 		//right side
-		3, 2, 5,
-		5, 4, 3,
+		16, 17, 18,
+		18, 19, 16,
 
 		//left side
-		7, 6, 1,
-		1, 0, 7
+		20, 21, 22,
+		22, 23, 20
 	};
 
 

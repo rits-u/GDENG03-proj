@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Matrix4x4.h"
 #include "Prerequisites.h"
+#include "Types.h"
 //#include "Camera.h"
 
-using namespace std;
+//using namespace std;
 
 class VertexShader;
 class PixelShader;
@@ -33,12 +35,13 @@ class GameObject
 {
 
 public:
-	GameObject(string name);
+	GameObject(String name);
 	~GameObject();
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
 	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
+	//virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
 	virtual void render() = 0;
 
 	void setPosition(float x, float y, float z);
@@ -59,13 +62,17 @@ public:
 	void setEnabled(bool enabled);
 	bool isEnabled();
 
-	string getName();
+	String getName();
 
+	//struct vertex {
+	//	Vector3D position;
+	////	float padding;
+	//	Vector3D color;
+	//	Vector3D color2;
+	//};
 	struct vertex {
 		Vector3D position;
-	//	float padding;
-		Vector3D color;
-		Vector3D color2;
+		Vector2D texCoord;
 	};
 
 	__declspec(align(16))
@@ -86,7 +93,7 @@ public:
 
 
 protected:
-	string name;
+	String name;
 	Vector3D localPosition;
 	Vector3D localScale;
 	Vector3D localRotation;
