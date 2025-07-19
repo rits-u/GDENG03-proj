@@ -9,7 +9,10 @@
 #include "Mesh.h"
 
 #include "Types.h"
+#include <reactphysics3d/reactphysics3d.h>
+//#include "Libs/ReactPhysics3D/include/reactphysics3d.h"
 
+using namespace reactphysics3d;
 
 AppWindow::AppWindow()
 {
@@ -41,6 +44,10 @@ void AppWindow::onCreate()
 	RECT rc = this->getClientWindowRect();
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
+
+	//transform;
+	//ConvexMesh
+	
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 

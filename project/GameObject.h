@@ -5,6 +5,8 @@
 #include "Matrix4x4.h"
 #include "Prerequisites.h"
 #include "Types.h"
+#include <reactphysics3d/reactphysics3d.h>
+using namespace reactphysics3d;
 //#include "Camera.h"
 
 //using namespace std;
@@ -55,6 +57,11 @@ public:
 	void setRotation(float x, float y, float z);
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
+
+	Matrix4x4 getLocalMatrix();
+	void setLocalMatrix(float matrix[]);
+	//decimal* getPhysicsLocalMatrix();
+	void convertMatrixToDecimal(decimal* out);
 
 	void setLayer(unsigned int layer);
 	unsigned int getLayer();

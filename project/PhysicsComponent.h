@@ -1,0 +1,23 @@
+#pragma once
+#include "AComponent.h"
+#include <reactphysics3d/reactphysics3d.h>
+#include "BaseComponentSystem.h"
+
+using namespace reactphysics3d;
+
+class PhysicsComponent : public AComponent
+{
+public:
+	PhysicsComponent(String name, GameObject* owner);
+	~PhysicsComponent();
+	void perform(float deltaTime) override;
+	RigidBody* getRigidBody();
+
+private:
+	float mass = 1000.0f; //in kilograms
+	RigidBody* rigidBody;
+
+};
+
+
+
