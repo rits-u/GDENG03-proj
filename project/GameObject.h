@@ -81,6 +81,7 @@ public:
 protected:
 	String name;
 	MyTransform transform;
+	constant cc;
 	unsigned int layer;
 	bool enabled;
 };

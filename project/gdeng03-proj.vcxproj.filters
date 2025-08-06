@@ -73,6 +73,9 @@
     <Filter Include="GameEngine\Mesh">
       <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd569c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Components">
+      <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd123c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -194,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>GameEngine\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>GameEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTransform.cpp">
+      <Filter>GameEngine\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="VertexMesh.h">
       <Filter>GameEngine\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>GameEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTransform.h">
+      <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
