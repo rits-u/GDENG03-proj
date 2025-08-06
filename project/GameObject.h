@@ -5,6 +5,8 @@
 #include "Matrix4x4.h"
 #include "Prerequisites.h"
 #include "Types.h"
+#include "Constant.h"
+#include "MyTransform.h"
 //#include "Camera.h"
 
 //using namespace std;
@@ -12,11 +14,11 @@
 class VertexShader;
 class PixelShader;
 
-	enum Layer : unsigned int {
-		DEFAULT = 1 << 0,
-		UI = 1 << 2,
-		DEBUG = 1 << 1,
-	};
+enum Layer : unsigned int {
+	DEFAULT = 1 << 0,
+	UI = 1 << 2,
+	DEBUG = 1 << 1,
+};
 
 /*
 	bitmask with DEFAULT and DEBUG
@@ -46,15 +48,17 @@ public:
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
-	Vector3D getLocalPosition();
+	Vector3D getPosition();
 
 	void setScale(float x, float y, float z);
 	void setScale(Vector3D scale);
-	Vector3D getLocalScale();
+	Vector3D getScale();
 
 	void setRotation(float x, float y, float z);
 	void setRotation(Vector3D rot);
-	Vector3D getLocalRotation();
+	Vector3D getRotation();
+	Matrix4x4 getWorldMatrix();
+	MyTransform getTransform();
 
 	void setLayer(unsigned int layer);
 	unsigned int getLayer();
@@ -64,48 +68,20 @@ public:
 
 	String getName();
 
-	//void setMesh(MeshPtr mesh);
 
-	//struct vertex {
-	//	Vector3D position;
-	////	float padding;
-	//	Vector3D color;
-	//	Vector3D color2;
-	//};
+
+
 	struct vertex {
 		Vector3D position;
 		Vector2D texCoord;
 	};
 
-	__declspec(align(16))
-		struct constant
-	{
-		Matrix4x4 m_world;
-		Matrix4x4 m_view;
-		Matrix4x4 m_proj;
-		float m_time;
-		float useWireColor; //1 for true, //0 for false
-		//float padding[3]; // for 16-byte alignment
-		float padding[2];
-		//float wireColor[4];
-		Vector4D wireColor;
-	};
-
-
 
 
 protected:
 	String name;
-	Vector3D localPosition;
-	Vector3D localScale;
-	Vector3D localRotation;
-	Matrix4x4 localMatrix;
+	MyTransform transform;
 	unsigned int layer;
 	bool enabled;
-	//MeshPtr mesh;
-	//float rotX;
-	//float rotY;
-	//float royZ;
-
 };
 

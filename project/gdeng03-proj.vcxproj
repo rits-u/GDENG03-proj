@@ -158,6 +158,7 @@
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MyTransform.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -200,6 +202,8 @@
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Constant.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
@@ -219,6 +223,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MyTransform.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Texture.h" />

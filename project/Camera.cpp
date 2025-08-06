@@ -92,8 +92,8 @@ void Camera::updateViewMatrix()
 {
 	if (!isNavigating) return;
 
-	Vector3D rotation = this->getLocalRotation();
-	Vector3D position = this->getLocalPosition();
+	Vector3D rotation = this->getRotation();
+	Vector3D position = this->getPosition();
 	Vector3D newPos;
 
 	Matrix4x4 world_cam, rotX, rotY, pos;
@@ -144,7 +144,7 @@ void Camera::onMouseMove(const Point& mousePos)
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
 
-	Vector3D rotation = this->getLocalRotation();
+	Vector3D rotation = this->getRotation();
 	float offset = 0.08f;
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;

@@ -188,9 +188,9 @@ Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 //	cb->load(&cc, sizeof(constant));
 
-	this->setPosition(0.0f, 0.0f, 0.0f);
-	this->setScale(1.0f, 1.0f, 1.0f);
-	this->setRotation(0.0f, 0.0f, 0.0f);
+	//this->setPosition(0.0f, 0.0f, 0.0f);
+	//this->setScale(1.0f, 1.0f, 1.0f);
+	//this->setRotation(0.0f, 0.0f, 0.0f);
 	this->setLayer(this->getLayer() | Layer::DEBUG);
 }
 
@@ -210,8 +210,8 @@ void Cube::update(float deltaTime)
 
 	float rotSpeed = this->ticks * this->speed;
 
-	if(animated)
-		this->setRotation(rotSpeed, rotSpeed, rotSpeed);
+	/*if(animated)
+		this->setRotation(rotSpeed, rotSpeed, rotSpeed);*/
 }
 
 void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
@@ -233,36 +233,37 @@ void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 
 	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
 
-	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
-	
-	scale.setIdentity();
-	scale.setScale(this->getLocalScale());
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+	//
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
 
-	//rotation
-	Vector3D rotation = this->getLocalRotation();
-	rotX.setIdentity();
-	rotX.setRotationX(rotation.m_x);
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
 
-	rotY.setIdentity();
-	rotY.setRotationY(rotation.m_y);
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
 
-	rotZ.setIdentity();
-	rotZ.setRotationZ(rotation.m_z);
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
 
-	//translation
-	translation.setIdentity();
-	translation.setTranslation(this->getLocalPosition());
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
 
-	//matrix transformation
-	world.setIdentity();
-	world *= scale;
-	world *= rotX;
-	world *= rotY;
-	world *= rotZ;
-	world *= translation;
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
 
 	//update constant buffer
-	cc.m_world = world;
+	
+	cc.m_world = this->getWorldMatrix();
 	cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
 	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	cc.m_time = this->ticks * 2000.0f;
@@ -303,37 +304,37 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 
 	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
 
-	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
-	scale.setIdentity();
-	scale.setScale(this->getLocalScale());
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
 
-	//rotation
-	Vector3D rotation = this->getLocalRotation();
-	rotX.setIdentity();
-	rotX.setRotationX(rotation.m_x);
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
 
-	rotY.setIdentity();
-	rotY.setRotationY(rotation.m_y);
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
 
-	rotZ.setIdentity();
-	rotZ.setRotationZ(rotation.m_z);
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
 
-	//translation
-	translation.setIdentity();
-	translation.setTranslation(this->getLocalPosition());
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
 
-	//matrix transformation
-	world.setIdentity();
-	world *= scale;
-	world *= rotX;
-	world *= rotY;
-	world *= rotZ;
-	world *= translation;
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
 
 	//update constant buffer
 
-	cc.m_world = world;
+	cc.m_world = this->getWorldMatrix();
 	cc.m_time = this->ticks * 2000.0f;
 
 	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);	

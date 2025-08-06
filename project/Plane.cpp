@@ -82,171 +82,171 @@ Plane::~Plane()
 	//this->vb->release();
 	//this->cb->release();
 	//this->ib->release();
-	GameObject::~GameObject();
+//	GameObject::~GameObject();
 }
 
 void Plane::update(float deltaTime)
 {
-	this->deltaTime = deltaTime;
-	this->ticks += deltaTime;
+	//this->deltaTime = deltaTime;
+	//this->ticks += deltaTime;
 
 }
 
 void Plane::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
-	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	constant cc;
+	//constant cc;
 
-	deltaPos += EngineTime::getDeltaTime() / 8.0f;
-
-
-	if (this->deltaPos > 1.0f) {
-		this->deltaPos = 0.0f;
-	}
-	else {
-		this->deltaPos += this->deltaTime * 0.1f;
-	}
+	//deltaPos += EngineTime::getDeltaTime() / 8.0f;
 
 
-	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
+	//if (this->deltaPos > 1.0f) {
+	//	this->deltaPos = 0.0f;
+	//}
+	//else {
+	//	this->deltaPos += this->deltaTime * 0.1f;
+	//}
 
-	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
-	//scale
-	scale.setIdentity();
-	scale.setScale(this->getLocalScale());
+	////deltaScale += EngineTime::getDeltaTime() / 0.85f;
 
-	//rotation
-	Vector3D rotation = this->getLocalRotation();
-	rotX.setIdentity();
-	rotX.setRotationX(rotation.m_x);
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
-	rotY.setIdentity();
-	rotY.setRotationY(rotation.m_y);
+	////scale
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
 
-	rotZ.setIdentity();
-	rotZ.setRotationZ(rotation.m_z);
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
 
-	//translation
-	translation.setIdentity();
-	translation.setTranslation(this->getLocalPosition());
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
 
-	//matrix transformation
-	world.setIdentity();
-	world *= scale;
-	world *= rotX;
-	world *= rotY;
-	world *= rotZ;
-	world *= translation;
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
 
-	//update constant buffer
-	cc.m_world = world;
-	cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
-	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	cc.m_time = this->ticks / 1000;
-	cb->update(deviceContext, &cc);
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
 
-	//set constant buffer
-	deviceContext->setConstantBuffer(vs, this->cb);
-	deviceContext->setConstantBuffer(ps, this->cb);
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
 
-	//set index and vexter buffer
-	deviceContext->setIndexBuffer(this->ib);
-	deviceContext->setVertexBuffer(this->vb);
+	////update constant buffer
+	//cc.m_world = world;
+	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
+	//cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//cc.m_time = this->ticks / 1000;
+	//cb->update(deviceContext, &cc);
 
-	//draw
-	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	////set constant buffer
+	//deviceContext->setConstantBuffer(vs, this->cb);
+	//deviceContext->setConstantBuffer(ps, this->cb);
+
+	////set index and vexter buffer
+	//deviceContext->setIndexBuffer(this->ib);
+	//deviceContext->setVertexBuffer(this->vb);
+
+	////draw
+	//deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 
 }
 
 void Plane::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
 {
-	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	constant cc;
+	//constant cc;
 
-	deltaPos += EngineTime::getDeltaTime() / 8.0f;
-
-
-	if (this->deltaPos > 1.0f) {
-		this->deltaPos = 0.0f;
-	}
-	else {
-		this->deltaPos += this->deltaTime * 0.1f;
-	}
+	//deltaPos += EngineTime::getDeltaTime() / 8.0f;
 
 
-	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
-
-	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
-
-	scale.setIdentity();
-	scale.setScale(this->getLocalScale());
-
-	//rotation
-	Vector3D rotation = this->getLocalRotation();
-	rotX.setIdentity();
-	rotX.setRotationX(rotation.m_x);
-
-	rotY.setIdentity();
-	rotY.setRotationY(rotation.m_y);
-
-	rotZ.setIdentity();
-	rotZ.setRotationZ(rotation.m_z);
-
-	//translation
-	translation.setIdentity();
-	translation.setTranslation(this->getLocalPosition());
-
-	//matrix transformation
-	world.setIdentity();
-	world *= scale;
-	world *= rotX;
-	world *= rotY;
-	world *= rotZ;
-	world *= translation;
-
-	//update constant buffer
-	cc.m_world = world;
-	cc.m_time = this->ticks * 2000.0f;
-
-	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
-
-	if (cam->cullingMask & Layer::DEBUG)
-	{
-		cc.useWireColor = 1.0f;
-		cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-	else {
-		cc.useWireColor = 0.0f;
-	}
-
-	if (cam->cullingMask & Layer::UI)
-	{
-		cc.m_view.setIdentity();
-		cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
-	}
-	else
-	{
-		cc.m_view = cam->getViewMatrix();
-		cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	}
+	//if (this->deltaPos > 1.0f) {
+	//	this->deltaPos = 0.0f;
+	//}
+	//else {
+	//	this->deltaPos += this->deltaTime * 0.1f;
+	//}
 
 
+	////deltaScale += EngineTime::getDeltaTime() / 0.85f;
+
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
+
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
+
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
+
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
+
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
+
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
+
+	////update constant buffer
+	//cc.m_world = world;
+	//cc.m_time = this->ticks * 2000.0f;
+
+	//Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
+
+	//if (cam->cullingMask & Layer::DEBUG)
+	//{
+	//	cc.useWireColor = 1.0f;
+	//	cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	//}
+	//else {
+	//	cc.useWireColor = 0.0f;
+	//}
+
+	//if (cam->cullingMask & Layer::UI)
+	//{
+	//	cc.m_view.setIdentity();
+	//	cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
+	//}
+	//else
+	//{
+	//	cc.m_view = cam->getViewMatrix();
+	//	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//}
 
 
-	cb->update(deviceContext, &cc);
-	//cc.m_proj = camera->getPerspective(width, height);
 
 
-	//set constant buffer
-	deviceContext->setConstantBuffer(vs, this->cb);
-	deviceContext->setConstantBuffer(ps, this->cb);
+	//cb->update(deviceContext, &cc);
+	////cc.m_proj = camera->getPerspective(width, height);
 
-	//set index and vertex buffer
-	deviceContext->setIndexBuffer(this->ib);
-	deviceContext->setVertexBuffer(this->vb);
+
+	////set constant buffer
+	//deviceContext->setConstantBuffer(vs, this->cb);
+	//deviceContext->setConstantBuffer(ps, this->cb);
+
+	////set index and vertex buffer
+	//deviceContext->setIndexBuffer(this->ib);
+	//deviceContext->setVertexBuffer(this->vb);
 }
 
 void Plane::setAnimationSpeed(float speed)
@@ -255,6 +255,6 @@ void Plane::setAnimationSpeed(float speed)
 
 void Plane::render()
 {
-	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }
