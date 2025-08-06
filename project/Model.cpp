@@ -3,7 +3,7 @@
 Model::Model(String name, MeshPtr mesh, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
-	InputSystem::get()->addListener(this);
+	//InputSystem::get()->addListener(this);
 	this->setMesh(mesh);
 
 	constant cc;
@@ -45,7 +45,7 @@ Model::Model(String name, MeshPtr mesh, void* shaderByteCode, size_t sizeShader)
 
 Model::~Model()
 {
-	InputSystem::get()->removeListener(this);
+	//InputSystem::get()->removeListener(this);
 }
 
 void Model::update(float deltaTime)
@@ -166,33 +166,33 @@ void Model::setIsAnimated(bool animated)
 {
 }
 
-void Model::onKeyDown(int key)
-{
-}
-
-void Model::onKeyUp(int key)
-{
-}
-
-void Model::onMouseMove(const Point& mousePos)
-{
-}
-
-void Model::onLeftMouseDown(const Point& mousePos)
-{
-}
-
-void Model::onLeftMouseUp(const Point& mousePos)
-{
-}
-
-void Model::onRightMouseDown(const Point& mousePos)
-{
-}
-
-void Model::onRightMouseUp(const Point& mousePos)
-{
-}
+//void Model::onKeyDown(int key)
+//{
+//}
+//
+//void Model::onKeyUp(int key)
+//{
+//}
+//
+//void Model::onMouseMove(const Point& mousePos)
+//{
+//}
+//
+//void Model::onLeftMouseDown(const Point& mousePos)
+//{
+//}
+//
+//void Model::onLeftMouseUp(const Point& mousePos)
+//{
+//}
+//
+//void Model::onRightMouseDown(const Point& mousePos)
+//{
+//}
+//
+//void Model::onRightMouseUp(const Point& mousePos)
+//{
+//}
 
 void Model::setMesh(MeshPtr mesh)
 {

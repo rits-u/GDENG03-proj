@@ -84,7 +84,7 @@ Mesh::Mesh(const wchar_t* fullPath) : Resource(fullPath)
 
 	indexBuffer = renderSystem->createIndexBuffer(&list_indices[0], (UINT)list_indices.size(), renderSystem);
 
-	std::cout << "adkahdasd" << std::endl;
+	//std::cout << "adkahdasd" << std::endl;
 
 }
 

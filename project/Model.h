@@ -8,7 +8,7 @@
 #include "ConstantBuffer.h"
 #include "DeviceContext.h"
 
-class Model : public GameObject, public InputListener
+class Model : public GameObject
 {
 public:
 	Model(String name, MeshPtr mesh, void* shaderByteCode, size_t sizeShader);
@@ -23,15 +23,15 @@ public:
 	void setAnimationSpeed(float speed);
 	void setIsAnimated(bool animated);
 
-	virtual void onKeyDown(int key);
-	virtual void onKeyUp(int key);
+	//virtual void onKeyDown(int key);
+	//virtual void onKeyUp(int key);
 
-	//MOUSE pure virtual callback functions
-	virtual void onMouseMove(const Point& mousePos);
-	virtual void onLeftMouseDown(const Point& mousePos);
-	virtual void onLeftMouseUp(const Point& mousePos);
-	virtual void onRightMouseDown(const Point& mousePos);
-	virtual void onRightMouseUp(const Point& mousePos);
+	////MOUSE pure virtual callback functions
+	//virtual void onMouseMove(const Point& mousePos);
+	//virtual void onLeftMouseDown(const Point& mousePos);
+	//virtual void onLeftMouseUp(const Point& mousePos);
+	//virtual void onRightMouseDown(const Point& mousePos);
+	//virtual void onRightMouseUp(const Point& mousePos);
 
 	void setMesh(MeshPtr mesh);
 

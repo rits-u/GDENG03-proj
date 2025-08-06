@@ -61,6 +61,18 @@
     <Filter Include="GameEngine\UI\Screens">
       <UniqueIdentifier>{4e47fd51-6d5f-463c-8292-db3a127772b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\ResourceManager">
+      <UniqueIdentifier>{cc3d1218-3968-47cf-9eb1-1156280b818a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\TextureManager">
+      <UniqueIdentifier>{9f655cb2-b549-46e9-90ae-e4c44cb9781e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Miscs">
+      <UniqueIdentifier>{e8355eda-638d-46ac-9fe0-e20995b3627e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Mesh">
+      <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd569c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +173,27 @@
     </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>GameEngine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>GameEngine\GraphicsEngine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>GameEngine\GraphicsEngine\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>GameEngine\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +326,48 @@
     <ClInclude Include="Types.h">
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>GameEngine\GraphicsEngine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>GameEngine\GraphicsEngine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>GameEngine\GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>GameEngine\GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h">
+      <Filter>GameEngine\Miscs</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h">
+      <Filter>GameEngine\Miscs</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SpriteFont.h">
+      <Filter>GameEngine\Miscs</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h">
+      <Filter>GameEngine\Miscs</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h">
+      <Filter>GameEngine\Miscs</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexMesh.h">
+      <Filter>GameEngine\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -301,8 +376,19 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>App</Filter>
     </FxCompile>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <Filter>App</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IMGUI\imgui.ini" />
+    <None Include="Libs\DirectXTK\include\SimpleMath.inl">
+      <Filter>GameEngine\Miscs</Filter>
+    </None>
+    <None Include="Libs\DirectXTex\include\DirectXTex.inl">
+      <Filter>GameEngine\Miscs</Filter>
+    </None>
+    <None Include="IMGUI\imgui.ini">
+      <Filter>GameEngine\Miscs</Filter>
+    </None>
   </ItemGroup>
 </Project>
