@@ -13,6 +13,8 @@
 #include "InputSystem.h"
 #include "Types.h"
 
+#include "CubeRenderer.h"
+
 class GameObjectManager
 {
 public:
@@ -32,12 +34,13 @@ public:
 	GameObject* findObjectByName(string name);
 	List getAllObjects();
 	int activeObjects();
-	void initialUpdateAll();
-	void updateAllTransformAndBuffers(int viewportWidth, int viewportHeight, VertexShaderPtr vertexShader, PixelShaderPtr pixelShader, int camIndex);
-	void renderAll();
-	void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc);
-	void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc);
+	//void initialUpdateAll();
+	//void updateAllTransformAndBuffers(int viewportWidth, int viewportHeight, VertexShaderPtr vertexShader, PixelShaderPtr pixelShader, int camIndex);
+	//void renderAll();
+	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc);
+	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc);
 	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc, TexturePtr tex);
+	void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc);
 	void addObject(GameObject* gameObject);
 	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
 	void deleteObject(GameObject* gameObject);
@@ -48,10 +51,8 @@ public:
 	GameObject* getSelectedObject();
 
 	void createModel(String model, void* shaderByteCode, size_t sizeShader);
-	//void addModel(Model* model);
-
-private:
-	string adjustGameObjectName(string name);
+	//void addModel(Model* model);:
+	string adjustName(string name);
 
 private:
 	GameObjectManager();

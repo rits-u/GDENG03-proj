@@ -42,12 +42,12 @@ public:
 	GameObject(String name);
 	~GameObject();
 
-	virtual void update(float deltaTime) = 0;
-	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
-	virtual void updateTransformAndBuffers(int width, int height, int camIndex) = 0;
-	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
+	virtual void update(float deltaTime) {};
+	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) {};
+	virtual void updateTransformAndBuffers(int width, int height, int camIndex) {};
+	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) {};
 	//virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
-	virtual void render() = 0;
+	virtual void render() {};
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
@@ -72,6 +72,10 @@ public:
 	void setName(String name);
 	String getName();
 
+	constant getConstant();
+
+	ComponentList getComponents();
+
 public:
 	template <typename T, typename... Args> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
@@ -84,7 +88,7 @@ public:
 		T* component = new T(std::forward<Args>(args)...);
 		component->owner = this;
 		components.push_back(component);
-		component->Init();
+		component->init();
 		return component;
 	}
 
@@ -117,7 +121,7 @@ public:
 
 
 protected:
-	std::vector<Component*> components;
+	ComponentList components;
 	String name;
 	MyTransform transform;
 	constant cc;

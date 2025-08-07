@@ -1,6 +1,7 @@
 #pragma once
 //#include "Constant.h"
 #include "GameObject.h"
+#include <iostream>
 
 enum class ComponentType {
 	RENDERER,
@@ -14,13 +15,13 @@ public:
 	GameObject* owner = nullptr;
 
 public:
-	const ComponentType Type;
-	Component(ComponentType type) : Type(type) {}
-	Component(ComponentType type, GameObject* newOwner) : Type(type), owner(newOwner) {}
+	const ComponentType type;
+	Component(ComponentType type) : type(type) {}
+	//Component(ComponentType type, GameObject* newOwner) : Type(type), owner(newOwner) {}
 
-	//inline virtual Component* CreateSnapshot() = 0;
-
-	virtual void update(constant cc) = 0;
+	virtual void update(constant cc) {};
+	virtual void update(constant cc, int width, int height, int camIndex) {};
 	virtual void release() = 0;
-	virtual void init() {}
+	virtual void init() {};
+	virtual void draw() {};
 };

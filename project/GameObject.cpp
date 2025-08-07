@@ -15,13 +15,6 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::update(float deltaTime)
-{
-}
-
-void GameObject::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
-{
-}
 
 void GameObject::setPosition(float x, float y, float z)
 {
@@ -106,6 +99,16 @@ void GameObject::setName(String name)
 String GameObject::getName()
 {
     return this->name;
+}
+
+constant GameObject::getConstant()
+{
+    return this->cc;
+}
+
+ComponentList GameObject::getComponents()
+{
+    return this->components;
 }
 
 //void GameObject::setMesh(MeshPtr mesh)

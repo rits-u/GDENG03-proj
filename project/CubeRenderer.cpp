@@ -1,13 +1,18 @@
 #include "CubeRenderer.h"
-#include "GraphicsEngine.h"
 
+VertexShaderPtr CubeRenderer::sharedVS = nullptr;
+PixelShaderPtr CubeRenderer::sharedPS = nullptr;
 VertexBufferPtr CubeRenderer::sharedVB = nullptr;
 IndexBufferPtr CubeRenderer::sharedIB = nullptr;
 
 CubeRenderer::CubeRenderer() : Component(ComponentType::RENDERER)
 {
+}
+
+void CubeRenderer::init()
+{
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
-	
+
 	Vector3D positionList[] =
 	{
 		//CUBE
@@ -95,21 +100,71 @@ CubeRenderer::CubeRenderer() : Component(ComponentType::RENDERER)
 		22, 23, 20
 	};
 
+
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
+
+	sharedVB = renderSystem->createVertexBuffer();
+	sharedIB = renderSystem->createIndexBuffer();
+
+	UINT size_list = ARRAYSIZE(vertex_list);
+	UINT size_index_list = ARRAYSIZE(index_list);
+
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	UINT size_list = ARRAYSIZE(vertex_list);
-	sharedVB = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	sharedVS = renderSystem->createVertexShader(shader_byte_code, size_shader);
+	sharedVB->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
+	sharedIB->Load(index_list, size_index_list, renderSystem);
+	renderSystem->releaseCompiledShader();
 
-	UINT size_index_list = ARRAYSIZE(index_list);
-	sharedIB = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
+	renderSystem->releaseCompiledShader();
 
+	constant cc;
+	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
+	//	cb->load(&cc, sizeof(constant));
 
+	this->owner->setLayer(this->owner->getLayer() | Layer::DEBUG);
+}
+
+void CubeRenderer::update(constant cc, int width, int height, int camIndex)
+{
+	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//constant cc = this->owner->getConstant();
+
+	//update constant buffer
+
+	cc.m_world = this->owner->getWorldMatrix();
+	//this->cc.m_time = this->ticks * 2000.0f;
+
+	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
+	if (cam->cullingMask & Layer::DEBUG)
+	{
+		cc.useWireColor = 1.0f;
+		cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	else {
+		cc.useWireColor = 0.0f;
+	}
+
+	if (cam->cullingMask & Layer::UI)
+	{
+		cc.m_view.setIdentity();
+		cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
+	}
+	else
+	{
+		cc.m_view = cam->getViewMatrix();
+		cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	}
+
+	this->cb->update(deviceContext, &cc);
 }
 
 void CubeRenderer::update(constant cc)
 {
-	draw();
 }
 
 void CubeRenderer::release()
@@ -118,5 +173,25 @@ void CubeRenderer::release()
 
 void CubeRenderer::draw()
 {
+	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	deviceContext->setConstantBuffer(sharedVS, this->cb);
+	deviceContext->setConstantBuffer(sharedPS, this->cb);
 
+	deviceContext->setVertexShader(sharedVS);
+	deviceContext->setPixelShader(sharedPS);
+
+	//set constant buffer
+	deviceContext->setConstantBuffer(sharedVS, this->cb);
+	deviceContext->setConstantBuffer(sharedPS, this->cb);
+
+	deviceContext->setTexture(sharedPS, this->texture);
+
+	//set index and vertex buffer
+	deviceContext->setIndexBuffer(sharedIB);
+	deviceContext->setVertexBuffer(sharedVB);
+
+	deviceContext->drawIndexedTriangleList(sharedIB->getSizeIndexList(), 0, 0);
 }
+
+
+

@@ -40,7 +40,10 @@ void MenuToolbar::draw()
 
         if (ImGui::BeginMenu("Game Object")) {
             if (ImGui::MenuItem("Cube")) {
-                GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::CUBE, this->shaderByteCode, this->sizeShader);
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Cube"));
+                obj->AddComponent<CubeRenderer>();
+                manager->addObject(obj);
             }
             if (ImGui::MenuItem("Plane")) {
                 GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::PLANE, this->shaderByteCode, this->sizeShader);

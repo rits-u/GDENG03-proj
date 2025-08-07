@@ -125,6 +125,7 @@ void AppWindow::onUpdate()
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
 	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain, this->woodTex);
+	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_swap_chain);
 	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_swap_chain);
 
 	UIManager::get()->drawAllUI();

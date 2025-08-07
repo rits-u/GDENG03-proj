@@ -138,7 +138,7 @@ Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 	//constant buffer
 	constant cc;
-	cc.m_time = 0;
+	//cc.m_time = 0;
 	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 //	cb->load(&cc, sizeof(constant));
 
@@ -159,10 +159,10 @@ Cube::~Cube()
 
 void Cube::update(float deltaTime)
 {
-	this->deltaTime = deltaTime;
-	this->ticks += deltaTime;
+	//this->deltaTime = deltaTime;
+	//this->ticks += deltaTime;
 
-	float rotSpeed = this->ticks * this->speed;
+	//float rotSpeed = this->ticks * this->speed;
 
 	/*if(animated)
 		this->setRotation(rotSpeed, rotSpeed, rotSpeed);*/
@@ -217,7 +217,7 @@ void Cube::updateTransformAndBuffers(int width, int height, int camIndex)
 	//update constant buffer
 
 	this->cc.m_world = this->getWorldMatrix();
-	this->cc.m_time = this->ticks * 2000.0f;
+	//this->cc.m_time = this->ticks * 2000.0f;
 
 	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
 	if (cam->cullingMask & Layer::DEBUG)
@@ -240,24 +240,7 @@ void Cube::updateTransformAndBuffers(int width, int height, int camIndex)
 		this->cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
 	}
 
-
 	cb->update(deviceContext, &this->cc);
-
-	deviceContext->setConstantBuffer(vs, this->cb);
-	deviceContext->setConstantBuffer(ps, this->cb);
-
-	deviceContext->setVertexShader(this->vs);
-	deviceContext->setPixelShader(this->ps);
-
-	//set constant buffer
-	deviceContext->setConstantBuffer(vs, this->cb);
-	deviceContext->setConstantBuffer(ps, this->cb);
-
-	deviceContext->setTexture(this->ps, this->texture);
-
-	//set index and vertex buffer
-	deviceContext->setIndexBuffer(this->ib);
-	deviceContext->setVertexBuffer(this->vb);
 }
 
 void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
@@ -267,7 +250,7 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	//update constant buffer
 
 	this->cc.m_world = this->getWorldMatrix();
-	this->cc.m_time = this->ticks * 2000.0f;
+	//this->cc.m_time = this->ticks * 2000.0f;
 
 	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);	
 	if (cam->cullingMask & Layer::DEBUG)
@@ -304,12 +287,6 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	deviceContext->setVertexBuffer(this->vb);
 
 	//draw
-//	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
-
-	//if (!cam->isEnabled) {
-	//	this->render();
-	//}
-	std::cout << "?????" << std::endl;
 }
 
 void Cube::setAnimationSpeed(float speed)
@@ -369,5 +346,23 @@ void Cube::onRightMouseUp(const Point& mousePos)
 void Cube::render()
 {
 	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+
+	deviceContext->setConstantBuffer(vs, this->cb);
+	deviceContext->setConstantBuffer(ps, this->cb);
+
+	deviceContext->setVertexShader(this->vs);
+	deviceContext->setPixelShader(this->ps);
+
+	//set constant buffer
+	deviceContext->setConstantBuffer(vs, this->cb);
+	deviceContext->setConstantBuffer(ps, this->cb);
+
+	deviceContext->setTexture(this->ps, this->texture);
+
+	//set index and vertex buffer
+	deviceContext->setIndexBuffer(this->ib);
+	deviceContext->setVertexBuffer(this->vb);
+
 	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }
