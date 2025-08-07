@@ -19,6 +19,7 @@ public:
 	
 	virtual void update(float deltaTime) override;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	virtual void updateTransformAndBuffers(int width, int height, int camIndex) override;
 	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
 	virtual void render() override;
 

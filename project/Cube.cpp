@@ -18,41 +18,6 @@ Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 
 	Vector3D white = Vector3D(1, 1, 1);
 
-	//OLDDDDDD
-	//vertex vertex_list[] =
-	//{
-	//	//CUBE
-	//	//front face
-	//	{Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos1
-	//	{Vector3D(-0.5f, 0.5f, -0.5f),	Vector3D(1.0f,0.5f,0.0f),	Vector3D(1.0f,0.5f,0.0f)},		//pos2
-	//	{Vector3D(0.5f, 0.5f, -0.5f),	Vector3D(1.0f,1.0f,0.0f),	Vector3D(1.0f,1.0f,0.0f)},		//pos3
-	//	{Vector3D(0.5f, -0.5f, -0.5f),	Vector3D(1.0f,0.0f,0.0f),	Vector3D(1.0f,0.0f,0.0f)},		//pos4
-
-	//	//back face
-	//	{Vector3D(0.5f, -0.5f, 0.5f),	Vector3D(0.0f,1.0f,0.0f),	Vector3D(0.0f,1.0f,0.0f)},		//pos5
-	//	{Vector3D(0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos6
-	//	{Vector3D(-0.5f, 0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos7
-	//	{Vector3D(-0.5f, -0.5f, 0.5f),	Vector3D(0.0f,0.0f,1.0f),	Vector3D(0.0f,0.0f,1.0f)},		//pos8
-
-	//};
-
-	//vertex vertex_list[] =
-	//{
-	//	//CUBE
-	//	//front face
-	//	{Vector3D(-0.5f, -0.5f, -0.5f), white,	white},		//pos1
-	//	{Vector3D(-0.5f, 0.5f, -0.5f),	white,	white},		//pos2
-	//	{Vector3D(0.5f, 0.5f, -0.5f),	white,	white},		//pos3
-	//	{Vector3D(0.5f, -0.5f, -0.5f),	white,	white},		//pos4
-
-	//	//back face
-	//	{Vector3D(0.5f, -0.5f, 0.5f),	white,	white},		//pos5
-	//	{Vector3D(0.5f, 0.5f, 0.5f),	white,	white},		//pos6
-	//	{Vector3D(-0.5f, 0.5f, 0.5f),	white,	white},		//pos7
-	//	{Vector3D(-0.5f, -0.5f, 0.5f),	white,	white},		//pos8
-
-	//};
-
 	Vector3D positionList[] =
 	{
 		//CUBE
@@ -112,41 +77,6 @@ Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 		{ positionList[0], texCoordList[3] },
 
 	};
-
-
-	UINT size_list = ARRAYSIZE(vertex_list);
-	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
-
-	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
-
-	//OLDDDD
-	//unsigned int index_list[] =
-	//{
-	//	//front side
-	//	0, 1, 2,	//first triangle
-	//	2, 3, 0,	//2nd
-
-	//	//back side
-	//	4, 5, 6,	//3rd
-	//	6, 7, 4,	//4th
-
-	//	//top side
-	//	1, 6, 5,
-	//	5, 2, 1,
-
-	//	//bottom side
-	//	7, 0, 3,
-	//	3, 4, 7,
-
-	//	//right side
-	//	3, 2, 5,
-	//	5, 4, 3,
-
-	//	//left side
-	//	7, 6, 1,
-	//	1, 0, 7
-	//};
-
 	unsigned int index_list[] =
 	{
 		//front side
@@ -174,13 +104,37 @@ Cube::Cube(String name, void* shaderByteCode, size_t sizeShader) : GameObject(na
 		22, 23, 20
 	};
 
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 
-	//index buffer
+	this->vb = renderSystem->createVertexBuffer();
+	this->ib = renderSystem->createIndexBuffer();
+	//this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+
+//	//index buffer
+	UINT size_list = ARRAYSIZE(vertex_list);
 	UINT size_index_list = ARRAYSIZE(index_list);
 
+	void* shader_byte_code = nullptr;
+	size_t size_shader = 0;
 
-	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	this->vs = renderSystem->createVertexShader(shader_byte_code, size_shader);
+
+	this->vb->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
+	this->ib->Load(index_list, size_index_list, renderSystem);
+
+	renderSystem->releaseCompiledShader();
+
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	this->ps = renderSystem->createPixelShader(shader_byte_code, size_shader);
+
+	renderSystem->releaseCompiledShader();
+
+
+	//this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
 	//this->ib->load(index_list, size_index_list);
+
+
 
 	//constant buffer
 	constant cc;
@@ -216,40 +170,94 @@ void Cube::update(float deltaTime)
 
 void Cube::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+	////constant cc;
+
+	////deltaPos += EngineTime::getDeltaTime() / 8.0f;
+	////if (this->deltaPos > 1.0f) {
+	////	this->deltaPos = 0.0f;
+	////}
+	////else {
+	////	this->deltaPos += this->deltaTime * 0.1f;
+	////}
+
+	////update constant buffer
+	//
+	//this->cc.m_world = this->getWorldMatrix();
+	//this->cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
+	//this->cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//this->cc.m_time = this->ticks * 2000.0f;
+	//cb->update(deviceContext, &cc);
+	////cc.m_proj = camera->getPerspective(width, height);
+
+	//deviceContext->setConstantBuffer(vs, this->cb);
+	//deviceContext->setConstantBuffer(ps, this->cb);
+
+	//deviceContext->setVertexShader(this->vs);
+	//deviceContext->setPixelShader(this->ps);
+
+	////set constant buffer
+	//deviceContext->setTexture(this->vs, this->texture);
+
+	////set index and vertex buffer
+	//deviceContext->setIndexBuffer(this->ib);
+	//deviceContext->setVertexBuffer(this->vb);
+
+	////draw
+	//deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+
+	
+}
+
+void Cube::updateTransformAndBuffers(int width, int height, int camIndex)
+{
 	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	//constant cc;
-
-	//deltaPos += EngineTime::getDeltaTime() / 8.0f;
-	//if (this->deltaPos > 1.0f) {
-	//	this->deltaPos = 0.0f;
-	//}
-	//else {
-	//	this->deltaPos += this->deltaTime * 0.1f;
-	//}
-
 	//update constant buffer
-	
-	this->cc.m_world = this->getWorldMatrix();
-	this->cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
-	this->cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	this->cc.m_time = this->ticks * 2000.0f;
-	cb->update(deviceContext, &cc);
-	//cc.m_proj = camera->getPerspective(width, height);
 
+	this->cc.m_world = this->getWorldMatrix();
+	this->cc.m_time = this->ticks * 2000.0f;
+
+	Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
+	if (cam->cullingMask & Layer::DEBUG)
+	{
+		this->cc.useWireColor = 1.0f;
+		this->cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	else {
+		this->cc.useWireColor = 0.0f;
+	}
+
+	if (cam->cullingMask & Layer::UI)
+	{
+		this->cc.m_view.setIdentity();
+		this->cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
+	}
+	else
+	{
+		this->cc.m_view = cam->getViewMatrix();
+		this->cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	}
+
+
+	cb->update(deviceContext, &this->cc);
+
+	deviceContext->setConstantBuffer(vs, this->cb);
+	deviceContext->setConstantBuffer(ps, this->cb);
+
+	deviceContext->setVertexShader(this->vs);
+	deviceContext->setPixelShader(this->ps);
 
 	//set constant buffer
 	deviceContext->setConstantBuffer(vs, this->cb);
 	deviceContext->setConstantBuffer(ps, this->cb);
 
+	deviceContext->setTexture(this->ps, this->texture);
+
 	//set index and vertex buffer
 	deviceContext->setIndexBuffer(this->ib);
 	deviceContext->setVertexBuffer(this->vb);
-
-	//draw
-	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
-
-	
 }
 
 void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
@@ -301,7 +309,7 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	//if (!cam->isEnabled) {
 	//	this->render();
 	//}
-
+	std::cout << "?????" << std::endl;
 }
 
 void Cube::setAnimationSpeed(float speed)

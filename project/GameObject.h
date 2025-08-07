@@ -44,6 +44,7 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
+	virtual void updateTransformAndBuffers(int width, int height, int camIndex) = 0;
 	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
 	//virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
 	virtual void render() = 0;
@@ -72,7 +73,7 @@ public:
 	String getName();
 
 public:
-	/*template <typename T, typename... Args> inline
+	template <typename T, typename... Args> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
 		AddComponent(Args&&... args)
 	{
@@ -105,25 +106,22 @@ public:
 		erase_if(components, [](Component* c) {
 			return typeid(*c) == typeid(T);
 			});
-	}*/
-
-public:
-	struct vertex {
-		Vector3D position;
-		Vector2D texCoord;
-	};
+	}
+//
+//public:
+//	struct vertex {
+//		Vector3D position;
+//		Vector2D texCoord;
+//	};
 
 
 
 protected:
 	std::vector<Component*> components;
-	//ComponentList components;
 	String name;
 	MyTransform transform;
 	constant cc;
 	unsigned int layer;
 	bool enabled;
-
-	//std::vector<Component*> componentList;
 };
 

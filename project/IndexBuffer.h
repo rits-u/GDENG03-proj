@@ -9,8 +9,10 @@ class IndexBuffer
 {
 
 public:
+	IndexBuffer();
 	IndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system);
 	IndexBuffer(std::vector<unsigned int> list_indices, UINT size_list, RenderSystem* m_system);
+	void Load(void* list_indices, UINT size_list, RenderSystem* m_system);
 	UINT getSizeIndexList();
 	~IndexBuffer();
 

@@ -21,6 +21,7 @@ public:
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	void updateTransformAndBuffers(int width, int height, int camIndex) override;
 	void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
 	void render() override;
 
@@ -48,6 +49,8 @@ public:
 	float rightward = 0.0f;
 
 private:
+	VertexShaderPtr vs;
+	PixelShaderPtr ps;
 	VertexBufferPtr vb;
 	IndexBufferPtr ib;
 	ConstantBufferPtr cb;
@@ -58,6 +61,7 @@ private:
 	float speed = 10.0f;
 	float accumulatedTime = 0.0f;
 	bool animated = false;
+	TexturePtr texture;
 	//Matrix4x4 m_worldCamera;
 
 };

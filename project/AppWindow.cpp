@@ -27,7 +27,7 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 	//InputSystem::get()->showCursor(false);
 
-	this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
+	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 //	this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
 
@@ -44,12 +44,12 @@ void AppWindow::onCreate()
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 
-	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
-	m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
+	//renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
+	//m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
 
 	//PIXEL SHADER
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
-	m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
+	//renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
+	//m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
 
 
 	//void* shader_byte_code = nullptr;
@@ -103,13 +103,13 @@ void AppWindow::onUpdate()
 	renderSystem->getImmediateDeviceContext()->setViewPortSize(width, height);
 
 	//set the default shader in the graphics pipeline to be able 
-	renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
-	renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
+	//renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
+	//renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	//renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
-	renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
+	//renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
 
-	//	renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
+		//renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
 
 
 	//mesh
@@ -125,7 +125,7 @@ void AppWindow::onUpdate()
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
 	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain, this->woodTex);
-	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain);
+	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_swap_chain);
 
 	UIManager::get()->drawAllUI();
 

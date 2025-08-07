@@ -75,10 +75,10 @@ public:
 
 private:
 	SwapChainPtr m_swap_chain;
-	VertexShaderPtr m_vs;
-	PixelShaderPtr m_ps;
-	TexturePtr woodTex;
-	MeshPtr mesh;
+	//VertexShaderPtr m_vs;
+	//PixelShaderPtr m_ps;
+	//TexturePtr woodTex;
+	//MeshPtr mesh;
 
 	void* VS_ShaderByteCode = nullptr;
 	size_t VS_SizeShader = 0;

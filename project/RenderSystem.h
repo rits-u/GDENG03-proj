@@ -15,8 +15,10 @@ public:
 public:
 	DeviceContextPtr getImmediateDeviceContext();
 	SwapChainPtr createSwapChain(HWND hwnd, UINT width, UINT height);
+	VertexBufferPtr createVertexBuffer();
 	VertexBufferPtr createVertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-	VertexBufferPtr createVertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
+	VertexBufferPtr createVertexBuffer(std::vector<vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
+	IndexBufferPtr createIndexBuffer();
 	IndexBufferPtr createIndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system);
 	IndexBufferPtr createIndexBuffer(std::vector<unsigned int> list_indices, UINT size_list, RenderSystem* m_system);
 	ConstantBufferPtr createConstantBuffer(void* buffer, UINT size_buffer);

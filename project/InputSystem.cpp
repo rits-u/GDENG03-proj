@@ -154,7 +154,7 @@ bool InputSystem::isKeyUp(int key)
 }
 
 void InputSystem::setCursorPosition(const Point& pos)
-{
+{	
 	::SetCursorPos(pos.m_x, pos.m_y);
 }
 

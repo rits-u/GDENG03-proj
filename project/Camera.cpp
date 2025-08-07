@@ -74,6 +74,10 @@ void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
 }
 
+void Camera::updateTransformAndBuffers(int width, int height, int camIndex)
+{
+}
+
 void Camera::render()
 {
 }

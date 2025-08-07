@@ -153,18 +153,30 @@ SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)
 	return sc;
 }
 
+VertexBufferPtr RenderSystem::createVertexBuffer()
+{
+	VertexBufferPtr vb = nullptr;
+	try
+	{
+		vb = std::make_shared<VertexBuffer>();
+	}
+	catch (...) {}
+	return vb;
+}
+
 VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
 {
 	VertexBufferPtr vb = nullptr;
 	try
 	{
 		vb = std::make_shared<VertexBuffer>(list_vertices, size_vertex, size_list, shader_byte_code, size_byte_shader, this);
+		//vb = std::make_shared<VertexBuffer>();
 	}
 	catch (...) {}
 	return vb;
 }
 
-VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
 {
 	//std::vector<vertex> vertex_list;
 	VertexBufferPtr vb = nullptr;
@@ -174,6 +186,18 @@ VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<GameObject::vertex>
 	}
 	catch (...) {}
 	return vb;
+}
+
+IndexBufferPtr RenderSystem::createIndexBuffer()
+{
+	IndexBufferPtr ib = nullptr;
+	try
+	{
+		//ib = std::make_shared<IndexBuffer>(list_indices, size_list, this);
+		ib = std::make_shared<IndexBuffer>();
+	}
+	catch (...) {}
+	return ib;
 }
 
 IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system)
@@ -269,8 +293,10 @@ bool RenderSystem::compilePixelShader(const wchar_t* file_name, const char* entr
 
 void RenderSystem::releaseCompiledShader()
 {
-	if (m_blob)
+	if (m_blob) {
 		m_blob->Release();
+		m_blob = nullptr;
+	}
 }
 
 void RenderSystem::createRasterizerStates()
