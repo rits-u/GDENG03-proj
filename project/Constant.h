@@ -9,7 +9,7 @@ struct constant
 	Matrix4x4 m_view;
 	Matrix4x4 m_proj;
 	float useWireColor;
-	float padding[3]; // for 16-byte alignment
-	Vector4D wireColor;
-
+	float useTexture;
+	float padding[2];
+	//Vector4D wireColor;
 };

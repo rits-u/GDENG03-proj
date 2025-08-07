@@ -66,8 +66,8 @@ private:
 	//void createGameObjects(GameObject obj, int num, float scale, Layer layer, )
 
 private:
-	bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
-	bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
+	//bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
+	//bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
 
 public:
 	//Cube* cubeObject;
@@ -80,22 +80,22 @@ private:
 	//TexturePtr woodTex;
 	//MeshPtr mesh;
 
-	void* VS_ShaderByteCode = nullptr;
-	size_t VS_SizeShader = 0;
-	void* PS_ShaderByteCode = nullptr;
-	size_t PS_SizeShader = 0;
+	//void* VS_ShaderByteCode = nullptr;
+	//size_t VS_SizeShader = 0;
+	//void* PS_ShaderByteCode = nullptr;
+	//size_t PS_SizeShader = 0;
 	bool holding = false;
 
-	void* mesh_ShaderByteCode = nullptr;
-	size_t mesh_SizeShader = 0;
-	unsigned char m_mesh_layout_byte_code[1024];
-	size_t m_mesh_layout_size = 0;
+	//void* mesh_ShaderByteCode = nullptr;
+	//size_t mesh_SizeShader = 0;
+	//unsigned char m_mesh_layout_byte_code[1024];
+	//size_t m_mesh_layout_size = 0;
 
 private:
-	std::vector<Cube*> cubeList;
-	std::vector<Plane*> planeList;
-	std::vector<Circle*> circleList;
-	std::vector<GameObject*> UIElements;
+	//std::vector<Cube*> cubeList;
+	//std::vector<Plane*> planeList;
+	//std::vector<Circle*> circleList;
+	//std::vector<GameObject*> UIElements;
 	std::vector<Camera*> sortedCameras;
 
 

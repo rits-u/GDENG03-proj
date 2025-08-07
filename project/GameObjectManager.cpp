@@ -215,8 +215,13 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
                             
                         }
                         else if (components[i]->type == ComponentType::RENDERER) {
-                            components[i]->update(obj->getConstant(), width, height, index);
-                            if (cam->isEnabled()) components[i]->draw();
+                            Renderer* renderer = (Renderer*)components[i];
+                            renderer->update(obj->getConstant(), width, height, index);
+                            if (cam->isEnabled())
+                                renderer->draw(); 
+
+                           /* components[i]->update(obj->getConstant(), width, height, index);
+                            if (cam->isEnabled()) components[i]->draw();*/
                                
                         }
                     }
@@ -264,9 +269,17 @@ void GameObjectManager::deleteObject(GameObject* gameObject)
             if (dynamic_cast<InputListener*>(this->gameObjectList[i]))
                 InputSystem::get()->removeListener((InputListener*)this->gameObjectList[i]);
 
+            ComponentList& components = this->gameObjectList[i]->getComponents();
+            for (Component* c : components) {
+                if (c) {
+                    delete c;
+                    c = nullptr;
+                }
+            }
+            components.clear();
+
             delete this->gameObjectList[i];
             this->gameObjectList.erase(this->gameObjectList.begin() + i);
-        
             break;
         }
     }
@@ -339,11 +352,14 @@ string GameObjectManager::adjustName(string name)
 {
     string adjustedName;
     int count = 0;
+    bool rootExists = true;
+
 
     for (GameObject* obj : this->gameObjectList) {
         string temp = obj->getName();
-        if (temp.find(name) != std::string::npos)
+        if (temp.find(name) != std::string::npos) {
             count++;
+        }
     }
 
     if (count > 0)
@@ -353,6 +369,25 @@ string GameObjectManager::adjustName(string name)
 
     return adjustedName;
 }
+
+void GameObjectManager::processDeletions()
+{
+    for (int i = 0; i < this->pendingDeletion.size(); i++) {
+        if (InputListener* listener = dynamic_cast<InputListener*>(this->pendingDeletion[i])) {
+            InputSystem::get()->removeListener(listener);
+        }
+        ComponentList& components = this->pendingDeletion[i]->getComponents();
+        for (Component* c : components) {
+            delete c;
+        }
+        components.clear();
+
+        delete this->pendingDeletion[i];
+        this->gameObjectList.erase(this->gameObjectList.begin() + i);
+        this->pendingDeletion.clear();
+    }
+}
+
 
 GameObjectManager::GameObjectManager()
 {

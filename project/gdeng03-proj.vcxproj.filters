@@ -76,6 +76,9 @@
     <Filter Include="GameEngine\Components">
       <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd123c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Components\Renderers">
+      <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd222c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,9 +123,6 @@
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
-    </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
@@ -134,9 +134,6 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Circle.cpp">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClCompile>
     <ClCompile Include="IMGUI\imgui.cpp">
       <Filter>GameEngine\IMGUI</Filter>
@@ -195,14 +192,26 @@
     <ClCompile Include="MeshManager.cpp">
       <Filter>GameEngine\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>GameEngine\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>GameEngine\Components</Filter>
-    </ClCompile>
     <ClCompile Include="MyTransform.cpp">
       <Filter>GameEngine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>GameEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="CylinderRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +260,6 @@
     <ClInclude Include="Cube.h">
       <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
@@ -277,9 +283,6 @@
     </ClInclude>
     <ClInclude Include="Prerequisites.h">
       <Filter>GameEngine\GraphicsEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Circle.h">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="IMGUI\imconfig.h">
       <Filter>GameEngine\IMGUI</Filter>
@@ -365,9 +368,6 @@
     <ClInclude Include="MeshManager.h">
       <Filter>GameEngine\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>GameEngine\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h">
       <Filter>GameEngine\Miscs</Filter>
     </ClInclude>
@@ -385,6 +385,24 @@
     </ClInclude>
     <ClInclude Include="MyTransform.h">
       <Filter>GameEngine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>GameEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="CylinderRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

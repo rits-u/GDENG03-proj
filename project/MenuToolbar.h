@@ -13,9 +13,10 @@ public:
 	~MenuToolbar();
 
 	void draw() override;
+
+private:
 	void toggleUIScreen(String name);
 	void openColorPickerUI();
-	void setShaders(void* shaderByteCode, size_t sizeShader);
 
 private:
 //	bool isActive;

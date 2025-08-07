@@ -84,6 +84,7 @@ void DeviceContext::setTexture(VertexShaderPtr vertex_shader, TexturePtr texture
 
 void DeviceContext::setTexture(PixelShaderPtr pixel_shader, TexturePtr texture)
 {
+    ID3D11ShaderResourceView* srv = texture->shaderResourceView;
     m_device_context->PSSetShaderResources(0, 1, &texture->shaderResourceView);
 }
 

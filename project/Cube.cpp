@@ -223,7 +223,7 @@ void Cube::updateTransformAndBuffers(int width, int height, int camIndex)
 	if (cam->cullingMask & Layer::DEBUG)
 	{
 		this->cc.useWireColor = 1.0f;
-		this->cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+		//this->cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 	else {
 		this->cc.useWireColor = 0.0f;
@@ -256,7 +256,7 @@ void Cube::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, 
 	if (cam->cullingMask & Layer::DEBUG)
 	{
 		this->cc.useWireColor = 1.0f;
-		this->cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+		//this->cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 	else {
 		this->cc.useWireColor = 0.0f;

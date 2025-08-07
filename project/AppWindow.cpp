@@ -78,10 +78,6 @@ void AppWindow::onCreate()
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
 
-	UINames uiNames;
-	MenuToolbar* menuToolbar = (MenuToolbar*)UIManager::get()->getUIScreenByName(uiNames.MENU_TOOLBAR);
-	menuToolbar->setShaders(this->VS_ShaderByteCode, this->VS_SizeShader);
-
 }
 
 void AppWindow::onUpdate()
@@ -132,6 +128,8 @@ void AppWindow::onUpdate()
 
 
 	m_swap_chain->present(false);
+
+	//GameObjectManager::get()->processDeletions();
 }
 
 

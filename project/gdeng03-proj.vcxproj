@@ -161,6 +161,7 @@
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CubeRenderer.cpp" />
+    <ClCompile Include="CylinderRenderer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="EngineTime.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -182,10 +183,14 @@
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="MyTransform.cpp" />
     <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="PlaneRenderer.cpp" />
+    <ClCompile Include="QuadRenderer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneCameraHandler.cpp" />
+    <ClCompile Include="SphereRenderer.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -204,6 +209,7 @@
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeRenderer.h" />
+    <ClInclude Include="CylinderRenderer.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
     <ClInclude Include="GameObject.h" />
@@ -220,8 +226,12 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="MyTransform.h" />
+    <ClInclude Include="PlaneRenderer.h" />
+    <ClInclude Include="QuadRenderer.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SphereRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Types.h" />

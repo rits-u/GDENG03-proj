@@ -42,17 +42,43 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Cube")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Cube"));
-                obj->AddComponent<CubeRenderer>();
+                obj->addComponent<CubeRenderer>();
                 manager->addObject(obj);
+                manager->setSelectedObject(obj);
             }
             if (ImGui::MenuItem("Plane")) {
-                GameObjectManager::get()->createObject(GameObjectManager::PrimitiveType::PLANE, this->shaderByteCode, this->sizeShader);
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Plane"));
+                obj->addComponent<PlaneRenderer>();
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
             }
-
+            if (ImGui::MenuItem("Quad")) {
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Quad"));
+                obj->addComponent<QuadRenderer>();
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
+            }
+            if (ImGui::MenuItem("Sphere")) {
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Sphere"));
+                obj->addComponent<SphereRenderer>();
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
+            }
+            if (ImGui::MenuItem("Cylinder")) {
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Cylinder"));
+                obj->addComponent<CylinderRenderer>();
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
+            }
+            
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("3D Objects")) {
+      /*  if (ImGui::BeginMenu("3D Objects")) {
             if (ImGui::MenuItem("Teapot")) {
                 GameObjectManager::get()->createModel("Teapot", this->shaderByteCode, this->sizeShader);
             }
@@ -64,14 +90,14 @@ void MenuToolbar::draw()
             }
 
             ImGui::EndMenu();
-        }
+        }*/
 
-        if (ImGui::BeginMenu("Color")) {
+     /*   if (ImGui::BeginMenu("Color")) {
             if (ImGui::MenuItem("Show Color Picker")) {
                 showColorPicker = !showColorPicker;
             }
             ImGui::EndMenu();
-        }
+        }*/
 
         ImGui::EndMainMenuBar();
     }
@@ -104,11 +130,4 @@ void MenuToolbar::openColorPickerUI()
         ImGui::ColorPicker3("Color", this->myColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_NoInputs);
         ImGui::End();
     }
-}
-
-
-void MenuToolbar::setShaders(void* shaderByteCode, size_t sizeShader)
-{
-    this->shaderByteCode = shaderByteCode;
-    this->sizeShader = sizeShader;
 }

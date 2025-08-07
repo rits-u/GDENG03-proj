@@ -14,6 +14,10 @@
 #include "Types.h"
 
 #include "CubeRenderer.h"
+#include "PlaneRenderer.h"
+#include "QuadRenderer.h"
+#include "SphereRenderer.h"
+#include "CylinderRenderer.h"
 
 class GameObjectManager
 {
@@ -53,6 +57,7 @@ public:
 	void createModel(String model, void* shaderByteCode, size_t sizeShader);
 	//void addModel(Model* model);:
 	string adjustName(string name);
+	void processDeletions();
 
 private:
 	GameObjectManager();

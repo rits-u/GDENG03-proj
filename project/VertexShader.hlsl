@@ -31,9 +31,8 @@ cbuffer constant : register(b0)
     row_major float4x4 m_view;
     row_major float4x4 m_proj;
     float useWireColor;
-    //float3 padding; // for 16-byte alignment
-    float3 padding; // for 8-byte alignment
-    //float4 wireColor;
+    float useTexture;
+    float2 padding; 
 }
 
 

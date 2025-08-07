@@ -7,11 +7,11 @@
 #include "DeviceContext.h"
 #include "SceneCameraHandler.h"
 
-class CubeRenderer : public Renderer
+class PlaneRenderer : public Renderer
 {
 public:
-	CubeRenderer();
-	~CubeRenderer();
+	PlaneRenderer();
+	~PlaneRenderer();
 
 public:
 	void init() override;
@@ -27,5 +27,6 @@ private:
 	static VertexBufferPtr sharedVB;
 	static IndexBufferPtr sharedIB;
 	ConstantBufferPtr cb;
-	float size = 1.3f;
+	float size = 9.0f;
 };
+

@@ -106,7 +106,7 @@ constant GameObject::getConstant()
     return this->cc;
 }
 
-ComponentList GameObject::getComponents()
+ComponentList& GameObject::getComponents()
 {
     return this->components;
 }

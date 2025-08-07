@@ -21,11 +21,26 @@ void InspectorScreen::draw()
 		this->displayTransform();
 
 		ImGui::NewLine(); ImGui::Separator();
+		if (selectedObject) {
+			if (!selectedObject->getComponent<Renderer>()->hasTexture &&
+				!selectedObject->getComponent<Renderer>()->enableTextureSelection)
+			{
+				if (ImGui::Button("Add Texture")) {
+					selectedObject->getComponent<Renderer>()->enableTextureSelection = true;
+				}
+			}
+			else {
+				this->displayTextureSection();
+			}
+		}
+
+		ImGui::NewLine(); ImGui::Separator();
 		if (ImGui::Button("Delete")) {
 			GameObjectManager::get()->deleteObject(selectedObject);
 			selectedObject = nullptr;
 			GameObjectManager::get()->clearSelectedObject();
-
+			ImGui::End();
+			return;
 		}
 		
 	}
@@ -99,5 +114,50 @@ void InspectorScreen::displayTransform()
 		if (ImGui::DragFloat("Scale", &uni, 0.1f)) {
 			selectedObject->setScale(Vector3D(uni, uni, uni));
 		}
+	}
+}
+
+void InspectorScreen::displayTextureSection()
+{
+	GameObject* selectedObject = GameObjectManager::get()->getSelectedObject();
+	Renderer* renderer = selectedObject->getComponent<Renderer>();
+
+	std::vector<std::string> items = { "None", "Brick", "Wood", "Grass", "Ground", "Sand", "Wall" };
+
+	static GameObject* prevSelectedObject = nullptr;
+	if (selectedObject != prevSelectedObject) {
+		prevSelectedObject = selectedObject;
+		this->textureItem = 0;
+
+		for (int i = 0; i < items.size(); ++i) {
+			if (items[i] == renderer->texName) {
+				this->textureItem = i;
+				break;
+			}
+		}
+	}
+
+	ImGui::Text("Texture");
+
+	if (ImGui::BeginCombo("Dropdown", items[this->textureItem].c_str())) {
+		for (int i = 0; i < items.size(); i++) {
+			bool selected = (this->textureItem == i);
+			if (ImGui::Selectable(items[i].c_str(), selected))
+				this->textureItem = i;
+
+			if (selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	renderer->setTexture(items[this->textureItem]);
+
+	ImGui::NewLine();
+	if (ImGui::Button("Remove Texture")) {
+		renderer->setTexture("None");
+		renderer->enableTextureSelection = false;
+		this->textureItem = 0;
+		
 	}
 }

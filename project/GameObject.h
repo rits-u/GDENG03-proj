@@ -74,19 +74,23 @@ public:
 
 	constant getConstant();
 
-	ComponentList getComponents();
+	//ComponentList getComponents();
+	ComponentList& getComponents();
 
 public:
 	template <typename T, typename... Args> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
-		AddComponent(Args&&... args)
+		addComponent(Args&&... args)
 	{
 		for (auto c : components) {
-			if (typeid(*c) == typeid(T))
+			/*if (typeid(*c) == typeid(T))
+				return nullptr;*/
+			if (dynamic_cast<T*>(c) != nullptr) // Match base or derived
 				return nullptr;
+
 		}
 		T* component = new T(std::forward<Args>(args)...);
-		component->owner = this;
+		component->setOwner(this);
 		components.push_back(component);
 		component->init();
 		return component;
@@ -94,22 +98,22 @@ public:
 
 	template <typename T> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
-		GetComponent()
+		getComponent()
 	{
 		for (auto c : components) {
-			if (typeid(*c) == typeid(T))
-				return static_cast<T*>(c);
+			if (T* result = dynamic_cast<T*>(c))
+				return result;
 		}
 		return nullptr;
 	}
 
 	template <typename T> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
-		RemoveComponent()
+		removeComponent()
 	{
 		erase_if(components, [](Component* c) {
 			return typeid(*c) == typeid(T);
-			});
+		});
 	}
 //
 //public:

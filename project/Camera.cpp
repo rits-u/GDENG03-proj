@@ -36,7 +36,7 @@ Camera::~Camera()
 void Camera::update(float deltaTime)
 {
 	if (isNavigating) {
-		float offset = 0.03f;
+		float offset = 0.08f;
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
