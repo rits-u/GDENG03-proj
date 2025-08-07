@@ -316,50 +316,50 @@ float AppWindow::generateRandomFloat(float min, float max)
 
 void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
 {
-	//CIRCLE
-	int numSegment = 32;
-	int radius = 1;
+	////CIRCLE
+	//int numSegment = 32;
+	//int radius = 1;
 
-	float r = generateRandomFloat(0.0f, 1.0f);
-	float g = generateRandomFloat(0.0f, 1.0f);
-	float b = generateRandomFloat(0.0f, 1.0f);
-	float randX = generateRandomFloat(0, 1);
-	float randY = generateRandomFloat(0, 1);
+	//float r = generateRandomFloat(0.0f, 1.0f);
+	//float g = generateRandomFloat(0.0f, 1.0f);
+	//float b = generateRandomFloat(0.0f, 1.0f);
+	//float randX = generateRandomFloat(0, 1);
+	//float randY = generateRandomFloat(0, 1);
 
-	bool goUp, goRight;
+	//bool goUp, goRight;
 
-	if (randX <= 0.5f) goUp = false;
-	else goUp = true;
+	//if (randX <= 0.5f) goUp = false;
+	//else goUp = true;
 
-	if (randY <= 0.5f) goRight = false;
-	else goRight = true;
+	//if (randY <= 0.5f) goRight = false;
+	//else goRight = true;
 
 
-	//std::cout << "go UP: " << goUp << std::endl;
-	//std::cout << "go RIGHT: " << goRight << std::endl;
+	////std::cout << "go UP: " << goUp << std::endl;
+	////std::cout << "go RIGHT: " << goRight << std::endl;
 
-	//Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, color);
-	Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, Vector3D(r, g, b));
+	////Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, color);
+	//Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, Vector3D(r, g, b));
 
-	circleObject->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
-	circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
+	//circleObject->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
+	//circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
 
-	//rotation
-	//float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
-	float radians = convertToRadians(180);
-	circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
-	circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 3.0f));
+	////rotation
+	////float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
+	//float radians = convertToRadians(180);
+	//circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
+	//circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 3.0f));
 
-	//direction
-	//circleObject->setDirection(goUp, goRight);
-	float dir = generateRandomFloat(0.0f, 2 * 3.14);
-	float x = cosf(dir);
-	float y = sinf(dir);
-	Vector3D direction = Vector3D(x, y, 0.0f);
-	circleObject->setDirection(direction);
-	circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
+	////direction
+	////circleObject->setDirection(goUp, goRight);
+	//float dir = generateRandomFloat(0.0f, 2 * 3.14);
+	//float x = cosf(dir);
+	//float y = sinf(dir);
+	//Vector3D direction = Vector3D(x, y, 0.0f);
+	//circleObject->setDirection(direction);
+	//circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
 
-	this->circleList.push_back(circleObject);
+	//this->circleList.push_back(circleObject);
 
 }
 

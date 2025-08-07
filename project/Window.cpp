@@ -91,7 +91,14 @@ Window::Window()
       //    window = this;
 
       //creation of the window
-    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1200, 800,
+    RECT rc = { 0, 0, 1200, 800 };
+    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+    int windowWidth = rc.right - rc.left;
+    int windowHeight = rc.bottom - rc.top;
+
+
+    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight,
         NULL, NULL, NULL, NULL);
 
     //if the creation fails, return false 

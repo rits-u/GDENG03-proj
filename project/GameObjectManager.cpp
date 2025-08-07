@@ -1,5 +1,5 @@
 #include "GameObjectManager.h"
-typedef std::vector<GameObject*> List;
+//typedef std::vector<GameObject*> List;
 
 GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 
@@ -33,7 +33,7 @@ GameObject* GameObjectManager::findObjectByName(string name)
     return this->gameObjectList[index];
 }
 
-List GameObjectManager::getAllObjects()
+std::vector<GameObject*> GameObjectManager::getAllObjects()
 {
     return this->gameObjectList;
 }
@@ -159,12 +159,12 @@ void GameObjectManager::createObject(PrimitiveType type, void* shaderByteCode, s
             break;
         }
    
-        case PrimitiveType::PLANE: {
+        /*case PrimitiveType::PLANE: {
             Plane* planeObject = new Plane(adjustGameObjectName("Plane"), shaderByteCode, sizeShader);
             this->addObject(planeObject);
             std::cout << "Spawned Plane" << std::endl;
             break;
-        }
+        }*/
     }
 }
 
@@ -227,7 +227,7 @@ GameObject* GameObjectManager::getSelectedObject()
 
 void GameObjectManager::createModel(String model, void* shaderByteCode, size_t sizeShader)
 {
-    if (model == "Teapot") {
+    /*if (model == "Teapot") {
         MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
         Model* model = new Model(adjustGameObjectName("Teapot"), mesh, shaderByteCode, sizeShader);
         this->addObject(model);
@@ -244,7 +244,7 @@ void GameObjectManager::createModel(String model, void* shaderByteCode, size_t s
         Model* model = new Model(adjustGameObjectName("Armadillo"), mesh, shaderByteCode, sizeShader);
         this->addObject(model);
         std::cout << "Spawned Bunny" << std::endl;
-    }
+    }*/
 }
 
 string GameObjectManager::adjustGameObjectName(string name)

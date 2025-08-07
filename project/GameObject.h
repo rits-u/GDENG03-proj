@@ -7,6 +7,8 @@
 #include "Types.h"
 #include "Constant.h"
 #include "MyTransform.h"
+#include "Component.h"
+#include <vector>
 //#include "Camera.h"
 
 //using namespace std;
@@ -32,7 +34,7 @@ enum Layer : unsigned int {
 */
 
 
-
+//class Component;
 class GameObject
 {
 
@@ -66,11 +68,46 @@ public:
 	void setEnabled(bool enabled);
 	bool isEnabled();
 
+	void setName(String name);
 	String getName();
 
+public:
+	/*template <typename T, typename... Args> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		AddComponent(Args&&... args)
+	{
+		for (auto c : components) {
+			if (typeid(*c) == typeid(T))
+				return nullptr;
+		}
+		T* component = new T(std::forward<Args>(args)...);
+		component->owner = this;
+		components.push_back(component);
+		component->Init();
+		return component;
+	}
 
+	template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		GetComponent()
+	{
+		for (auto c : components) {
+			if (typeid(*c) == typeid(T))
+				return static_cast<T*>(c);
+		}
+		return nullptr;
+	}
 
+	template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
+		RemoveComponent()
+	{
+		erase_if(components, [](Component* c) {
+			return typeid(*c) == typeid(T);
+			});
+	}*/
 
+public:
 	struct vertex {
 		Vector3D position;
 		Vector2D texCoord;
@@ -79,10 +116,14 @@ public:
 
 
 protected:
+	std::vector<Component*> components;
+	//ComponentList components;
 	String name;
 	MyTransform transform;
 	constant cc;
 	unsigned int layer;
 	bool enabled;
+
+	//std::vector<Component*> componentList;
 };
 

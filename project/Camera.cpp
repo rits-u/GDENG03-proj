@@ -173,8 +173,9 @@ void Camera::onLeftMouseUp(const Point& mousePos)
 void Camera::onRightMouseDown(const Point& mousePos)
 {
 	this->isNavigating = true;
+	InputSystem::get()->setCursorPosition(Point(width / 2, height / 2));
 	InputSystem::get()->showCursor(false);
-	std::cout << "Navigating" << std::endl;
+	//std::cout << "Navigating" << std::endl;
 }
 
 void Camera::onRightMouseUp(const Point& mousePos)

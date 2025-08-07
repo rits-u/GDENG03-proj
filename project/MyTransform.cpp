@@ -5,6 +5,7 @@ MyTransform::MyTransform()
 	this->localPosition = Vector3D::zeros();
 	this->localScale = Vector3D::ones();
 	this->localRotation = Vector3D::zeros();
+	//this->localMatrix = Matrix4x4(0, 0, 0, 0);
 }
 
 Matrix4x4 MyTransform::getLocalMatrix()

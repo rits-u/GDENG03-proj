@@ -4,11 +4,11 @@
 GameObject::GameObject(String name)
 {
     this->name = name;
-    //this->localPosition = Vector3D::zeros();
-    //this->localScale = Vector3D::ones();
-    //this->localRotation = Vector3D::zeros();
     this->layer = Layer::DEFAULT;
     this->enabled = true;
+   // this->componentList.clear();
+   // this->component = 
+   
 }
 
 GameObject::~GameObject()
@@ -96,6 +96,11 @@ void GameObject::setEnabled(bool enabled)
 bool GameObject::isEnabled()
 {
     return this->enabled;
+}
+
+void GameObject::setName(String name)
+{
+    this->name = name;
 }
 
 String GameObject::getName()

@@ -29,7 +29,7 @@ void CreditsScreen::draw()
 		ImGui::Text("Developed by Andrea Legaspi \n\n");
 		String text = (String)"Acknowledgements:\n" +
 					  (String)"PardCode Game Engine Tutorial\n" +
-					          "Sir Neil's GDENG03 Course";
+					          "Doc Neil's GDENG03 Course";
 		ImGui::Text(text.c_str());
 		ImGui::End();
 	}
