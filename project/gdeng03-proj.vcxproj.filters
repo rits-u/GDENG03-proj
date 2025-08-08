@@ -82,6 +82,9 @@
     <Filter Include="GameEngine\Components\Physics">
       <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250d1113c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Parser">
+      <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250d0313c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -219,9 +222,15 @@
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>GameEngine\Components\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="LevelSerializer.cpp" />
-    <ClCompile Include="LevelDeserializer.cpp" />
-    <ClCompile Include="CapsuleRenderer.cpp" />
+    <ClCompile Include="LevelSerializer.cpp">
+      <Filter>GameEngine\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelDeserializer.cpp">
+      <Filter>GameEngine\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleRenderer.cpp">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -416,9 +425,15 @@
     <ClInclude Include="PhysicsComponent.h">
       <Filter>GameEngine\Components\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="LevelSerializer.h" />
-    <ClInclude Include="LevelDeserializer.h" />
-    <ClInclude Include="CapsuleRenderer.h" />
+    <ClInclude Include="LevelSerializer.h">
+      <Filter>GameEngine\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelDeserializer.h">
+      <Filter>GameEngine\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleRenderer.h">
+      <Filter>GameEngine\Components\Renderers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
