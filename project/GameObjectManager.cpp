@@ -212,7 +212,8 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
                     ComponentList components = obj->getComponents();
                     for (int i = 0; i < components.size(); i++) {
                         if (components[i]->type == ComponentType::PHYSICS) {
-                            
+                            Component* p6 = (PhysicsComponent*)components[i];
+                            p6->update();
                         }
                         else if (components[i]->type == ComponentType::RENDERER) {
                             Renderer* renderer = (Renderer*)components[i];
@@ -269,9 +270,13 @@ void GameObjectManager::deleteObject(GameObject* gameObject)
             if (dynamic_cast<InputListener*>(this->gameObjectList[i]))
                 InputSystem::get()->removeListener((InputListener*)this->gameObjectList[i]);
 
+            //PhysicsComponent* p6component = gameObject->getComponent<PhysicsComponent>();
             ComponentList& components = this->gameObjectList[i]->getComponents();
             for (Component* c : components) {
                 if (c) {
+                    if (auto* p6component = dynamic_cast<PhysicsComponent*>(c))
+                        PhysicsSystem::get()->removePhysicsComponent(p6component);
+
                     delete c;
                     c = nullptr;
                 }

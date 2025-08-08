@@ -9,7 +9,7 @@
 #include "MyTransform.h"
 #include "Component.h"
 #include <vector>
-//#include "Camera.h"
+#include <algorithm>
 
 //using namespace std;
 
@@ -77,6 +77,9 @@ public:
 	//ComponentList getComponents();
 	ComponentList& getComponents();
 
+	PrimitiveType getPrimitiveType();
+	void setPrimitiveType(PrimitiveType type);
+
 public:
 	template <typename T, typename... Args> inline
 		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
@@ -111,9 +114,19 @@ public:
 		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
 		removeComponent()
 	{
-		erase_if(components, [](Component* c) {
+		/*erase_if(components, [](Component* c) {
 			return typeid(*c) == typeid(T);
-		});
+		});*/
+		auto it = components.begin();
+		while (it != components.end()) {
+			if (typeid(**it) == typeid(T)) {
+				delete* it;
+				it = components.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
 	}
 //
 //public:
@@ -131,5 +144,6 @@ protected:
 	constant cc;
 	unsigned int layer;
 	bool enabled;
+	PrimitiveType type;
 };
 

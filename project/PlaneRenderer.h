@@ -27,6 +27,6 @@ private:
 	static VertexBufferPtr sharedVB;
 	static IndexBufferPtr sharedIB;
 	ConstantBufferPtr cb;
-	float size = 9.0f;
+//	float size = 9.0f;
 };
 

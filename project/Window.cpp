@@ -78,8 +78,8 @@ Window::Window()
     wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     wc.hInstance = NULL;
-    wc.lpszClassName = L"MyWindowClass";
-    wc.lpszMenuName = L"";
+    wc.lpszClassName = "MyWindowClass";
+    wc.lpszMenuName = "";
     wc.style = NULL;
     wc.lpfnWndProc = &WndProc;
 
@@ -98,7 +98,7 @@ Window::Window()
     int windowHeight = rc.bottom - rc.top;
 
 
-    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight,
+    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight,
         NULL, NULL, NULL, NULL);
 
     //if the creation fails, return false 

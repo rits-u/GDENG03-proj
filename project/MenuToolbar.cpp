@@ -42,6 +42,7 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Cube")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Cube"));
+                obj->setPrimitiveType(PrimitiveType::CUBE);
                 obj->addComponent<CubeRenderer>();
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);
@@ -49,6 +50,7 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Plane")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Plane"));
+                obj->setPrimitiveType(PrimitiveType::PLANE);
                 obj->addComponent<PlaneRenderer>();
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);
@@ -56,6 +58,7 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Quad")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Quad"));
+                obj->setPrimitiveType(PrimitiveType::QUAD);
                 obj->addComponent<QuadRenderer>();
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);
@@ -63,6 +66,7 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Sphere")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Sphere"));
+                obj->setPrimitiveType(PrimitiveType::SPHERE);
                 obj->addComponent<SphereRenderer>();
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);
@@ -70,6 +74,7 @@ void MenuToolbar::draw()
             if (ImGui::MenuItem("Cylinder")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Cylinder"));
+                obj->setPrimitiveType(PrimitiveType::CYLINDER);
                 obj->addComponent<CylinderRenderer>();
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);

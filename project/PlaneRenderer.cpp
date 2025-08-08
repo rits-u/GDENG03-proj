@@ -14,6 +14,7 @@ PlaneRenderer::~PlaneRenderer()
 
 void PlaneRenderer::init()
 {
+	this->setSize(9.0f);
 	this->hasTexture = false;
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
@@ -48,8 +49,9 @@ void PlaneRenderer::init()
 
 void PlaneRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)
 {
-	int v = 24;
-	int n = 36;
+	int v = 4;
+	int n = 6;
+	float size = this->getSize();
 
 	vertex temp_vertexList[] =
 	{

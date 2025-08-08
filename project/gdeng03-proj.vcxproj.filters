@@ -213,6 +213,8 @@
     <ClCompile Include="QuadRenderer.cpp">
       <Filter>GameEngine\Components\Renderers</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -404,6 +406,8 @@
     <ClInclude Include="QuadRenderer.h">
       <Filter>GameEngine\Components\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

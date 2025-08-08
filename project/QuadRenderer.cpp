@@ -14,6 +14,7 @@ QuadRenderer::~QuadRenderer()
 
 void QuadRenderer::init()
 {
+	this->setSize(9.0f);
 	this->hasTexture = false;
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
@@ -48,16 +49,9 @@ void QuadRenderer::init()
 
 void QuadRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)
 {
-	int v = 24;
-	int n = 36;
-
-	//vertex temp_vertexList[] =
-	//{
-	//	{ Vector3D(-0.5f * size, 0.0f, -0.5f * size),  Vector2D(0.0f, 1.0f) }, // 0
-	//	{ Vector3D(-0.5f * size, 0.0f,  0.5f * size),  Vector2D(0.0f, 0.0f) }, // 1
-	//	{ Vector3D(0.5f * size, 0.0f,  0.5f * size),  Vector2D(1.0f, 0.0f) },  // 2
-	//	{ Vector3D(0.5f * size, 0.0f, -0.5f * size),  Vector2D(1.0f, 1.0f) }   // 3
-	//};
+	int v = 4;
+	int n = 6;
+	float size = this->getSize();
 
 	vertex temp_vertexList[] =
 	{

@@ -26,7 +26,7 @@ private:
 	static VertexBufferPtr sharedVB;
 	static IndexBufferPtr sharedIB;
 	ConstantBufferPtr cb;
-	float height = 2.5f;
+	//float height = 2.5f;
 
 };
 

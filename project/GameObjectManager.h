@@ -18,6 +18,9 @@
 #include "QuadRenderer.h"
 #include "SphereRenderer.h"
 #include "CylinderRenderer.h"
+#include "PhysicsComponent.h"
+
+
 
 class GameObjectManager
 {
@@ -26,10 +29,8 @@ public:
 	//typedef std::vector<GameObject*> List;
 	//typedef std::unordered_map<string, GameObject*> HashTable;
 
-	enum PrimitiveType {
-		CUBE,
-		PLANE
-	};
+
+
 
 	static GameObjectManager* get();
 	static void initialize();

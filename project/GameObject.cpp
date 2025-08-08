@@ -111,6 +111,16 @@ ComponentList& GameObject::getComponents()
     return this->components;
 }
 
+PrimitiveType GameObject::getPrimitiveType()
+{
+    return this->type;
+}
+
+void GameObject::setPrimitiveType(PrimitiveType type)
+{
+    this->type = type;
+}
+
 //void GameObject::setMesh(MeshPtr mesh)
 //{
 //    this->mesh = mesh;

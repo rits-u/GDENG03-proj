@@ -9,6 +9,9 @@ CylinderRenderer::CylinderRenderer() : Renderer() {}
 
 void CylinderRenderer::init()
 {
+	this->setSize(2.5f);
+	this->setRadius(0.7f);
+
 	this->hasTexture = false;
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
@@ -107,7 +110,8 @@ void CylinderRenderer::draw()
 
 void CylinderRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)
 {
-	float radius = 0.7f;
+	float radius = this->getRadius();
+	float height = this->getSize();
 	float pi = 3.14f;
 
 	Vector3D objectPos = this->getOwner()->getPosition();

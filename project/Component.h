@@ -18,8 +18,7 @@ public:
 	
 	virtual void init() {};
 	virtual void release() = 0;
-
-	//virtual void update(constant cc) {};
+	virtual void update() {};
 	//virtual void update(constant cc, int width, int height, int camIndex) {};
 
 

@@ -14,6 +14,7 @@ SphereRenderer::~SphereRenderer()
 
 void SphereRenderer::init()
 {
+	this->setRadius(1.0f);
 	this->hasTexture = false;
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
@@ -48,7 +49,7 @@ void SphereRenderer::init()
 
 void SphereRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)
 {
-	float radius = 1.0f;
+	float radius = this->getRadius();
 	float pi = 3.14;
 	Vector3D center = this->getOwner()->getPosition();
 

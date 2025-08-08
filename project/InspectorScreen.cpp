@@ -34,8 +34,22 @@ void InspectorScreen::draw()
 			}
 		}
 
+		
+
 		ImGui::NewLine(); ImGui::Separator();
-		if (ImGui::Button("Delete")) {
+		this->displayPhysicsComponent();
+		//if (!hasRigidBody && !selectedObject->getComponent<PhysicsComponent>()->hasRB) {
+		//	if (ImGui::Button("Add RigidBody")) {
+		//		this->hasRigidBody = true;
+		//		//selectedObject->getComponent<PhysicsComponent>()->hasRB = true;
+		//	}
+		//}
+		//else {
+			
+		//}
+
+		ImGui::NewLine(); ImGui::Separator();
+		if (ImGui::Button("Delete Object")) {
 			GameObjectManager::get()->deleteObject(selectedObject);
 			selectedObject = nullptr;
 			GameObjectManager::get()->clearSelectedObject();
@@ -139,7 +153,7 @@ void InspectorScreen::displayTextureSection()
 
 	ImGui::Text("Texture");
 
-	if (ImGui::BeginCombo("Dropdown", items[this->textureItem].c_str())) {
+	if (ImGui::BeginCombo("##Texture", items[this->textureItem].c_str())) {
 		for (int i = 0; i < items.size(); i++) {
 			bool selected = (this->textureItem == i);
 			if (ImGui::Selectable(items[i].c_str(), selected))
@@ -160,4 +174,97 @@ void InspectorScreen::displayTextureSection()
 		this->textureItem = 0;
 		
 	}
+}
+
+void InspectorScreen::displayPhysicsComponent()
+{
+	GameObject* selectedObject = GameObjectManager::get()->getSelectedObject();
+	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+
+	/*if (selectedObject->getComponent<PhysicsComponent>() == nullptr) {
+		PhysicsComponent* p6component = selectedObject->addComponent<PhysicsComponent>(reactphysics3d::BodyType::STATIC);
+		PhysicsSystem::get()->addPhysicsComponent(p6component);
+	}*/
+
+	if (!p6) {
+		if (ImGui::Button("Add RigidBody")) {
+			PhysicsComponent* newComp = selectedObject->addComponent<PhysicsComponent>(reactphysics3d::BodyType::STATIC);
+			PhysicsSystem::get()->addPhysicsComponent(newComp);
+		}
+		return; // Nothing else to show
+	}
+
+
+	std::vector<std::string> items = { "STATIC", "DYNAMIC" };
+	/*static GameObject* prevSelectedObject = nullptr;
+	if (selectedObject != prevSelectedObject) {
+		prevSelectedObject = selectedObject;
+		this->rbItem = 0;
+
+		PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+
+		for (int i = 0; i < items.size(); ++i) {
+			if (items[i] == renderer->texName) {
+				this->textureItem = i;
+				break;
+			}
+		}
+	}*/
+
+	//ImGui::Separator();
+	//ImGui::Text("RigidBody");
+
+	////std::vector<std::string> items = { "STATIC", "DYNAMIC" };
+
+	//if (ImGui::BeginCombo("##Rigid Body", items[this->rbItem].c_str())) {
+	//	for (int i = 0; i < items.size(); i++) {
+	//		bool selected = (this->rbItem == i);
+	//		if (ImGui::Selectable(items[i].c_str(), selected))
+	//			this->rbItem = i;
+
+	//		if (selected)
+	//			ImGui::SetItemDefaultFocus();
+	//	}
+	//	ImGui::EndCombo();
+	//}
+
+	//if (items[this->rbItem] == "STATIC") {
+	//	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+	//	p6->setBodyType(reactphysics3d::BodyType::STATIC);
+	//}
+
+	//if (items[this->rbItem] == "DYNAMIC") {
+	//	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+	//	p6->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+	//}
+
+
+	//if (ImGui::Button("Remove RigidBody")) {
+	//	this->hasRigidBody = false;
+	//	selectedObject->removeComponent<PhysicsComponent>();
+	//	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+	//	PhysicsSystem::get()->removePhysicsComponent(p6);
+	//}
+
+	//PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+	int currentRbItem = (p6->getBodyType() == reactphysics3d::BodyType::STATIC) ? 0 : 1;
+
+	ImGui::Text("RigidBody");
+
+	if (ImGui::BeginCombo("##Rigid Body", items[currentRbItem].c_str())) {
+		for (int i = 0; i < items.size(); i++) {
+			bool selected = (currentRbItem == i);
+			if (ImGui::Selectable(items[i].c_str(), selected)) {
+				if (i == 0)
+					p6->setBodyType(reactphysics3d::BodyType::STATIC);
+				else if (i == 1)
+					p6->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+			}
+
+			if (selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+	
 }

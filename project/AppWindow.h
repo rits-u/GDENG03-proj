@@ -34,6 +34,9 @@
 //#define STB_IMAGE_IMPLEMENTATION
 //#include "stb_image.h"
 
+#include <reactphysics3d/reactphysics3d.h>
+using namespace reactphysics3d;
+
 class AppWindow : public Window, public InputListener
 {
 public:
@@ -106,6 +109,10 @@ private:
 	/*	my_image_texture
 		my_image_width
 		my_image_height*/
+
+	//PhysicsWorld* physicsWorld = nullptr;
+	//RigidBody* box = nullptr;
+	//PhysicsCommon physicsCommon;
 
 };
 

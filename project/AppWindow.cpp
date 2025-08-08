@@ -1,4 +1,5 @@
 #include "AppWindow.h"
+
 #include <Windows.h>
 #include "Vector3D.h"
 //#include "Vector2D.h"
@@ -9,6 +10,7 @@
 #include "Mesh.h"
 
 #include "Types.h"
+
 
 
 AppWindow::AppWindow()
@@ -30,8 +32,9 @@ void AppWindow::onCreate()
 	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 //	this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
-
+	PhysicsSystem::get()->initialize();
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
 	SceneCameraHandler::get()->initialize();
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 
@@ -69,6 +72,7 @@ void AppWindow::onCreate()
 	//renderSystem->releaseCompiledShader();
 
 
+
 	renderSystem->createRasterizerStates();
 
 	createCamera(Layer::DEBUG,   1, false);
@@ -78,6 +82,26 @@ void AppWindow::onCreate()
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
 
+
+
+	//hello world ng reactphysics3d : gumana ang hello world
+	//physicsCommon;
+	//physicsWorld = physicsCommon.createPhysicsWorld();
+	////ground
+	//Transform groundTransform = Transform::identity();
+	//RigidBody* ground = physicsWorld->createRigidBody(groundTransform);
+	//BoxShape* groundShape = physicsCommon.createBoxShape(Vector3(100, 1, 100));
+	//ground->addCollider(groundShape, Transform::identity());
+	//ground->setType(BodyType::STATIC);
+
+	////falling cube
+	//Transform boxTransform(Vector3(0, 50, 0), Quaternion::identity());
+	//box = physicsWorld->createRigidBody(boxTransform);
+
+	//BoxShape* boxShape = physicsCommon.createBoxShape(Vector3(1, 1, 1));
+	//box->addCollider(boxShape, Transform::identity());
+	//box->setType(BodyType::DYNAMIC);
+
 }
 
 void AppWindow::onUpdate()
@@ -85,6 +109,7 @@ void AppWindow::onUpdate()
 	//Window::onUpdate();
 
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	PhysicsSystem* physicsSystem = PhysicsSystem::get();
 	SceneCameraHandler* cameraHandler = SceneCameraHandler::get();
 	
 	InputSystem::get()->update();
@@ -114,7 +139,13 @@ void AppWindow::onUpdate()
 
 	//renderSystem->getImmediateDeviceContext()->drawIndexedTriangleList(this->mesh->getIndexBuffer()->getSizeIndexList(), 0, 0);
 
+	//float timeStep = 1.0f / 60.0f;
+	//physicsWorld->update(timeStep);
+	//Vector3 pos = box->getTransform().getPosition();
+	//std::cout << "Box Y = " << pos.y << std::endl;
+	//
 
+	physicsSystem->updateAllPhysicsComponents();
 
 	this->sortedCameras = cameraHandler->getAllCameras();
 	cameraHandler->updateAllCameras();

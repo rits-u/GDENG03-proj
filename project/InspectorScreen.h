@@ -15,6 +15,7 @@ private:
 	void displayObjectName();
 	void displayTransform();
 	void displayTextureSection();
+	void displayPhysicsComponent();
 
 private:
 	bool isRenaming = false;
@@ -24,5 +25,7 @@ private:
 	bool useUniformScale = false;
 	int textureItem = 0;
 	string currTexture = "None";
+	bool hasRigidBody = false;
+	int rbItem = 0;
 };
 

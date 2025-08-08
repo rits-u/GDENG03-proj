@@ -15,6 +15,7 @@ CubeRenderer::~CubeRenderer()
 
 void CubeRenderer::init()
 {
+	this->setSize(1.3f);
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	if (!isInitialized) {
@@ -40,8 +41,6 @@ void CubeRenderer::init()
 		renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 		sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
 		renderSystem->releaseCompiledShader();
-
-		std::cout << "banana" << std::endl;
 	}
 
 
@@ -59,6 +58,7 @@ void CubeRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* in
 {
 	int v = 24;
 	int n = 36;
+	float size = this->getSize();
 
 	Vector3D positionList[] =
 	{
