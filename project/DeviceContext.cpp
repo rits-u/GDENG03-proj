@@ -5,7 +5,9 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "Texture.h"
 #include <exception>
+#include <iostream>
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system) : m_device_context(device_context), m_system(system)
 {
@@ -27,8 +29,6 @@ void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer)
 
     m_device_context->IASetVertexBuffers(0, 1, &vertex_buffer->m_buffer, &stride, &offset);
     m_device_context->IASetInputLayout(vertex_buffer->m_layout);
-
-   // return true;
 }
 
 void DeviceContext::setIndexBuffer(IndexBufferPtr index_buffer)
@@ -75,6 +75,17 @@ void DeviceContext::setPixelShader(PixelShaderPtr pixel_shader)
     m_device_context->PSSetShader(pixel_shader->m_ps, nullptr, 0);
 }
 
+void DeviceContext::setTexture(VertexShaderPtr vertex_shader, TexturePtr texture)
+{
+    m_device_context->VSSetShaderResources(0, 1, &texture->shaderResourceView);
+}
+
+void DeviceContext::setTexture(PixelShaderPtr pixel_shader, TexturePtr texture)
+{
+    ID3D11ShaderResourceView* srv = texture->shaderResourceView;
+    m_device_context->PSSetShaderResources(0, 1, &texture->shaderResourceView);
+}
+
 void DeviceContext::setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr buffer)
 {
     m_device_context->VSSetConstantBuffers(0, 1, &buffer->m_buffer);
@@ -85,8 +96,23 @@ void DeviceContext::setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBuffe
     m_device_context->PSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }
 
+void DeviceContext::setRasterizerState(ID3D11RasterizerState* state)
+{
+    m_device_context->RSSetState(state);
+}
+
 DeviceContext::~DeviceContext()
 {
     m_device_context->Release();
 }
 
+void DeviceContext::clearColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha)
+{
+    FLOAT clear_color[] = { red, green, blue, alpha };
+    m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
+}
+
+void DeviceContext::clearDepth(SwapChainPtr swap_chain)
+{
+    m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}

@@ -4,15 +4,17 @@
 class InputListener
 {
 public:
-	InputListener()
+	InputListener() : isDestroyed(false) 
 	{
 
 	}
 
-	~InputListener()
+	virtual ~InputListener()
 	{
-
+		isDestroyed = true;
 	}
+
+	bool isDestroyed;
 
 	//KEYBOARD pure virtual callback functions
 	virtual void onKeyDown(int key) = 0;

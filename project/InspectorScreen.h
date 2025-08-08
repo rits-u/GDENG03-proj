@@ -1,0 +1,30 @@
+#pragma once
+#include "UIScreen.h"
+
+#include "GameObjectManager.h"
+
+class InspectorScreen : public UIScreen
+{
+public:
+	InspectorScreen();
+	~InspectorScreen();
+
+	void draw() override;
+
+private:
+	void displayObjectName();
+	void displayTransform();
+	void displayTextureSection();
+	void displayPhysicsComponent();
+
+private:
+	bool isRenaming = false;
+	bool enableTextureSelection = false;
+	char currentName[128] = "";
+	bool useUniformScale = false;
+	int textureItem = 0;
+	string currTexture = "None";
+	bool hasRigidBody = false;
+	int rbItem = 0;
+};
+

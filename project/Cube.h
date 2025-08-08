@@ -16,13 +16,17 @@ using namespace DirectX;
 class Cube : public GameObject, public InputListener
 {
 public:
-	Cube(string name, void* shaderByteCode, size_t sizeShader);
+	Cube(String name, void* shaderByteCode, size_t sizeShader);
 	~Cube();
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	void updateTransformAndBuffers(int width, int height, int camIndex) override;
+	void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
+	void render() override;
 
 	void setAnimationSpeed(float speed);
+	void setIsAnimated(bool animated);
 
 	virtual void onKeyDown(int key);
 	virtual void onKeyUp(int key);
@@ -34,7 +38,6 @@ public:
 	virtual void onRightMouseDown(const Point& mousePos);
 	virtual void onRightMouseUp(const Point& mousePos);
 
-	void resetProperties();
 
 //public:
 //	VertexBuffer* vb;
@@ -46,6 +49,8 @@ public:
 	float rightward = 0.0f;
 
 private:
+	VertexShaderPtr vs;
+	PixelShaderPtr ps;
 	VertexBufferPtr vb;
 	IndexBufferPtr ib;
 	ConstantBufferPtr cb;
@@ -55,8 +60,9 @@ private:
 	float deltaScale = 0.0f;
 	float speed = 10.0f;
 	float accumulatedTime = 0.0f;
-	int animation = 1;
-	Matrix4x4 m_worldCamera;
+	bool animated = false;
+	TexturePtr texture;
+	//Matrix4x4 m_worldCamera;
 
 };
 

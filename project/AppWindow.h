@@ -21,6 +21,14 @@
 #include <vector>
 #include <random>
 
+#include "UIManager.h"
+#include "GameObjectManager.h"
+
+#include "Types.h"
+
+#include <reactphysics3d/reactphysics3d.h>
+using namespace reactphysics3d;
+
 class AppWindow : public Window, public InputListener
 {
 public:
@@ -45,31 +53,13 @@ public:
 	virtual void onRightMouseUp(const Point& mousePos) override;
 
 private:
-	//void adjustSpeed();
-	float generateRandomFloat(float min, float max);
-	void spawnCircle(void* shader_byte_code, size_t size_shader);
-	float convertToRadians(float degrees);
-	//void checkInput();
+	void createCamera(Layer layer, float depth, bool enabled);
 
-public:
-	//Cube* cubeObject;
-	//Camera* camera;
 
 private:
 	SwapChainPtr m_swap_chain;
-	VertexShaderPtr m_vs;
-	PixelShaderPtr m_ps;
-	void* VS_ShaderByteCode = nullptr;
-	size_t VS_SizeShader = 0;
-	void* PS_ShaderByteCode = nullptr;
-	size_t PS_SizeShader = 0;
 	bool holding = false;
-
-private:
-	std::vector<Cube*> cubeList;
-	std::vector<Plane*> planeList;
-	std::vector<Circle*> circleList;
-
+	std::vector<Camera*> sortedCameras;
 
 };
 

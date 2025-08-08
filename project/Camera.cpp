@@ -14,7 +14,9 @@ Camera::Camera(string name) : GameObject(name)
 	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	this->updateViewMatrix();
 	this->isNavigating = false;
+	this->setEnabled(true);
 }
+
 
 Camera::~Camera()
 {
@@ -24,37 +26,25 @@ Camera::~Camera()
 void Camera::update(float deltaTime)
 {
 	if (isNavigating) {
-		Vector3D localPos = this->getLocalPosition();
-		float x = localPos.m_x;
-		float y = localPos.m_y;
-		float z = localPos.m_z;
-		float offset = 0.05f;
+		float offset = 0.08f;
 
 		if (InputSystem::get()->isKeyDown('W'))
 		{
-			//z += deltaTime * moveSpeed;
-			//this->setPosition(x, y, z);
 			this->forward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('S'))
 		{
-			//	z -= deltaTime * moveSpeed;
-				//this->setPosition(x, y, z);
 			this->forward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('A'))
 		{
-			//	x += deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = -1.0f * offset;
 			this->updateViewMatrix();
 		}
 		else if (InputSystem::get()->isKeyDown('D'))
 		{
-			//	x -= deltaTime * moveSpeed;
-			//	this->setPosition(x, y, z);
 			this->rightward = 1.0f * offset;
 			this->updateViewMatrix();
 		}
@@ -67,52 +57,58 @@ void Camera::update(float deltaTime)
 		this->isNavigating = false;
 	}
 	
+	//std::cout << "Updating Camera: " << this->getName() << std::endl;
 }
 
 void Camera::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
 }
 
+void Camera::updateTransformAndBuffers(int width, int height, int camIndex)
+{
+}
+
+void Camera::render()
+{
+}
+
+void Camera::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
+{
+}
+
 Matrix4x4 Camera::getViewMatrix()
 {
-	updateViewMatrix();
+	//updateViewMatrix();
 	return this->localMatrix;
 }
 
 void Camera::updateViewMatrix()
 {
-	if (isNavigating) {
-		Vector3D rotation = this->getLocalRotation();
-		Vector3D position = this->getLocalPosition();
-		Vector3D newPos;
+	if (!isNavigating) return;
 
-		Matrix4x4 world_cam, rotX, rotY, pos;
-		world_cam.setIdentity();
+	Vector3D rotation = this->getRotation();
+	Vector3D position = this->getPosition();
+	Vector3D newPos;
 
-		rotX.setIdentity();
-		rotX.setRotationX(rotation.m_x);
-		world_cam *= rotX;
+	Matrix4x4 world_cam, rotX, rotY, pos;
+	world_cam.setIdentity();
 
-		rotY.setIdentity();
-		rotY.setRotationY(rotation.m_y);
-		world_cam *= rotY;
+	rotX.setIdentity();
+	rotX.setRotationX(rotation.m_x);
+	world_cam *= rotX;
 
-		position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward);
-		position = position + this->worldCamera.getXDirection() * (this->rightward);
-		world_cam.setTranslation(position);
-		this->setPosition(position.m_x, position.m_y, position.m_z);
+	rotY.setIdentity();
+	rotY.setRotationY(rotation.m_y);
+	world_cam *= rotY;
 
-		//pos.setIdentity();
-		//pos.setTranslation(position);
-		//world_cam *= pos;
+	position = this->worldCamera.getTranslation() + this->worldCamera.getZDirection() * (this->forward);
+	position = position + this->worldCamera.getXDirection() * (this->rightward);
+	world_cam.setTranslation(position);
+	this->setPosition(position.m_x, position.m_y, position.m_z);
 
-		this->worldCamera = world_cam;
-		world_cam.inverse();
-		this->localMatrix = world_cam;
-		//world_cam.inverse();
-
-		//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
-	}
+	this->worldCamera = world_cam;
+	world_cam.inverse();
+	this->localMatrix = world_cam;
 }
 void Camera::setWidthAndHeight(int width, int height)
 {
@@ -136,14 +132,11 @@ void Camera::onMouseMove(const Point& mousePos)
 	float deltaX = (float)(mousePos.m_x - width / 2);
 	float deltaY = (float)(mousePos.m_y - height / 2);
 
-	Vector3D rotation = this->getLocalRotation();
+	Vector3D rotation = this->getRotation();
 	float offset = 0.08f;
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;
 	rotation.m_y += deltaX * EngineTime::getDeltaTime() * offset;
-
-	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
-	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;
 
 	this->setRotation(rotation);
 	this->updateViewMatrix();
@@ -163,7 +156,9 @@ void Camera::onLeftMouseUp(const Point& mousePos)
 void Camera::onRightMouseDown(const Point& mousePos)
 {
 	this->isNavigating = true;
+	InputSystem::get()->setCursorPosition(Point(width / 2, height / 2));
 	InputSystem::get()->showCursor(false);
+	//std::cout << "Navigating" << std::endl;
 }
 
 void Camera::onRightMouseUp(const Point& mousePos)

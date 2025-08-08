@@ -3,60 +3,77 @@
 #include "DeviceContext.h"
 #include "SceneCameraHandler.h"
 
-Plane::Plane(string name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
+Plane::Plane(String name, void* shaderByteCode, size_t sizeShader) : GameObject(name)
 {
-	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	//RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
-	vertex vertex_list[] =
-	{
-	/*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
-		{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
+	////vertex vertex_list[] =
+	////{
+	////*	{ Vector3D(-0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(-0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f,  0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f, -0.5f, 0.0f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }*/
 
-		{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
-		{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
-		{ Vector3D(0.5f,  0.0f, 0.5f),  Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) },
-		{ Vector3D(0.5f, 0.0f, -0.5f),  Vector3D(0.8, 0.8, 0.8), Vector3D(0.8, 0.8, 0.8) }
+	////	{ Vector3D(-0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(-0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f,  0.0f, 0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) },
+	////	{ Vector3D(0.5f, 0.0f, -0.5f), Vector3D(1, 1, 1), Vector3D(1.0f, 1.0f, 1.0f) }
 
-	};
+	////};
 
-	UINT size_list = ARRAYSIZE(vertex_list);
-	this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+	//Vector3D gray = Vector3D(0.3, 0.3, 0.3);
 
-	//this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
-
-	//unsigned int index_list[] =
+	//vertex vertex_list[] =
 	//{
-	//	////front side
-	//	//0, 1, 2,	//first triangle
-	//	//2, 3, 0,	//2nd
+	//	{ Vector3D(-0.5f, 0.0f, -0.5f), gray, gray },
+	//	{ Vector3D(-0.5f, 0.0f,  0.5f), gray, gray },
+	//	{ Vector3D(0.5f,  0.0f,  0.5f), gray, gray },
+	//	{ Vector3D(0.5f,  0.0f, -0.5f), gray, gray }
 
-	//	0, 1, 2,
-	//	0, 2, 3
 	//};
+
+
+	//UINT size_list = ARRAYSIZE(vertex_list);
+	//this->vb = renderSystem->createVertexBuffer(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+
+	////this->vb->load(vertex_list, sizeof(vertex), size_list, shaderByteCode, sizeShader);
+
+	////unsigned int index_list[] =
+	////{
+	////	////front side
+	////	//0, 1, 2,	//first triangle
+	////	//2, 3, 0,	//2nd
+
+	////	0, 1, 2,
+	////	0, 2, 3
+	////};
+
+	////unsigned int index_list[] = {
+	////	0, 2, 1,
+	////	0, 3, 2
+	////};
 
 	//unsigned int index_list[] = {
-	//	0, 2, 1,
-	//	0, 3, 2
+	//0, 1, 2,
+	//0, 2, 3
 	//};
 
-	unsigned int index_list[] = {
-	0, 1, 2,
-	0, 2, 3
-	};
 
+	////index buffer
+	//UINT size_index_list = ARRAYSIZE(index_list);
+	//this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
+	////this->ib->load(index_list, size_index_list);
 
-	//index buffer
-	UINT size_index_list = ARRAYSIZE(index_list);
-	this->ib = renderSystem->createIndexBuffer(index_list, size_index_list, renderSystem);
-	//this->ib->load(index_list, size_index_list);
+	////constant buffer
+	//constant cc;
+	//cc.m_time = 0;
+	//cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
+	////cb->load(&cc, sizeof(constant));
 
-	//constant buffer
-	constant cc;
-	cc.m_time = 0;
-	cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
-	//cb->load(&cc, sizeof(constant));
+	//this->setPosition(0.0f, 0.0f, 0.0f);
+	//this->setScale(5.0f, 5.0f, 5.0f);
+	//this->setRotation(0.0f, 0.0f, 0.0f);
+	//this->setLayer(this->getLayer() | Layer::DEBUG);
 }
 
 
@@ -65,84 +82,179 @@ Plane::~Plane()
 	//this->vb->release();
 	//this->cb->release();
 	//this->ib->release();
-	GameObject::~GameObject();
+//	GameObject::~GameObject();
 }
 
 void Plane::update(float deltaTime)
 {
-	this->deltaTime = deltaTime;
-	this->ticks += deltaTime;
+	//this->deltaTime = deltaTime;
+	//this->ticks += deltaTime;
 
 }
 
 void Plane::draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps)
 {
-	DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	constant cc;
+	//constant cc;
 
-	deltaPos += EngineTime::getDeltaTime() / 8.0f;
-
-
-	if (this->deltaPos > 1.0f) {
-		this->deltaPos = 0.0f;
-	}
-	else {
-		this->deltaPos += this->deltaTime * 0.1f;
-	}
+	//deltaPos += EngineTime::getDeltaTime() / 8.0f;
 
 
-	//deltaScale += EngineTime::getDeltaTime() / 0.85f;
+	//if (this->deltaPos > 1.0f) {
+	//	this->deltaPos = 0.0f;
+	//}
+	//else {
+	//	this->deltaPos += this->deltaTime * 0.1f;
+	//}
 
-	Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
-	//scale
-	scale.setIdentity();
-	scale.setScale(this->getLocalScale());
+	////deltaScale += EngineTime::getDeltaTime() / 0.85f;
 
-	//rotation
-	Vector3D rotation = this->getLocalRotation();
-	rotX.setIdentity();
-	rotX.setRotationX(rotation.m_x);
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
 
-	rotY.setIdentity();
-	rotY.setRotationY(rotation.m_y);
+	////scale
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
 
-	rotZ.setIdentity();
-	rotZ.setRotationZ(rotation.m_z);
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
 
-	//translation
-	translation.setIdentity();
-	translation.setTranslation(this->getLocalPosition());
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
 
-	//matrix transformation
-	world.setIdentity();
-	world *= scale;
-	world *= rotX;
-	world *= rotY;
-	world *= rotZ;
-	world *= translation;
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
 
-	//update constant buffer
-	cc.m_world = world;
-	cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
-	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
-	cc.m_time = this->ticks / 1000;
-	cb->update(deviceContext, &cc);
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
 
-	//set constant buffer
-	deviceContext->setConstantBuffer(vs, this->cb);
-	deviceContext->setConstantBuffer(ps, this->cb);
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
 
-	//set index and vexter buffer
-	deviceContext->setIndexBuffer(this->ib);
-	deviceContext->setVertexBuffer(this->vb);
+	////update constant buffer
+	//cc.m_world = world;
+	//cc.m_view = SceneCameraHandler::get()->getSceneCameraViewMatrix();
+	//cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//cc.m_time = this->ticks / 1000;
+	//cb->update(deviceContext, &cc);
 
-	//draw
-	deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	////set constant buffer
+	//deviceContext->setConstantBuffer(vs, this->cb);
+	//deviceContext->setConstantBuffer(ps, this->cb);
 
+	////set index and vexter buffer
+	//deviceContext->setIndexBuffer(this->ib);
+	//deviceContext->setVertexBuffer(this->vb);
+
+	////draw
+	//deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+
+}
+
+void Plane::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex)
+{
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+	//constant cc;
+
+	//deltaPos += EngineTime::getDeltaTime() / 8.0f;
+
+
+	//if (this->deltaPos > 1.0f) {
+	//	this->deltaPos = 0.0f;
+	//}
+	//else {
+	//	this->deltaPos += this->deltaTime * 0.1f;
+	//}
+
+
+	////deltaScale += EngineTime::getDeltaTime() / 0.85f;
+
+	//Matrix4x4 scale, rotX, rotY, rotZ, translation, world;
+
+	//scale.setIdentity();
+	//scale.setScale(this->getLocalScale());
+
+	////rotation
+	//Vector3D rotation = this->getLocalRotation();
+	//rotX.setIdentity();
+	//rotX.setRotationX(rotation.m_x);
+
+	//rotY.setIdentity();
+	//rotY.setRotationY(rotation.m_y);
+
+	//rotZ.setIdentity();
+	//rotZ.setRotationZ(rotation.m_z);
+
+	////translation
+	//translation.setIdentity();
+	//translation.setTranslation(this->getLocalPosition());
+
+	////matrix transformation
+	//world.setIdentity();
+	//world *= scale;
+	//world *= rotX;
+	//world *= rotY;
+	//world *= rotZ;
+	//world *= translation;
+
+	////update constant buffer
+	//cc.m_world = world;
+	//cc.m_time = this->ticks * 2000.0f;
+
+	//Camera* cam = SceneCameraHandler::get()->getCameraByIndex(camIndex);
+
+	//if (cam->cullingMask & Layer::DEBUG)
+	//{
+	//	cc.useWireColor = 1.0f;
+	//	cc.wireColor = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	//}
+	//else {
+	//	cc.useWireColor = 0.0f;
+	//}
+
+	//if (cam->cullingMask & Layer::UI)
+	//{
+	//	cc.m_view.setIdentity();
+	//	cc.m_proj.setOrthoLH((float)width / 2.0f, (float)height / 2.0f, -1.0f, 1.0f);
+	//}
+	//else
+	//{
+	//	cc.m_view = cam->getViewMatrix();
+	//	cc.m_proj.setPerspectiveFovLH(1.57f, ((float)(width / (float)height)), 0.1f, 100.0f);
+	//}
+
+
+
+
+	//cb->update(deviceContext, &cc);
+	////cc.m_proj = camera->getPerspective(width, height);
+
+
+	////set constant buffer
+	//deviceContext->setConstantBuffer(vs, this->cb);
+	//deviceContext->setConstantBuffer(ps, this->cb);
+
+	////set index and vertex buffer
+	//deviceContext->setIndexBuffer(this->ib);
+	//deviceContext->setVertexBuffer(this->vb);
 }
 
 void Plane::setAnimationSpeed(float speed)
 {
+}
+
+void Plane::render()
+{
+	//DeviceContextPtr deviceContext = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	//deviceContext->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }

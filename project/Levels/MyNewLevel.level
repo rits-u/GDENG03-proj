@@ -1,0 +1,221 @@
+{
+    "levelName": "MyLevel",
+    "gameObjects": [
+        {
+            "objectName": "wall2",
+            "transform": {
+                "position": [
+                    -8.511799812316895,
+                    4.651400089263916,
+                    -12.039999961853028
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    11.506256103515625,
+                    9.114908218383789,
+                    0.22161410748958589
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "Cube Renderer",
+                    "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        },
+        {
+            "objectName": "ground",
+            "transform": {
+                "position": [
+                    -7.3572001457214359,
+                    0.0,
+                    -5.888500213623047
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    3.720457077026367,
+                    3.8778998851776125,
+                    5.3801984786987309
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "Plane Renderer",
+                    "primitiveType": "PLANE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        },
+        {
+            "objectName": "wall3",
+            "transform": {
+                "position": [
+                    -14.359999656677246,
+                    3.1593000888824465,
+                    -18.600099563598634
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.3113247752189636,
+                    6.1309661865234379,
+                    12.994368553161621
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "Cube Renderer",
+                    "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        },
+        {
+            "objectName": "wall4",
+            "transform": {
+                "position": [
+                    -2.9200000762939455,
+                    4.594099998474121,
+                    -18.600099563598634
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.3113247752189636,
+                    9.000870704650879,
+                    12.994368553161621
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "Cube Renderer",
+                    "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        },
+        {
+            "objectName": "w",
+            "transform": {
+                "position": [
+                    -9.970000267028809,
+                    6.119999885559082,
+                    -20.90999984741211
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "",
+                    "primitiveType": "CAPSULE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        },
+        {
+            "objectName": "wall1",
+            "transform": {
+                "position": [
+                    -8.511799812316895,
+                    3.1593000888824465,
+                    -25.020587921142579
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    11.506256103515625,
+                    6.1309661865234379,
+                    0.22161410748958589
+                ]
+            },
+            "components": {
+                "renderer": {
+                    "componentName": "Cube Renderer",
+                    "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "",
+                    "rigidBody": {
+                        "mass": 0.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": ""
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -5,9 +5,13 @@
 //Window* window = nullptr;
 
 
-
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+        return false;
+
+
     Window* window = nullptr;
 
     switch (msg)
@@ -35,6 +39,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         window->onKillFocus();
         break;
     }
+
+    case WM_KEYDOWN:
+        if (wparam == VK_ESCAPE)
+        {
+            Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+            ::DestroyWindow(hwnd);
+            ::PostQuitMessage(0);
+            return 0; 
+        }
+        break;
     case WM_DESTROY:
     {
         //event fired when the window will be destroyed
@@ -64,8 +78,8 @@ Window::Window()
     wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     wc.hInstance = NULL;
-    wc.lpszClassName = L"MyWindowClass";
-    wc.lpszMenuName = L"";
+    wc.lpszClassName = "MyWindowClass";
+    wc.lpszMenuName = "";
     wc.style = NULL;
     wc.lpfnWndProc = &WndProc;
 
@@ -77,7 +91,14 @@ Window::Window()
       //    window = this;
 
       //creation of the window
-    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
+    RECT rc = { 0, 0, 1200, 800 };
+    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+    int windowWidth = rc.right - rc.left;
+    int windowHeight = rc.bottom - rc.top;
+
+
+    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight,
         NULL, NULL, NULL, NULL);
 
     //if the creation fails, return false 

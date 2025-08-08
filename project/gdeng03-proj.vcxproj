@@ -70,17 +70,37 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ReactPhysics3D\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\ReactPhysics3D\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,28 +109,36 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ReactPhysics3D\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\ReactPhysics3D\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ReactPhysics3D\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\ReactPhysics3D\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,36 +147,67 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ReactPhysics3D\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\ReactPhysics3D\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraDump.cpp" />
-    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="CapsuleRenderer.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="CreditsScreen.cpp" />
+    <ClCompile Include="CubeRenderer.cpp" />
+    <ClCompile Include="CylinderRenderer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="EngineTime.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="HierarchyScreen.cpp" />
+    <ClCompile Include="IMGUI\imgui.cpp" />
+    <ClCompile Include="IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="InspectorScreen.cpp" />
+    <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuToolbar.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="MyTransform.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="PlaneRenderer.cpp" />
+    <ClCompile Include="QuadRenderer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="LevelSerializer.cpp" />
     <ClCompile Include="SceneCameraHandler.cpp" />
+    <ClCompile Include="SphereRenderer.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -156,28 +215,69 @@
   <ItemGroup>
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraDump.h" />
-    <ClInclude Include="Circle.h" />
+    <ClInclude Include="CapsuleRenderer.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Constant.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="Cube.h" />
+    <ClInclude Include="CreditsScreen.h" />
+    <ClInclude Include="CubeRenderer.h" />
+    <ClInclude Include="CylinderRenderer.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="HierarchyScreen.h" />
+    <ClInclude Include="InspectorScreen.h" />
+    <ClInclude Include="LevelDeserializer.h" />
+    <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h" />
+    <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h" />
+    <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h" />
+    <ClInclude Include="Libs\DirectXTK\include\SpriteFont.h" />
+    <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h" />
+    <ClInclude Include="MenuToolbar.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="MyTransform.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PlaneRenderer.h" />
+    <ClInclude Include="QuadRenderer.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="LevelSerializer.h" />
+    <ClInclude Include="SphereRenderer.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UINames.h" />
+    <ClInclude Include="IMGUI\imconfig.h" />
+    <ClInclude Include="IMGUI\imgui.h" />
+    <ClInclude Include="IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="IMGUI\imgui_internal.h" />
+    <ClInclude Include="IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="IMGUI\imstb_textedit.h" />
+    <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SceneCameraHandler.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="UIScreen.h" />
+    <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="Vector4D.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -187,6 +287,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -202,6 +308,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IMGUI\imgui.ini" />
+    <None Include="Libs\DirectXTex\include\DirectXTex.inl" />
+    <None Include="Libs\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

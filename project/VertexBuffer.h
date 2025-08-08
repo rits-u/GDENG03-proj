@@ -8,8 +8,11 @@ class VertexBuffer
 {
 
 public: 
+	VertexBuffer();
+
 	VertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
-	VertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
+	VertexBuffer(std::vector<vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
+	void Load(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* m_system);
 	UINT getSizeVertexList();
 	~VertexBuffer();
 

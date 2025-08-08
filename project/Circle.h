@@ -16,11 +16,13 @@ using namespace DirectX;
 class Circle : public GameObject, public InputListener
 {
 public:
-	Circle(string name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color);
+	Circle(String name, void* shaderByteCode, size_t sizeShader, int numSegment, int radius, Vector3D color);
 	~Circle();
 
 	void update(float deltaTime) override;
 	void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
+	void render() override;
 
 	void setAnimationSpeed(float speed);
 
@@ -36,6 +38,9 @@ public:
 
 	void setDirection(bool goUp, bool goRight);
 	void setDirection(Vector3D direction);
+
+
+
 
 
 	//public:

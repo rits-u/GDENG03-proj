@@ -57,70 +57,6 @@ RenderSystem::RenderSystem()
 	//m_dxgi_factory->CreateSwapChain();
 }
 
-//bool RenderSystem::init()
-//{
-//	D3D_DRIVER_TYPE driver_types[] =
-//	{
-//		D3D_DRIVER_TYPE_HARDWARE,
-//		D3D_DRIVER_TYPE_WARP,
-//		D3D_DRIVER_TYPE_REFERENCE
-//	};
-//
-//	UINT num_driver_types = ARRAYSIZE(driver_types);
-//
-//	D3D_FEATURE_LEVEL feature_levels[] =
-//	{
-//		D3D_FEATURE_LEVEL_11_0
-//	};
-//
-//	UINT num_feature_levels = ARRAYSIZE(feature_levels);
-//
-//	HRESULT res = 0;
-//	//ID3D11DeviceContext* m_imm_context;
-//
-//	for (UINT driver_types_index = 0; driver_types_index < num_driver_types; )
-//	{
-//		res = D3D11CreateDevice(NULL, driver_types[driver_types_index], NULL, NULL, feature_levels,
-//			num_feature_levels, D3D11_SDK_VERSION, &m_d3d_device, &m_feature_level, &m_imm_context);
-//
-//		if (SUCCEEDED(res))
-//			break;
-//
-//		++driver_types_index;
-//	}
-//
-//	if (FAILED(res))
-//	{
-//		return false;
-//	}
-//
-//	m_imm_device_context = std::make_shared<DeviceContext>(m_imm_context, this);
-//
-//	m_d3d_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgi_device);
-//	m_dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgi_adapter);
-//	m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory);
-//	//m_dxgi_factory->CreateSwapChain();
-//
-//	return true;
-//}
-
-//bool RenderSystem::release()
-//{
-//	//if (m_vs) m_vs->Release();
-//	//if (m_ps) m_ps->Release();
-//
-//	//if (m_vsblob) m_vsblob->Release();
-//	//if (m_psblob) m_psblob->Release();
-//
-//	//m_dxgi_device->Release();
-//	//m_dxgi_adapter->Release();
-//	//m_dxgi_factory->Release();
-//
-//	//m_d3d_device->Release();
-//
-//	//return true;
-//}
-
 RenderSystem::~RenderSystem()
 {
 	if (m_vs) m_vs->Release();
@@ -153,6 +89,17 @@ SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)
 	return sc;
 }
 
+VertexBufferPtr RenderSystem::createVertexBuffer()
+{
+	VertexBufferPtr vb = nullptr;
+	try
+	{
+		vb = std::make_shared<VertexBuffer>();
+	}
+	catch (...) {}
+	return vb;
+}
+
 VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
 {
 	VertexBufferPtr vb = nullptr;
@@ -164,7 +111,7 @@ VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_
 	return vb;
 }
 
-VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<GameObject::vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<vertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
 {
 	//std::vector<vertex> vertex_list;
 	VertexBufferPtr vb = nullptr;
@@ -174,6 +121,17 @@ VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<GameObject::vertex>
 	}
 	catch (...) {}
 	return vb;
+}
+
+IndexBufferPtr RenderSystem::createIndexBuffer()
+{
+	IndexBufferPtr ib = nullptr;
+	try
+	{
+		ib = std::make_shared<IndexBuffer>();
+	}
+	catch (...) {}
+	return ib;
 }
 
 IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_list, RenderSystem* m_system)
@@ -269,12 +227,34 @@ bool RenderSystem::compilePixelShader(const wchar_t* file_name, const char* entr
 
 void RenderSystem::releaseCompiledShader()
 {
-	if (m_blob)
+	if (m_blob) {
 		m_blob->Release();
+		m_blob = nullptr;
+	}
 }
-//
-//RenderSystem* RenderSystem::get()
-//{
-//	static RenderSystem renderSystem;
-//	return &renderSystem;
-//}
+
+void RenderSystem::createRasterizerStates()
+{
+	D3D11_RASTERIZER_DESC solidDesc = {};
+	solidDesc.FillMode = D3D11_FILL_SOLID;
+	solidDesc.CullMode = D3D11_CULL_BACK;
+	solidDesc.DepthClipEnable = true;
+	m_d3d_device->CreateRasterizerState(&solidDesc, &m_solidState);
+
+	//wireframe state
+	D3D11_RASTERIZER_DESC wireDesc = {};
+	wireDesc.FillMode = D3D11_FILL_WIREFRAME;
+	wireDesc.CullMode = D3D11_CULL_NONE;
+	wireDesc.DepthClipEnable = true;
+	m_d3d_device->CreateRasterizerState(&wireDesc, &m_wireframeState);
+}
+
+ID3D11RasterizerState* RenderSystem::getWireframeState()
+{
+	return this->m_wireframeState;
+}
+ID3D11RasterizerState* RenderSystem::getSolidState()
+{
+	return this->m_solidState;
+}
+

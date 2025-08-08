@@ -1,66 +1,132 @@
 #pragma once
 #include <string>
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Matrix4x4.h"
-#include "CameraDump.h"
 #include "Prerequisites.h"
-//#include "Camera.h"
-
-using namespace std;
+#include "Types.h"
+#include "Constant.h"
+#include "MyTransform.h"
+#include "Component.h"
+#include <vector>
+#include <algorithm>
 
 class VertexShader;
 class PixelShader;
 
+enum Layer : unsigned int {
+	DEFAULT = 1 << 0,
+	UI = 1 << 2,
+	DEBUG = 1 << 1,
+};
+
+/*
+	bitmask with DEFAULT and DEBUG
+	0 0 0 0   0 0 1 1
+
+	with UI
+	0 0 0 0   0 1 0 0
+
+	DEFAULT ONLY
+	0 0 0 0   0 0 0 1
+*/
+
+
+//class Component;
 class GameObject
 {
 
 public:
-	GameObject(string name);
+	GameObject(String name);
 	~GameObject();
 
-	virtual void update(float deltaTime) = 0;
-	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) = 0;
+	virtual void update(float deltaTime) {};
+	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) {};
+	virtual void updateTransformAndBuffers(int width, int height, int camIndex) {};
+	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) {};
+	//virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) = 0;
+	virtual void render() {};
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);
-	Vector3D getLocalPosition();
+	Vector3D getPosition();
 
 	void setScale(float x, float y, float z);
 	void setScale(Vector3D scale);
-	Vector3D getLocalScale();
+	Vector3D getScale();
 
 	void setRotation(float x, float y, float z);
 	void setRotation(Vector3D rot);
-	Vector3D getLocalRotation();
+	Vector3D getRotation();
+	Matrix4x4 getWorldMatrix();
+	MyTransform getTransform();
 
-	string getName();
+	void setLayer(unsigned int layer);
+	unsigned int getLayer();
 
-	struct vertex {
-		Vector3D position;
-	//	float padding;
-		Vector3D color;
-		Vector3D color2;
-	};
+	void setEnabled(bool enabled);
+	bool isEnabled();
 
-	__declspec(align(16))
-		struct constant
+	void setName(String name);
+	String getName();
+
+	constant getConstant();
+	ComponentList& getComponents();
+
+	PrimitiveType getPrimitiveType();
+	void setPrimitiveType(PrimitiveType type);
+
+public:
+	template <typename T, typename... Args> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		addComponent(Args&&... args)
 	{
-		Matrix4x4 m_world;
-		Matrix4x4 m_view;
-		Matrix4x4 m_proj;
-		float m_time;
-		float padding[3]; // for 16-byte alignment
-	};
+		for (auto c : components) {
+			if (dynamic_cast<T*>(c) != nullptr)
+				return nullptr;
+
+		}
+		T* component = new T(std::forward<Args>(args)...);
+		component->setOwner(this);
+		components.push_back(component);
+		component->init();
+		return component;
+	}
+
+	template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		getComponent()
+	{
+		for (auto c : components) {
+			if (T* result = dynamic_cast<T*>(c))
+				return result;
+		}
+		return nullptr;
+	}
+
+	template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
+		removeComponent()
+	{
+		auto it = components.begin();
+		while (it != components.end()) {
+			if (typeid(**it) == typeid(T)) {
+				delete* it;
+				it = components.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+	}
 
 protected:
-	string name;
-	Vector3D localPosition;
-	Vector3D localScale;
-	Vector3D localRotation;
-	Matrix4x4 localMatrix;
-	//float rotX;
-	//float rotY;
-	//float royZ;
-
+	ComponentList components;
+	String name;
+	MyTransform transform;
+	constant cc;
+	unsigned int layer;
+	bool enabled;
+	PrimitiveType type;
 };
 

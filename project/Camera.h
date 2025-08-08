@@ -18,6 +18,9 @@ public:
 	
 	virtual void update(float deltaTime) override;
 	virtual void draw(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps) override;
+	virtual void updateTransformAndBuffers(int width, int height, int camIndex) override;
+	virtual void updateTransformAndBuffers(int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, int camIndex) override;
+	virtual void render() override;
 
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
@@ -33,10 +36,14 @@ public:
 	virtual void onRightMouseDown(const Point& mousePos);
 	virtual void onRightMouseUp(const Point& mousePos);
 
-
-
 private:
 	void resetCameraProperties();
+
+public:
+	unsigned int cullingMask;
+	float depth;
+	bool clearColor;
+	bool clearDepth;
 
 private:
 	Matrix4x4 localMatrix;
@@ -44,12 +51,11 @@ private:
 	int width;
 	bool isNavigating;
 
+
 	float forward = 0.0f;
 	float rightward = 0.0f;
 	Matrix4x4 worldCamera;
 
 };
-
-//	void 
 
 
