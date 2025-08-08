@@ -14,7 +14,6 @@ class Camera : public GameObject, public InputListener
 {
 public:
 	Camera(string name);
-	//Camera(string name, bool isControllable);
 	~Camera();
 	
 	virtual void update(float deltaTime) override;
@@ -26,7 +25,6 @@ public:
 	Matrix4x4 getViewMatrix();
 	void updateViewMatrix();
 	void setWidthAndHeight(int width, int height);
-	//bool get
 
 	virtual void onKeyDown(int key);
 	virtual void onKeyUp(int key);
@@ -46,9 +44,6 @@ public:
 	float depth;
 	bool clearColor;
 	bool clearDepth;
-	//bool isEnabled;
-	//bool isControllable;
-//	Viewport viewport
 
 private:
 	Matrix4x4 localMatrix;
@@ -62,7 +57,5 @@ private:
 	Matrix4x4 worldCamera;
 
 };
-
-//	void 
 
 

@@ -11,8 +11,6 @@
 #include <vector>
 #include <algorithm>
 
-//using namespace std;
-
 class VertexShader;
 class PixelShader;
 
@@ -73,8 +71,6 @@ public:
 	String getName();
 
 	constant getConstant();
-
-	//ComponentList getComponents();
 	ComponentList& getComponents();
 
 	PrimitiveType getPrimitiveType();
@@ -86,9 +82,7 @@ public:
 		addComponent(Args&&... args)
 	{
 		for (auto c : components) {
-			/*if (typeid(*c) == typeid(T))
-				return nullptr;*/
-			if (dynamic_cast<T*>(c) != nullptr) // Match base or derived
+			if (dynamic_cast<T*>(c) != nullptr)
 				return nullptr;
 
 		}
@@ -114,9 +108,6 @@ public:
 		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
 		removeComponent()
 	{
-		/*erase_if(components, [](Component* c) {
-			return typeid(*c) == typeid(T);
-		});*/
 		auto it = components.begin();
 		while (it != components.end()) {
 			if (typeid(**it) == typeid(T)) {
@@ -128,14 +119,6 @@ public:
 			}
 		}
 	}
-//
-//public:
-//	struct vertex {
-//		Vector3D position;
-//		Vector2D texCoord;
-//	};
-
-
 
 protected:
 	ComponentList components;

@@ -1,5 +1,4 @@
 #include "GameObjectManager.h"
-//typedef std::vector<GameObject*> List;
 
 GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 
@@ -47,138 +46,6 @@ int GameObjectManager::activeObjects()
     }
     return activeObjs;
 }
-//
-//void GameObjectManager::initialUpdateAll()
-//{
-//    for (GameObject* obj : this->gameObjectList) {
-//        if (obj->isEnabled())
-//            obj->update(EngineTime::getDeltaTime());
-//    }
-//}
-//
-//void GameObjectManager::updateAllTransformAndBuffers(int viewportWidth, int viewportHeight, VertexShaderPtr vertexShader, PixelShaderPtr pixelShader, int camIndex)
-//{
-//    for (GameObject* obj : this->gameObjectList) {
-//        if (obj->isEnabled())
-//            obj->updateTransformAndBuffers(viewportWidth, viewportHeight, vertexShader, pixelShader, camIndex);
-//    }
-//}
-//
-//void GameObjectManager::renderAll()
-//{
-//    for (GameObject* obj : this->gameObjectList) {
-//        if (obj->isEnabled())
-//            obj->render();
-//    }
-//}
-
-
-//OLLLLLLLLLLLLLLLLLLLLLLLLLLLLD
-//void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc)
-//{
-//    RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
-//    DeviceContextPtr context = renderSystem->getImmediateDeviceContext();
-//
-//    int index = 0;
-//
-//    for (Camera* cam : cameras) {
-//        if (cam->cullingMask & Layer::DEBUG) {
-//            context->setRasterizerState(renderSystem->getWireframeState());
-//            context->clearDepth(sc);
-//        }
-//        else {
-//            context->setRasterizerState(renderSystem->getSolidState());
-//        }
-//
-//        //        std::cout << cam->getLayer() << std::endl;
-//
-//                //context->clearDepth(sc);
-//
-//        for (GameObject* obj : gameObjectList) {
-//            if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
-//                if (obj != NULL) {
-//                    obj->update(EngineTime::getDeltaTime());
-//                    obj->updateTransformAndBuffers(width, height, index);
-//                    if (cam->isEnabled())
-//                        obj->render();
-//                }
-//            }
-//        }
-//
-//        index++;
-//    }
-//}
-
-//void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc)
-//{
-//    RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
-//    DeviceContextPtr context = renderSystem->getImmediateDeviceContext();
-//
-//    int index = 0; 
-//
-//    for (Camera* cam : cameras) {
-//        if (cam->cullingMask & Layer::DEBUG) {
-//            context->setRasterizerState(renderSystem->getWireframeState());
-//            context->clearDepth(sc);
-//        }
-//        else {
-//            context->setRasterizerState(renderSystem->getSolidState());
-//        }
-//
-////        std::cout << cam->getLayer() << std::endl;
-//
-//        //context->clearDepth(sc);
-//
-//        for (GameObject* obj : gameObjectList) {
-//            if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
-//                if (obj != NULL) {
-//                    obj->update(EngineTime::getDeltaTime());
-//                    obj->updateTransformAndBuffers(width, height, vs, ps, index);
-//                    if (cam->isEnabled())
-//                        obj->render();
-//                }
-//            }
-//        }
-//
-//        index++;
-//    }
-//}
-
-
-//void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc, TexturePtr tex)
-//{
-//    RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
-//    DeviceContextPtr context = renderSystem->getImmediateDeviceContext();
-//
-//    int index = 0;
-//
-//    for (Camera* cam : cameras) {
-//        if (cam->cullingMask & Layer::DEBUG) {
-//            context->setRasterizerState(renderSystem->getWireframeState());
-//            context->clearDepth(sc);
-//        }
-//        else {
-//            context->setRasterizerState(renderSystem->getSolidState());
-//        }
-//
-//        //        std::cout << cam->getLayer() << std::endl;
-//
-//                //context->clearDepth(sc);
-//
-//        for (GameObject* obj : gameObjectList) {
-//            if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
-//                if (obj != NULL) {
-//                    obj->update(EngineTime::getDeltaTime());
-//                    obj->updateTransformAndBuffers(width, height, vs, ps, index);
-//                    if (cam->isEnabled())
-//                        obj->render();
-//                }
-//            }
-//        }
-//
-//        index++;
-//    }
-//}
 
 void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc)
 {
@@ -196,19 +63,9 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
             context->setRasterizerState(renderSystem->getSolidState());
         }
 
-        //        std::cout << cam->getLayer() << std::endl;
-
-                //context->clearDepth(sc);
-
-        for (GameObject* obj : gameObjectList) {
+        for (GameObject* obj : this->gameObjectList) {
             if ((cam->cullingMask & obj->getLayer()) != 0 && obj->isEnabled()) {
                 if (obj != NULL) {
-                    /*obj->update(EngineTime::getDeltaTime());
-                    obj->updateTransformAndBuffers(width, height, index);
-                    if (cam->isEnabled())
-                        obj->render();*/
-
-                    
                     ComponentList components = obj->getComponents();
                     for (int i = 0; i < components.size(); i++) {
                         if (components[i]->type == ComponentType::PHYSICS) {
@@ -220,9 +77,6 @@ void GameObjectManager::renderAllPerCamera(std::vector<Camera*> cameras, int wid
                             renderer->update(obj->getConstant(), width, height, index);
                             if (cam->isEnabled())
                                 renderer->draw(); 
-
-                           /* components[i]->update(obj->getConstant(), width, height, index);
-                            if (cam->isEnabled()) components[i]->draw();*/
                                
                         }
                     }
@@ -245,21 +99,15 @@ void GameObjectManager::addObject(GameObject* gameObject)
 
 void GameObjectManager::createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader)
 {
-    switch (type) {
+    /*switch (type) {
         case PrimitiveType::CUBE: {
             Cube* cubeObject = new Cube(adjustName("Cube"), shaderByteCode, sizeShader);
             this->addObject(cubeObject);
             std::cout << "Spawned Cube" << std::endl;
             break;
         }
-   
-        /*case PrimitiveType::PLANE: {
-            Plane* planeObject = new Plane(adjustGameObjectName("Plane"), shaderByteCode, sizeShader);
-            this->addObject(planeObject);
-            std::cout << "Spawned Plane" << std::endl;
-            break;
-        }*/
-    }
+
+    }*/
 }
 
 void GameObjectManager::deleteObject(GameObject* gameObject)

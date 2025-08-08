@@ -7,10 +7,10 @@
 #include "DeviceContext.h"
 #include "SceneCameraHandler.h"
 
-class CylinderRenderer : public Renderer
+class CapsuleRenderer : public Renderer
 {
 public:
-	CylinderRenderer();
+	CapsuleRenderer();
 
 public:
 	void init() override;
@@ -26,6 +26,7 @@ private:
 	static VertexBufferPtr sharedVB;
 	static IndexBufferPtr sharedIB;
 	ConstantBufferPtr cb;
+	//float height = 2.5f;
 
 };
 

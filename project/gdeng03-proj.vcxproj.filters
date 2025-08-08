@@ -79,6 +79,9 @@
     <Filter Include="GameEngine\Components\Renderers">
       <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250dd222c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Components\Physics">
+      <UniqueIdentifier>{384832ae-e1aa-4c95-99f3-de0250d1113c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,9 +122,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameEngine\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
@@ -213,8 +213,15 @@
     <ClCompile Include="QuadRenderer.cpp">
       <Filter>GameEngine\Components\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp" />
-    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>GameEngine\Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>GameEngine\Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSerializer.cpp" />
+    <ClCompile Include="LevelDeserializer.cpp" />
+    <ClCompile Include="CapsuleRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -258,9 +265,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameEngine\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>GameEngine\Math</Filter>
@@ -406,8 +410,15 @@
     <ClInclude Include="QuadRenderer.h">
       <Filter>GameEngine\Components\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsSystem.h" />
-    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>GameEngine\Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>GameEngine\Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSerializer.h" />
+    <ClInclude Include="LevelDeserializer.h" />
+    <ClInclude Include="CapsuleRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

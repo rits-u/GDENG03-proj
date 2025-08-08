@@ -14,19 +14,9 @@ Camera::Camera(string name) : GameObject(name)
 	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
 	this->updateViewMatrix();
 	this->isNavigating = false;
-	//this->isEnabled = true;
 	this->setEnabled(true);
 }
 
-//Camera::Camera(string name, bool isControllable) : GameObject(name)
-//{
-//	//if(isControllable)
-//	InputSystem::get()->addListener(this);
-//	this->worldCamera.setTranslation(Vector3D(0, 0, -2));
-//	this->updateViewMatrix();
-//	this->isNavigating = false;
-//	//this->isControllable = isControllable;
-//}
 
 Camera::~Camera()
 {
@@ -116,15 +106,9 @@ void Camera::updateViewMatrix()
 	world_cam.setTranslation(position);
 	this->setPosition(position.m_x, position.m_y, position.m_z);
 
-	//pos.setIdentity();
-	//pos.setTranslation(position);
-	//world_cam *= pos;
-
 	this->worldCamera = world_cam;
 	world_cam.inverse();
 	this->localMatrix = world_cam;
-	//std::cout << "rotation: " << rotation.m_x << " " << rotation.m_y << " " << rotation.m_z << std::endl;
-	//}
 }
 void Camera::setWidthAndHeight(int width, int height)
 {
@@ -153,11 +137,6 @@ void Camera::onMouseMove(const Point& mousePos)
 
 	rotation.m_x += deltaY * EngineTime::getDeltaTime() * offset;
 	rotation.m_y += deltaX * EngineTime::getDeltaTime() * offset;
-	//rotation.m_x += deltaY * offset;
-	//rotation.m_y += deltaX * offset;
-
-//	if (rotation.m_x > 1.5f) rotation.m_x = 1.5f;
-//	if (rotation.m_x < -1.5f) rotation.m_x = -1.5f;
 
 	this->setRotation(rotation);
 	this->updateViewMatrix();

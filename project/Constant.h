@@ -11,5 +11,4 @@ struct constant
 	float useWireColor;
 	float useTexture;
 	float padding[2];
-	//Vector4D wireColor;
 };

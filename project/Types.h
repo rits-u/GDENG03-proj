@@ -18,5 +18,6 @@ enum PrimitiveType {
 	PLANE,
 	QUAD,
 	SPHERE,
-	CYLINDER
+	CYLINDER,
+	CAPSULE
 };

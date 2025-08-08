@@ -20,7 +20,6 @@ private:
 private:
 	bool isRenaming = false;
 	bool enableTextureSelection = false;
-	//char objName[128];
 	char currentName[128] = "";
 	bool useUniformScale = false;
 	int textureItem = 0;

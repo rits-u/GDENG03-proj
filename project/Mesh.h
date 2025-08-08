@@ -11,7 +11,6 @@ class Mesh : public Resource
 {
 public:
 	Mesh(const wchar_t* fullPath);
-	//Mesh(const wchar_t* fullPath, void* shaderByteCode, size_t sizeShader);
 	
 	~Mesh();
 	const VertexBufferPtr& getVertexBuffer();

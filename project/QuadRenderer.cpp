@@ -1,11 +1,17 @@
 #include "QuadRenderer.h"
 
+bool QuadRenderer::isInitialized = false;
 VertexShaderPtr QuadRenderer::sharedVS = nullptr;
 PixelShaderPtr QuadRenderer::sharedPS = nullptr;
 VertexBufferPtr QuadRenderer::sharedVB = nullptr;
 IndexBufferPtr QuadRenderer::sharedIB = nullptr;
 
-QuadRenderer::QuadRenderer() : Renderer() {}
+QuadRenderer::QuadRenderer() : Renderer() 
+{
+	this->setSize(9.0f);
+	this->hasTexture = false;
+	this->setName("Quad Renderer");
+}
 
 QuadRenderer::~QuadRenderer()
 {
@@ -14,37 +20,40 @@ QuadRenderer::~QuadRenderer()
 
 void QuadRenderer::init()
 {
-	this->setSize(9.0f);
-	this->hasTexture = false;
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
-	vertex vertex_list[4] = {};
-	unsigned int index_list[6] = {};
-	this->setUpVerticesAndIndices(vertex_list, index_list);
+	if (!isInitialized) {
+		vertex vertex_list[4] = {};
+		unsigned int index_list[6] = {};
+		this->setUpVerticesAndIndices(vertex_list, index_list);
 
-	sharedVB = renderSystem->createVertexBuffer();
-	sharedIB = renderSystem->createIndexBuffer();
+		sharedVB = renderSystem->createVertexBuffer();
+		sharedIB = renderSystem->createIndexBuffer();
 
-	UINT size_list = ARRAYSIZE(vertex_list);
-	UINT size_index_list = ARRAYSIZE(index_list);
+		UINT size_list = ARRAYSIZE(vertex_list);
+		UINT size_index_list = ARRAYSIZE(index_list);
 
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
+		void* shader_byte_code = nullptr;
+		size_t size_shader = 0;
 
-	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	sharedVS = renderSystem->createVertexShader(shader_byte_code, size_shader);
-	sharedVB->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
-	sharedIB->Load(index_list, size_index_list, renderSystem);
-	renderSystem->releaseCompiledShader();
+		renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+		sharedVS = renderSystem->createVertexShader(shader_byte_code, size_shader);
+		sharedVB->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
+		sharedIB->Load(index_list, size_index_list, renderSystem);
+		renderSystem->releaseCompiledShader();
 
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
-	renderSystem->releaseCompiledShader();
+		renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+		sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
+		renderSystem->releaseCompiledShader();
+
+	}
 
 	constant cc;
 	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 
 	this->getOwner()->setLayer(this->getOwner()->getLayer() | Layer::DEBUG);
+
+	isInitialized = true;
 }
 
 void QuadRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)

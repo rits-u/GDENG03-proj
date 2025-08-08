@@ -5,6 +5,8 @@ MenuToolbar::MenuToolbar() : UIScreen("Menu Toolbar")
 {
 	//this->isActive = true;
     this->showColorPicker = false;
+    this->levelSerializer = new LevelSerializer();
+    this->levelDeserializer = new LevelDeserializer();
    // this->showCredits = false;
 
 }
@@ -17,9 +19,20 @@ MenuToolbar::~MenuToolbar()
 void MenuToolbar::draw()
 {
     UINames uiNames;
+    
 
     if (ImGui::BeginMainMenuBar())
     {
+        if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("Save Level")) {
+                levelSerializer->SaveLevelToFile(); 
+            }
+            if (ImGui::MenuItem("Load Level")) {
+                levelDeserializer->LoadLevelFromFile();
+            }
+            ImGui::EndMenu();
+        }
+
         if (ImGui::BeginMenu("About")) {
             if (ImGui::MenuItem("Credits")) {
                 this->toggleUIScreen(uiNames.CREDITS_SCREEN);
@@ -79,9 +92,19 @@ void MenuToolbar::draw()
                 manager->addObject(obj);
                 manager->setSelectedObject(obj);
             }
+            if (ImGui::MenuItem("Capsule")) {
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Capsule"));
+                obj->setPrimitiveType(PrimitiveType::CAPSULE);
+                obj->addComponent<CapsuleRenderer>();
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
+            }
             
             ImGui::EndMenu();
         }
+
+
 
       /*  if (ImGui::BeginMenu("3D Objects")) {
             if (ImGui::MenuItem("Teapot")) {

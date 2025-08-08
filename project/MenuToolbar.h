@@ -3,6 +3,8 @@
 #include "UIManager.h"
 #include "UINames.h"
 #include "GameObjectManager.h"
+#include "LevelSerializer.h"
+#include "LevelDeserializer.h"
 
 class GameObjectManager;
 
@@ -19,12 +21,12 @@ private:
 	void openColorPickerUI();
 
 private:
-//	bool isActive;
+	LevelSerializer* levelSerializer;
+	LevelDeserializer* levelDeserializer;
+	
 	bool showColorPicker;
 	void* shaderByteCode;
 	size_t sizeShader;
-
-	//bool showCredits;
 
 	float myColor[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
 

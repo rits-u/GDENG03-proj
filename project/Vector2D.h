@@ -35,16 +35,6 @@ public:
 		return v;
 	}
 
-	//static Vector2D lerp(const Vector2D& start, const Vector2D& end, float delta)
-	//{
-	//	Vector2D v;
-	//	v.m_x = start.m_x * (1.0f - delta) + end.m_x * delta;
-	//	v.m_y = start.m_y * (1.0f - delta) + end.m_y * delta;
-
-	//	return v;
-	//}
-
-
 	Vector2D operator * (float num)
 	{
 		return Vector2D(m_x * num, m_y * num);

@@ -1,47 +1,55 @@
 #include "CylinderRenderer.h"
 
+bool CylinderRenderer::isInitialized = false;
 VertexShaderPtr CylinderRenderer::sharedVS = nullptr;
 PixelShaderPtr CylinderRenderer::sharedPS = nullptr;
 VertexBufferPtr CylinderRenderer::sharedVB = nullptr;
 IndexBufferPtr CylinderRenderer::sharedIB = nullptr;
 
-CylinderRenderer::CylinderRenderer() : Renderer() {}
-
-void CylinderRenderer::init()
+CylinderRenderer::CylinderRenderer() : Renderer() 
 {
 	this->setSize(2.5f);
 	this->setRadius(0.7f);
-
 	this->hasTexture = false;
+	this->setName("Cylinder Renderer");
+}
+
+void CylinderRenderer::init()
+{
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
-	vertex vertex_list[146] = {};
-	unsigned int index_list[432] = {};
-	this->setUpVerticesAndIndices(vertex_list, index_list);
+	if (!isInitialized) {
+		vertex vertex_list[146] = {};
+		unsigned int index_list[432] = {};
+		this->setUpVerticesAndIndices(vertex_list, index_list);
 
-	UINT size_list = ARRAYSIZE(vertex_list);
-	UINT size_index_list = ARRAYSIZE(index_list);
+		UINT size_list = ARRAYSIZE(vertex_list);
+		UINT size_index_list = ARRAYSIZE(index_list);
 
-	sharedVB = renderSystem->createVertexBuffer();
-	sharedIB = renderSystem->createIndexBuffer();
+		sharedVB = renderSystem->createVertexBuffer();
+		sharedIB = renderSystem->createIndexBuffer();
 
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
+		void* shader_byte_code = nullptr;
+		size_t size_shader = 0;
 
-	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	sharedVS = renderSystem->createVertexShader(shader_byte_code, size_shader);
-	sharedVB->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
-	sharedIB->Load(index_list, size_index_list, renderSystem);
-	renderSystem->releaseCompiledShader();
+		renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+		sharedVS = renderSystem->createVertexShader(shader_byte_code, size_shader);
+		sharedVB->Load(vertex_list, sizeof(vertex), size_list, shader_byte_code, size_shader, renderSystem);
+		sharedIB->Load(index_list, size_index_list, renderSystem);
+		renderSystem->releaseCompiledShader();
 
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
-	renderSystem->releaseCompiledShader();
+		renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+		sharedPS = renderSystem->createPixelShader(shader_byte_code, size_shader);
+		renderSystem->releaseCompiledShader();
+
+	}
 
 	constant cc;
 	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(constant));
 
 	this->getOwner()->setLayer(this->getOwner()->getLayer() | Layer::DEBUG);
+
+	isInitialized = true;
 }
 
 void CylinderRenderer::update(constant cc, int width, int height, int camIndex)

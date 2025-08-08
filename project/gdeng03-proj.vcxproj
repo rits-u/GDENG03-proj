@@ -71,19 +71,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;Libs;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -165,9 +165,9 @@
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CapsuleRenderer.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
-    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CubeRenderer.cpp" />
     <ClCompile Include="CylinderRenderer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
@@ -185,6 +185,7 @@
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="InspectorScreen.cpp" />
+    <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuToolbar.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="LevelSerializer.cpp" />
     <ClCompile Include="SceneCameraHandler.cpp" />
     <ClCompile Include="SphereRenderer.cpp" />
     <ClCompile Include="SwapChain.cpp" />
@@ -213,11 +215,11 @@
   <ItemGroup>
     <ClInclude Include="AppWindow.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CapsuleRenderer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CreditsScreen.h" />
-    <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeRenderer.h" />
     <ClInclude Include="CylinderRenderer.h" />
     <ClInclude Include="DeviceContext.h" />
@@ -227,6 +229,7 @@
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="HierarchyScreen.h" />
     <ClInclude Include="InspectorScreen.h" />
+    <ClInclude Include="LevelDeserializer.h" />
     <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h" />
     <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h" />
     <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h" />
@@ -243,6 +246,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="LevelSerializer.h" />
     <ClInclude Include="SphereRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />

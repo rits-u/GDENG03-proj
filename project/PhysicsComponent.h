@@ -10,6 +10,7 @@ class PhysicsSystem;
 class PhysicsComponent : public Component
 {
 public:
+	PhysicsComponent();
 	PhysicsComponent(BodyType type);
 	void init() override;
 	void update() override;
@@ -26,9 +27,11 @@ private:
 
 public:
 	bool hasRB = false;
+	bool useGravity = false;
+	float mass;
+	std::string shape;
 
 private:
-	float mass;
 	RigidBody* rigidBody;
 	BodyType bodyType;
 

@@ -15,18 +15,12 @@ public:
 	void setScreenSize(int width, int height);
 	void setScreenSizeForAllCameras(int width, int height);
 
-	//void set
 	Camera* getCamera();
 	Camera* getCameraByIndex(int index);
 	void addCameraToList(Camera* cam);
 	std::vector<Camera*>& getAllCameras();
 	void sortCamerasByDepth();
 	void setActiveCamera(Camera* camera);
-
-	//Camera* getTestCamera();
-	//std::vector<Camera*> getCamerasSortedByDepth();
-	//void createCameras(int num);
-	// 	void prepareSort();
 
 private:
 	SceneCameraHandler();
@@ -37,6 +31,5 @@ private:
 
 	Camera* sceneCamera;
 	std::vector<Camera*> cameraList;
-	//std::vector<Camera*> sortedCameras;
 };
 

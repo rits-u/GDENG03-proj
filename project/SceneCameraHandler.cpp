@@ -6,10 +6,6 @@ SceneCameraHandler* SceneCameraHandler::sharedInstance = nullptr;
 
 SceneCameraHandler* SceneCameraHandler::get()
 {
-  /*  if (sharedInstance == nullptr)
-    {
-        sharedInstance = new SceneCameraHandler();
-    }*/
     return sharedInstance;
 }
 
@@ -28,8 +24,6 @@ void SceneCameraHandler::destroy()
 
 void SceneCameraHandler::updateAllCameras()
 {  
- //   this->sceneCamera->update(EngineTime::getDeltaTime());
-
     //update all cameras in the list
     for (Camera* cam : this->cameraList)
     {
@@ -109,8 +103,6 @@ Camera* SceneCameraHandler::getCameraByIndex(int index)
 
 SceneCameraHandler::SceneCameraHandler()
 {
-  // this->sceneCamera = new Camera("SceneCamera");
-  //  this->cameraList[0] = new C
 }
 
 SceneCameraHandler::~SceneCameraHandler()
@@ -122,41 +114,3 @@ SceneCameraHandler::~SceneCameraHandler()
     cameraList.clear();
     SceneCameraHandler::sharedInstance = nullptr;
 }
-
-
-//Camera* SceneCameraHandler::getTestCamera()
-//{
-//    if (this->cameraList[0] != NULL)
-//        return this->cameraList[0];
-//}
-
-//std::vector<Camera*> SceneCameraHandler::getCamerasSortedByDepth()
-//{
-//    std::vector<Camera*> sortedCameras = this->cameraList;
-//    //for (Camera* cam : this->cameraList) {
-//    //    if (cam->isEnabled == true)
-//    //        sortedCameras.push_back(cam);
-//    //}
-//
-//    //std::cout << "Enabled: " << sortedCameras.size() << std::endl;
-//
-//    for (int i = 0; i < sortedCameras.size(); i++)
-//    {
-//        for (int j = i + 1; j < sortedCameras.size(); j++)
-//        {
-//            if (sortedCameras[i]->depth > sortedCameras[j]->depth)
-//            {
-//                Camera* temp = sortedCameras[i];
-//                sortedCameras[i] = sortedCameras[j];
-//                sortedCameras[j] = temp;
-//            }
-//        }
-//    }
-//
-//    return sortedCameras;
-//}
-
-//void SceneCameraHandler::prepareSort()
-//{
-//    //sortedCameras = this->cameraList;
-//}

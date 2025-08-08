@@ -2,6 +2,7 @@
 //#include "Constant.h"
 #include "GameObject.h"
 #include <iostream>
+#include <string>
 
 enum class ComponentType {
 	RENDERER,
@@ -14,21 +15,22 @@ class Component
 public:
 	const ComponentType type;
 	Component(ComponentType type) : type(type) {}
-	//Component(ComponentType type, GameObject* newOwner) : Type(type), owner(newOwner) {}
+	Component(std::string name, ComponentType type) : name(name), type(type) {}
 	
 	virtual void init() {};
 	virtual void release() = 0;
 	virtual void update() {};
-	//virtual void update(constant cc, int width, int height, int camIndex) {};
 
-
-	//virtual void draw() {};
 public:
 	inline GameObject* getOwner() { return this->owner; }
 	void setOwner(GameObject* owner) { this->owner = owner; }
 
+	inline std::string getName() { return this->name; }
+	void setName(std::string name) { this->name = name; }
+
 private:
 	GameObject* owner = nullptr;
+	std::string name;
 
 };
 

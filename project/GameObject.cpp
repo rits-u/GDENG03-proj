@@ -5,11 +5,7 @@ GameObject::GameObject(String name)
 {
     this->name = name;
     this->layer = Layer::DEFAULT;
-    this->enabled = true;
-   // this->componentList.clear();
-   // this->component = 
-   
-}
+    this->enabled = true;}
 
 GameObject::~GameObject()
 {
@@ -120,8 +116,3 @@ void GameObject::setPrimitiveType(PrimitiveType type)
 {
     this->type = type;
 }
-
-//void GameObject::setMesh(MeshPtr mesh)
-//{
-//    this->mesh = mesh;
-//}

@@ -1,25 +1,6 @@
 #include "TextureManager.h"
 #include "Texture.h"
 
-//TextureManager* TextureManager::sharedInstance = nullptr;
-//
-//TextureManager* TextureManager::get()
-//{
-//    return sharedInstance;
-//}
-//
-//void TextureManager::initialize()
-//{
-//    sharedInstance = new TextureManager();
-//}
-//
-//void TextureManager::destroy()
-//{
-//    if (!TextureManager::sharedInstance)
-//        return;
-//
-//    delete TextureManager::sharedInstance;
-//}
 
 TextureManager::TextureManager() : ResourceManager()
 {

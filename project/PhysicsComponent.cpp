@@ -2,11 +2,19 @@
 #include <algorithm>
 
 
-PhysicsComponent::PhysicsComponent(BodyType type) : Component(ComponentType::PHYSICS)
+PhysicsComponent::PhysicsComponent() : Component("Physics", ComponentType::PHYSICS)
 {
-    this->mass = 1000.0f;
+    this->mass = 0.0f;
     this->rigidBody = nullptr;
     this->bodyType = BodyType::STATIC;
+    PhysicsSystem::get()->addPhysicsComponent(this);
+}
+
+PhysicsComponent::PhysicsComponent(BodyType type) : Component("Physics", ComponentType::PHYSICS)
+{
+    this->mass = 0.0f;
+    this->rigidBody = nullptr;
+    this->bodyType = type;
     PhysicsSystem::get()->addPhysicsComponent(this);
 }
         
@@ -27,6 +35,7 @@ void PhysicsComponent::init()
     this->rigidBody->addCollider(this->createColliderShape(this->getOwner()->getPrimitiveType()), Transform::identity());
 
     if (this->bodyType == BodyType::DYNAMIC) {
+        this->mass = 1000.0f;
         this->rigidBody->updateMassPropertiesFromColliders();
         this->rigidBody->setMass(this->mass);
     }
@@ -35,6 +44,8 @@ void PhysicsComponent::init()
 void PhysicsComponent::update()
 {
     if (this->rigidBody->getType() == BodyType::DYNAMIC) {
+        this->rigidBody->enableGravity(useGravity);
+        this->mass = 1000.0f;
         Transform transform = this->rigidBody->getTransform();
         Vector3 position = transform.getPosition();
         Quaternion quaternion = transform.getOrientation();
@@ -42,11 +53,14 @@ void PhysicsComponent::update()
         this->getOwner()->setRotation(Vector3D(QuaternionToEuler(quaternion)));
     }
     else if (this->rigidBody->getType() == BodyType::STATIC) {
+        this->rigidBody->enableGravity(false);
+        this->mass = 1.0f;
         Vector3D temp = this->getOwner()->getPosition();
         Vector3 position = Vector3(temp.m_x, temp.m_y, temp.m_z);
         Quaternion rotation = EulerToQuaternion(this->getOwner()->getRotation());
         this->rigidBody->setTransform(Transform(position, rotation));
     }
+
 }
 
 void PhysicsComponent::release()
@@ -77,10 +91,13 @@ CollisionShape* PhysicsComponent::createColliderShape(PrimitiveType type)
     switch (type) {
     case PrimitiveType::CUBE:
     {
+        this->shape = "Box";
         Vector3 vecShape(scale.m_x / 2, scale.m_y / 2, scale.m_z / 2);
         return physicsCommon->createBoxShape(vecShape);
+
     }
     case PrimitiveType::PLANE: {
+        this->shape = "Box";
         float size = this->getOwner()->getComponent<Renderer>()->getSize();
         float halfWidth = 0.5f * size * scale.m_x;
         float halfDepth = 0.5f * size * scale.m_z;
@@ -88,6 +105,7 @@ CollisionShape* PhysicsComponent::createColliderShape(PrimitiveType type)
         return physicsCommon->createBoxShape(vecShape);
     }
     case PrimitiveType::QUAD: {
+        this->shape = "Box";
         float size = this->getOwner()->getComponent<Renderer>()->getSize();
         float halfWidth = 0.5f * size * scale.m_x;
         float halfHeight = 0.5f * size * scale.m_y;
@@ -96,12 +114,14 @@ CollisionShape* PhysicsComponent::createColliderShape(PrimitiveType type)
     }
     case PrimitiveType::SPHERE:
     {
+        this->shape = "Sphere";
         std::cout << "before getting size" << std::endl;
         float radius = this->getOwner()->getComponent<Renderer>()->getRadius();
         std::cout << "after" << std::endl;
         return physicsCommon->createSphereShape(radius);
     }
     case PrimitiveType::CYLINDER:
+        this->shape = "Capsule";
         CylinderRenderer* renderer = (CylinderRenderer*)this->getOwner()->getComponent<Renderer>();
         float radius = renderer->getRadius();
         float height = std::max(renderer->getSize() - 2.0f * radius, 0.01f);

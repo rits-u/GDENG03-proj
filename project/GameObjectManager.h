@@ -18,6 +18,7 @@
 #include "QuadRenderer.h"
 #include "SphereRenderer.h"
 #include "CylinderRenderer.h"
+#include "CapsuleRenderer.h"
 #include "PhysicsComponent.h"
 
 
@@ -25,13 +26,6 @@
 class GameObjectManager
 {
 public:
-	//typedef std::string String;
-	//typedef std::vector<GameObject*> List;
-	//typedef std::unordered_map<string, GameObject*> HashTable;
-
-
-
-
 	static GameObjectManager* get();
 	static void initialize();
 	static void destroy();
@@ -39,12 +33,6 @@ public:
 	GameObject* findObjectByName(string name);
 	List getAllObjects();
 	int activeObjects();
-	//void initialUpdateAll();
-	//void updateAllTransformAndBuffers(int viewportWidth, int viewportHeight, VertexShaderPtr vertexShader, PixelShaderPtr pixelShader, int camIndex);
-	//void renderAll();
-	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc);
-	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc);
-	//void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, VertexShaderPtr vs, PixelShaderPtr ps, SwapChainPtr sc, TexturePtr tex);
 	void renderAllPerCamera(std::vector<Camera*> cameras, int width, int height, SwapChainPtr sc);
 	void addObject(GameObject* gameObject);
 	void createObject(PrimitiveType type, void* shaderByteCode, size_t sizeShader);
@@ -56,7 +44,6 @@ public:
 	GameObject* getSelectedObject();
 
 	void createModel(String model, void* shaderByteCode, size_t sizeShader);
-	//void addModel(Model* model);:
 	string adjustName(string name);
 	void processDeletions();
 

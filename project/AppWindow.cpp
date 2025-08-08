@@ -25,13 +25,7 @@ AppWindow::~AppWindow()
 void AppWindow::onCreate()
 {
 	Window::onCreate();
-	//InputSystem::get()->initialize();
 	InputSystem::get()->addListener(this);
-	//InputSystem::get()->showCursor(false);
-
-	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
-	//this->woodTex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
-//	this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
 	PhysicsSystem::get()->initialize();
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
@@ -47,32 +41,6 @@ void AppWindow::onCreate()
 
 	m_swap_chain = renderSystem->createSwapChain(this->m_hwnd, width, height);
 
-	//renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &this->VS_ShaderByteCode, &this->VS_SizeShader);
-	//m_vs = renderSystem->createVertexShader(this->VS_ShaderByteCode, this->VS_SizeShader);
-
-	//PIXEL SHADER
-	//renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &this->PS_ShaderByteCode, &this->PS_SizeShader);
-	//m_ps = renderSystem->createPixelShader(this->PS_ShaderByteCode, this->PS_SizeShader);
-
-
-	//void* shader_byte_code = nullptr;
-	//size_t size_shader = 0;
-	//renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	//::memcpy(m_mesh_layout_byte_code, shader_byte_code, size_shader);
-	//m_mesh_layout_size = size_shader;
-	//renderSystem->releaseCompiledShader();
-
-
-	//renderSystem->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &this->mesh_ShaderByteCode, &this->mesh_SizeShader);
-	//::memcpy(m_mesh_layout_byte_code, this->mesh_ShaderByteCode, this->mesh_SizeShader);
-	//m_mesh_layout_size = this->mesh_SizeShader;
-
-
-	//RELEASE VERTEX SHADER
-	//renderSystem->releaseCompiledShader();
-
-
-
 	renderSystem->createRasterizerStates();
 
 	createCamera(Layer::DEBUG,   1, false);
@@ -81,27 +49,6 @@ void AppWindow::onCreate()
 
 	cameraHandler->setScreenSizeForAllCameras(width, height);
 	cameraHandler->sortCamerasByDepth();
-
-
-
-	//hello world ng reactphysics3d : gumana ang hello world
-	//physicsCommon;
-	//physicsWorld = physicsCommon.createPhysicsWorld();
-	////ground
-	//Transform groundTransform = Transform::identity();
-	//RigidBody* ground = physicsWorld->createRigidBody(groundTransform);
-	//BoxShape* groundShape = physicsCommon.createBoxShape(Vector3(100, 1, 100));
-	//ground->addCollider(groundShape, Transform::identity());
-	//ground->setType(BodyType::STATIC);
-
-	////falling cube
-	//Transform boxTransform(Vector3(0, 50, 0), Quaternion::identity());
-	//box = physicsWorld->createRigidBody(boxTransform);
-
-	//BoxShape* boxShape = physicsCommon.createBoxShape(Vector3(1, 1, 1));
-	//box->addCollider(boxShape, Transform::identity());
-	//box->setType(BodyType::DYNAMIC);
-
 }
 
 void AppWindow::onUpdate()
@@ -122,45 +69,18 @@ void AppWindow::onUpdate()
 	int height = rc.bottom - rc.top;
 
 	renderSystem->getImmediateDeviceContext()->setViewPortSize(width, height);
-
-	//set the default shader in the graphics pipeline to be able 
-	//renderSystem->getImmediateDeviceContext()->setVertexShader(m_vs);
-	//renderSystem->getImmediateDeviceContext()->setPixelShader(m_ps);
-
-	//renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
-	//renderSystem->getImmediateDeviceContext()->setTexture(m_ps, this->woodTex);
-
-		//renderSystem->getImmediateDeviceContext()->setTexture(m_vs, this->woodTex);
-
-
-	//mesh
-	//renderSystem->getImmediateDeviceContext()->setVertexBuffer(this->mesh->getVertexBuffer());
-	//renderSystem->getImmediateDeviceContext()->setIndexBuffer(this->mesh->getIndexBuffer());
-
-	//renderSystem->getImmediateDeviceContext()->drawIndexedTriangleList(this->mesh->getIndexBuffer()->getSizeIndexList(), 0, 0);
-
-	//float timeStep = 1.0f / 60.0f;
-	//physicsWorld->update(timeStep);
-	//Vector3 pos = box->getTransform().getPosition();
-	//std::cout << "Box Y = " << pos.y << std::endl;
-	//
-
 	physicsSystem->updateAllPhysicsComponents();
 
 	this->sortedCameras = cameraHandler->getAllCameras();
 	cameraHandler->updateAllCameras();
 	
 	List gameObjectList = GameObjectManager::get()->getAllObjects();
-	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_vs, m_ps, m_swap_chain, this->woodTex);
-	//GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_swap_chain);
 	GameObjectManager::get()->renderAllPerCamera(this->sortedCameras, width, height, m_swap_chain);
 
 	UIManager::get()->drawAllUI();
 
-
 	m_swap_chain->present(false);
 
-	//GameObjectManager::get()->processDeletions();
 }
 
 
@@ -243,62 +163,6 @@ void AppWindow::onKeyDown(int key)
 		this->holding = true;
 	}
 
-	else if (key == 38)
-	{
-		std::cout << "translate UP" << std::endl;
-	}
-
-	else if (key == 40)
-	{
-		std::cout << "translate DOWN" << std::endl;
-	}
-	
-	else if (key == 39)
-	{
-		std::cout << "translate RIGHT" << std::endl;
-	}
-
-	else if (key == 37)
-	{
-		std::cout << "translate LEFT" << std::endl;
-	}
-
-	//SPACE
-	//else if (key == 32 && !this->holding)
-	//{
-	//	this->spawnCircle(this->VS_ShaderByteCode, this->VS_SizeShader);
-	//	this->holding = true;
-	//	std::cout << "Spawned circle" << std::endl;
-	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	//}
-
-	////REMOVE RECENT
-	//else if (key == 8 && !this->holding)
-	//{
-	//	if (this->circleList.size() > 0)
-	//	{
-	//		delete this->circleList.back();
-	//		this->circleList.pop_back();
-	//	}
-	//	this->holding = true;
-	//	std::cout << "Deleted recent circle" << std::endl;
-	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	//}
-
-	////REMOVE ALL
-	//else if (key == 46 && !this->holding)
-	//{
-	//	for (int i = 0; i < this->circleList.size(); i++)
-	//	{
-	//		delete circleList[i];
-	//		circleList[i] = nullptr;
-	//	}
-	//	this->circleList.clear();
-	//	this->holding = true;
-	//	std::cout << "Deleted all circles" << std::endl;
-	//	std::cout << "Circle count: " << this->circleList.size() << "\n" << std::endl;
-	//}
-
 	//CLOSE escape key
 	else if (key == 27 && !this->holding)
 	{
@@ -334,78 +198,6 @@ void AppWindow::onRightMouseDown(const Point& mousePos)
 
 void AppWindow::onRightMouseUp(const Point& mousePos)
 {
-}
-
-float AppWindow::generateRandomFloat(float min, float max)
-{
-	static std::random_device rd;
-	static std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> dist(min, max);
-	return dist(gen);
-}
-
-void AppWindow::spawnCircle(void* shader_byte_code, size_t size_shader)
-{
-	////CIRCLE
-	//int numSegment = 32;
-	//int radius = 1;
-
-	//float r = generateRandomFloat(0.0f, 1.0f);
-	//float g = generateRandomFloat(0.0f, 1.0f);
-	//float b = generateRandomFloat(0.0f, 1.0f);
-	//float randX = generateRandomFloat(0, 1);
-	//float randY = generateRandomFloat(0, 1);
-
-	//bool goUp, goRight;
-
-	//if (randX <= 0.5f) goUp = false;
-	//else goUp = true;
-
-	//if (randY <= 0.5f) goRight = false;
-	//else goRight = true;
-
-
-	////std::cout << "go UP: " << goUp << std::endl;
-	////std::cout << "go RIGHT: " << goRight << std::endl;
-
-	////Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, color);
-	//Circle* circleObject = new Circle("Circle", shader_byte_code, size_shader, numSegment, radius, Vector3D(r, g, b));
-
-	//circleObject->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
-	//circleObject->setScale(Vector3D(0.25f, 0.25f, 0.25f));
-
-	////rotation
-	////float radians = 180.0f * (3.14f / 180.0f);	//flip the circle so that it faces the camera
-	//float radians = convertToRadians(180);
-	//circleObject->setRotation(Vector3D(radians, 0.0f, 0.0f));
-	//circleObject->setAnimationSpeed(generateRandomFloat(1.0f, 3.0f));
-
-	////direction
-	////circleObject->setDirection(goUp, goRight);
-	//float dir = generateRandomFloat(0.0f, 2 * 3.14);
-	//float x = cosf(dir);
-	//float y = sinf(dir);
-	//Vector3D direction = Vector3D(x, y, 0.0f);
-	//circleObject->setDirection(direction);
-	//circleObject->setLayer(Layer::DEFAULT | Layer::DEBUG);
-
-	//this->circleList.push_back(circleObject);
-
-}
-
-float AppWindow::convertToRadians(float degrees)
-{
-	float radians = degrees * (3.14f / 180.0f);
-	return radians;
-}
-
-Vector3D AppWindow::convertPixelsToWorld(float scale, float px, float py, float width, float height)
-{
-	float x = (px - width / scale) / scale;
-	float y = (height / scale - py) / scale;
-	float z = 0.0f;
-
-	return Vector3D(x, y, z);
 }
 
 void AppWindow::createCamera(Layer layer, float depth, bool enabled)

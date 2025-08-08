@@ -1,6 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer() : Component(ComponentType::RENDERER) {}
+Renderer::Renderer() : Component(ComponentType::RENDERER) 
+{
+}
 
 TexturePtr Renderer::getTexture()
 {
@@ -9,7 +11,6 @@ TexturePtr Renderer::getTexture()
 
 void Renderer::setTexture(std::string texName) {
 
-	//	std::vector<std::string> items = { "Brick", "Wood", "Grass", "Ground", "Sand", "Wall"};
 	if (texName == "Brick") {
 		texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 		hasTexture = true;

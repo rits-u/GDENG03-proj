@@ -29,8 +29,6 @@ void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer)
 
     m_device_context->IASetVertexBuffers(0, 1, &vertex_buffer->m_buffer, &stride, &offset);
     m_device_context->IASetInputLayout(vertex_buffer->m_layout);
-
-   // return true;
 }
 
 void DeviceContext::setIndexBuffer(IndexBufferPtr index_buffer)
@@ -101,7 +99,6 @@ void DeviceContext::setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBuffe
 void DeviceContext::setRasterizerState(ID3D11RasterizerState* state)
 {
     m_device_context->RSSetState(state);
-   // m_device_context->OMGetDepthStencilState(NULL, NULL);
 }
 
 DeviceContext::~DeviceContext()
@@ -117,7 +114,5 @@ void DeviceContext::clearColor(SwapChainPtr swap_chain, float red, float green, 
 
 void DeviceContext::clearDepth(SwapChainPtr swap_chain)
 {
-   // m_device_context->ClearDepthStencilView(swap_chain->m_dsv, null);
-  //  m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
     m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }

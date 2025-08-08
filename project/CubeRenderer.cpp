@@ -6,7 +6,12 @@ PixelShaderPtr CubeRenderer::sharedPS = nullptr;
 VertexBufferPtr CubeRenderer::sharedVB = nullptr;
 IndexBufferPtr CubeRenderer::sharedIB = nullptr;
 
-CubeRenderer::CubeRenderer() : Renderer() {}
+CubeRenderer::CubeRenderer() : Renderer()
+{
+	this->hasTexture = false;
+	this->setSize(1.1f);
+	this->setName("Cube Renderer");
+}
 
 CubeRenderer::~CubeRenderer()
 {
@@ -15,7 +20,6 @@ CubeRenderer::~CubeRenderer()
 
 void CubeRenderer::init()
 {
-	this->setSize(1.3f);
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	if (!isInitialized) {
@@ -49,9 +53,7 @@ void CubeRenderer::init()
 
 	this->getOwner()->setLayer(this->getOwner()->getLayer() | Layer::DEBUG);
 
-
 	isInitialized = true;
-	this->hasTexture = false;
 }
 
 void CubeRenderer::setUpVerticesAndIndices(vertex* vertex_list, unsigned int* index_list)
