@@ -150,6 +150,7 @@ void Model::updateTransformAndBuffers(int width, int height, VertexShaderPtr vs,
 	//	deviceContext->setVertexBuffer(this->vb);
 	//else
 	//	std::cout << "[ERROR] Vertex buffer is null!" << std::endl;
+
 }
 
 void Model::render()

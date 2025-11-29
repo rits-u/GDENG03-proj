@@ -21,7 +21,7 @@ void InspectorScreen::draw()
 		this->displayTransform();
 
 		ImGui::NewLine(); ImGui::Separator();
-		if (selectedObject) {
+		/*if (selectedObject) {
 			if (!selectedObject->getComponent<Renderer>()->hasTexture &&
 				!selectedObject->getComponent<Renderer>()->enableTextureSelection)
 			{
@@ -32,7 +32,7 @@ void InspectorScreen::draw()
 			else {
 				this->displayTextureSection();
 			}
-		}
+		}*/
 
 		ImGui::NewLine(); ImGui::Separator();
 		this->displayPhysicsComponent();

@@ -106,19 +106,29 @@ void MenuToolbar::draw()
 
 
 
-      /*  if (ImGui::BeginMenu("3D Objects")) {
+        if (ImGui::BeginMenu("3D Objects")) {
             if (ImGui::MenuItem("Teapot")) {
-                GameObjectManager::get()->createModel("Teapot", this->shaderByteCode, this->sizeShader);
+                //GameObjectManager::get()->createModel("Teapot", this->shaderByteCode, this->sizeShader);
+               // MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
+                MeshPtr mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\bunny.obj");
+                GameObjectManager* manager = GameObjectManager::get();
+                GameObject* obj = new GameObject(manager->adjustName("Teapot"));
+               // obj->setPrimitiveType(PrimitiveType::CAPSULE);
+                obj->addComponent<MeshRenderer>(mesh);
+                manager->addObject(obj);
+                manager->setSelectedObject(obj);
+
+
             }
-            if (ImGui::MenuItem("Bunny")) {
+         /*   if (ImGui::MenuItem("Bunny")) {
                 GameObjectManager::get()->createModel("Bunny", this->shaderByteCode, this->sizeShader);
             }
             if (ImGui::MenuItem("Armadillo")) {
                 GameObjectManager::get()->createModel("Armadillo", this->shaderByteCode, this->sizeShader);
-            }
+            }*/
 
             ImGui::EndMenu();
-        }*/
+        }
 
      /*   if (ImGui::BeginMenu("Color")) {
             if (ImGui::MenuItem("Show Color Picker")) {

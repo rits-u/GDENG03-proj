@@ -20,6 +20,7 @@
 #include "CylinderRenderer.h"
 #include "CapsuleRenderer.h"
 #include "PhysicsComponent.h"
+#include "MeshRenderer.h"
 
 
 

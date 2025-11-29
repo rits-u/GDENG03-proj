@@ -19,6 +19,7 @@ Resource* MeshManager::createResourceFromFileConcrete(const wchar_t* filePath)
 	Mesh* mesh = nullptr;
 	try
 	{
+		std::cout << "tried mesh" << std::endl;
 		mesh = new Mesh(filePath);
 	}
 	catch (...) {}

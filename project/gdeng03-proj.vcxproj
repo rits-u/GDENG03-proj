@@ -190,6 +190,8 @@
     <ClCompile Include="MenuToolbar.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyTransform.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
@@ -238,6 +240,8 @@
     <ClInclude Include="MenuToolbar.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="MyTransform.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsSystem.h" />
