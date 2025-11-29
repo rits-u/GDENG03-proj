@@ -21,8 +21,8 @@ private:
 	void openColorPickerUI();
 
 private:
-	LevelSerializer* levelSerializer;
-	LevelDeserializer* levelDeserializer;
+	//LevelSerializer* levelSerializer;
+//	LevelDeserializer* levelDeserializer;
 	
 	bool showColorPicker;
 	void* shaderByteCode;

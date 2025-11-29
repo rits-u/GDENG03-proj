@@ -34,8 +34,8 @@ void InspectorScreen::draw()
 			}
 		}*/
 
-		ImGui::NewLine(); ImGui::Separator();
-		this->displayPhysicsComponent();
+		//ImGui::NewLine(); ImGui::Separator();
+		//this->displayPhysicsComponent();
 
 		ImGui::NewLine(); ImGui::Separator();
 		if (ImGui::Button("Delete Object")) {
@@ -164,41 +164,41 @@ void InspectorScreen::displayTextureSection()
 		
 	}
 }
-
-void InspectorScreen::displayPhysicsComponent()
-{
-	GameObject* selectedObject = GameObjectManager::get()->getSelectedObject();
-	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
-
-	if (!p6) {
-		if (ImGui::Button("Add Physics Component")) {
-			PhysicsComponent* newComp = selectedObject->addComponent<PhysicsComponent>(BodyType::STATIC);
-		}
-		return;
-	}
-
-
-	std::vector<std::string> items = { "STATIC", "DYNAMIC" };
-	int currentRbItem = (p6->getBodyType() == reactphysics3d::BodyType::STATIC) ? 0 : 1;
-
-	ImGui::Text("RigidBody");
-	if (ImGui::BeginCombo("##Rigid Body", items[currentRbItem].c_str())) {
-		for (int i = 0; i < items.size(); i++) {
-			bool selected = (currentRbItem == i);
-			if (ImGui::Selectable(items[i].c_str(), selected)) {
-				if (i == 0)
-					p6->setBodyType(reactphysics3d::BodyType::STATIC);
-				else if (i == 1)
-					p6->setBodyType(reactphysics3d::BodyType::DYNAMIC);
-			}
-
-			if (selected)
-				ImGui::SetItemDefaultFocus();
-		}
-		ImGui::EndCombo();
-	}
-
-	if (p6->getBodyType() == BodyType::DYNAMIC) {
-		ImGui::Checkbox("Use Gravity", &p6->useGravity);
-	}
-}
+//
+//void InspectorScreen::displayPhysicsComponent()
+//{
+//	GameObject* selectedObject = GameObjectManager::get()->getSelectedObject();
+//	PhysicsComponent* p6 = selectedObject->getComponent<PhysicsComponent>();
+//
+//	if (!p6) {
+//		if (ImGui::Button("Add Physics Component")) {
+//			PhysicsComponent* newComp = selectedObject->addComponent<PhysicsComponent>(BodyType::STATIC);
+//		}
+//		return;
+//	}
+//
+//
+//	std::vector<std::string> items = { "STATIC", "DYNAMIC" };
+//	int currentRbItem = (p6->getBodyType() == reactphysics3d::BodyType::STATIC) ? 0 : 1;
+//
+//	ImGui::Text("RigidBody");
+//	if (ImGui::BeginCombo("##Rigid Body", items[currentRbItem].c_str())) {
+//		for (int i = 0; i < items.size(); i++) {
+//			bool selected = (currentRbItem == i);
+//			if (ImGui::Selectable(items[i].c_str(), selected)) {
+//				if (i == 0)
+//					p6->setBodyType(reactphysics3d::BodyType::STATIC);
+//				else if (i == 1)
+//					p6->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+//			}
+//
+//			if (selected)
+//				ImGui::SetItemDefaultFocus();
+//		}
+//		ImGui::EndCombo();
+//	}
+//
+//	if (p6->getBodyType() == BodyType::DYNAMIC) {
+//		ImGui::Checkbox("Use Gravity", &p6->useGravity);
+//	}
+//}

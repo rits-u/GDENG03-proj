@@ -5,8 +5,8 @@ MenuToolbar::MenuToolbar() : UIScreen("Menu Toolbar")
 {
 	//this->isActive = true;
     this->showColorPicker = false;
-    this->levelSerializer = new LevelSerializer();
-    this->levelDeserializer = new LevelDeserializer();
+  //  this->levelSerializer = new LevelSerializer();
+  //  this->levelDeserializer = new LevelDeserializer();
    // this->showCredits = false;
 
 }
@@ -23,7 +23,7 @@ void MenuToolbar::draw()
 
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("File")) {
+       /* if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("Save Level")) {
                 levelSerializer->SaveLevelToFile(); 
             }
@@ -31,7 +31,7 @@ void MenuToolbar::draw()
                 levelDeserializer->LoadLevelFromFile();
             }
             ImGui::EndMenu();
-        }
+        }*/
 
         if (ImGui::BeginMenu("About")) {
             if (ImGui::MenuItem("Credits")) {
@@ -51,7 +51,7 @@ void MenuToolbar::draw()
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("Game Object")) {
+        /*if (ImGui::BeginMenu("Game Object")) {
             if (ImGui::MenuItem("Cube")) {
                 GameObjectManager* manager = GameObjectManager::get();
                 GameObject* obj = new GameObject(manager->adjustName("Cube"));
@@ -102,7 +102,7 @@ void MenuToolbar::draw()
             }
             
             ImGui::EndMenu();
-        }
+        }*/
 
 
 
