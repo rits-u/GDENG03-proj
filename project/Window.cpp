@@ -91,7 +91,7 @@ Window::Window()
       //    window = this;
 
       //creation of the window
-    RECT rc = { 0, 0, 1200, 800 };
+    RECT rc = { 0, 0, 1600, 800 };
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
     int windowWidth = rc.right - rc.left;

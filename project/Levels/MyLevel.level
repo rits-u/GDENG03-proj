@@ -5,7 +5,7 @@
             "objectName": "Plane",
             "transform": {
                 "position": [
-                    0.30000001192092896,
+                    0.0,
                     0.0,
                     0.0
                 ],
@@ -24,32 +24,16 @@
                 "renderer": {
                     "componentName": "Plane Renderer",
                     "primitiveType": "PLANE"
-                }
-            }
-        },
-        {
-            "objectName": "Cube",
-            "transform": {
-                "position": [
-                    0.5,
-                    0.800000011920929,
-                    -1.2000000476837158
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "components": {
-                "renderer": {
-                    "componentName": "Cube Renderer",
-                    "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "Physics",
+                    "rigidBody": {
+                        "mass": 1.0,
+                        "useGravity": false
+                    },
+                    "collider": {
+                        "shape": "Box"
+                    }
                 }
             }
         },
@@ -57,14 +41,14 @@
             "objectName": "Cube 1",
             "transform": {
                 "position": [
-                    2.299999952316284,
-                    2.0999999046325684,
-                    -1.2000000476837158
+                    -0.054639097303152084,
+                    0.5899998545646667,
+                    -0.00021833174105267972
                 ],
                 "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
+                    5.875959629975114e-08,
+                    1.8476628156349761e-06,
+                    -4.8252182693886425e-08
                 ],
                 "scale": [
                     1.0,
@@ -76,21 +60,31 @@
                 "renderer": {
                     "componentName": "Cube Renderer",
                     "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "Physics",
+                    "rigidBody": {
+                        "mass": 1000.0,
+                        "useGravity": true
+                    },
+                    "collider": {
+                        "shape": "Box"
+                    }
                 }
             }
         },
         {
-            "objectName": "Cube 2",
+            "objectName": "Cube 1",
             "transform": {
                 "position": [
-                    2.299999952316284,
-                    3.200000047683716,
-                    0.4000000059604645
+                    17.422542572021484,
+                    -465.3607482910156,
+                    1.0459729433059692
                 ],
                 "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
+                    -0.002766564255580306,
+                    0.0020923048723489046,
+                    2.9185750484466553
                 ],
                 "scale": [
                     1.0,
@@ -102,6 +96,16 @@
                 "renderer": {
                     "componentName": "Cube Renderer",
                     "primitiveType": "CUBE"
+                },
+                "physics": {
+                    "componentName": "Physics",
+                    "rigidBody": {
+                        "mass": 1000.0,
+                        "useGravity": true
+                    },
+                    "collider": {
+                        "shape": "Box"
+                    }
                 }
             }
         }
